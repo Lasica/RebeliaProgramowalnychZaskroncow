@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-int main(){
+int main() {
     Client teststr("testtt", 80, "127.0.0.1", IN_LOBBY, "");
     Client test("testtt", 80, teststr.getIpStr(), IN_LOBBY, "");
     std::cout   << test.getNickname()    << std::endl
@@ -12,9 +12,9 @@ int main(){
                 << (test.getIp()).boost::asio::ip::address::to_string()
                 << test.getGameID()  << std::endl;
 
-    if(test.getState()==IN_LOBBY)
+    if(test.getState() == IN_LOBBY)
         std::cout << "IN_LOBBY" << std::endl;
-    else if(test.getState()==IN_GAME)
+    else if(test.getState() == IN_GAME)
         std::cout << "IN_GAME" << std::endl;
     else
         std::cout << "setGameID() problem" << std::endl;
@@ -36,9 +36,9 @@ int main(){
                 << test.getGameID()  << std::endl
                 << std::endl;
 
-    if(test.getState()==IN_LOBBY)
+    if(test.getState() == IN_LOBBY)
         std::cout << "IN_LOBBY" << std::endl;
-    else if(test.getState()==IN_GAME)
+    else if(test.getState() == IN_GAME)
         std::cout << "IN_GAME" << std::endl;
     else
         std::cout << "setGameID() problem" << std::endl;
@@ -52,9 +52,9 @@ int main(){
                 << (copyTest.getIp()).boost::asio::ip::address::to_string()
                 << copyTest.getGameID()  << std::endl;
 
-    if(copyTest.getState()==IN_LOBBY)
+    if(copyTest.getState() == IN_LOBBY)
         std::cout << "IN_LOBBY" << std::endl;
-    else if(copyTest.getState()==IN_GAME)
+    else if(copyTest.getState() == IN_GAME)
         std::cout << "IN_GAME" << std::endl;
     else
         std::cout << "setGameID() problem" << std::endl;
