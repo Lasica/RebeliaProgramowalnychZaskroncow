@@ -1,8 +1,10 @@
-#include "client.hpp"
+#include "Client.hpp"
 #include <boost/asio.hpp>
 
 
 // constructors & destructor
+unsigned int nextID_=0;
+
 Client::Client(std::string nick, short unsigned int port, boost::asio::ip::address ip, statename state, std::string gameID) :
     nickname_(nick), clientID_(nextID_++), port_(port), ip_(ip), state_(state), gameID_(gameID) {
     ;
@@ -25,31 +27,31 @@ Client::~Client() {
 
 
 // get methods
-std::string Client::get_nickname() {
+std::string Client::get_nickname() const {
     return nickname_;
 }
 
-unsigned int Client::get_client_id(){
+unsigned int Client::get_client_id() const {
     return clientID_;
 }
 
-short unsigned int Client::get_port() {
+short unsigned int Client::get_port() const {
     return port_;
 }
 
-boost::asio::ip::address Client::get_ip() {
+boost::asio::ip::address Client::get_ip() const {
     return ip_;
 }
 
-std::string Client::get_ip_str() {
+std::string Client::get_ip_str() const {
     return ip_.boost::asio::ip::address::to_string();
 }
 
-statename Client::get_state() {
+statename Client::get_state() const {
     return state_;
 }
 
-std::string Client::get_game_id() {
+std::string Client::get_game_id() const {
     return gameID_;
 }
 
@@ -70,16 +72,15 @@ bool Client::is_in_game() {
         return false;
 }
 
-
 //operator for std::set
-bool operator<(const Client& a, const Client& b){
-    if(a.get_ip_str()!=b.get_ip_str()){
-        if(a.get_ip_str()<b.get_ip_str()){
-            return true
-        }; else {
+bool Client::operator<(const Client& comp) const {
+    if(this->get_ip_str()!=comp.get_ip_str()){
+        if(this->get_ip_str()<comp.get_ip_str()){
+            return true;
+        } else {
             return false;
-        };
-    } else if(a.get_nickname()<b.get_nickname()){
+        }
+    } else if(this->get_nickname()<comp.get_nickname()){
         return true;
     } else {
         return false;
