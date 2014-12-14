@@ -4,7 +4,6 @@
  */
 
 #include "luacore/LuaInterpreter.h"
-#include "gui/GUI.h" // TYMCZASOWE ULTRA BRZYDKIE ROZWIAZANIE
 
 LuaInterpreter::LuaInterpreter() {
     // create new Lua state
@@ -42,7 +41,7 @@ int LuaInterpreter::interprete(QString to_interprete) {
         mesg[i] = to_interprete[i].toAscii();
 
     mesg[to_interprete.size()] = '\0';
-    GUI::getInstance().addLogEntry(to_interprete);
+    //addLogEntry(to_interprete);
     luaL_dostring(state_, mesg);
     /*int err = luaL_loadbuffer(state_, mesg, to_interprete.size()+1, "line")
     or lua_pcall(state_, 0, 0, 0);*/
