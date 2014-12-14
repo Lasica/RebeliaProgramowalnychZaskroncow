@@ -18,23 +18,29 @@ Użycie:
 
 using namespace boost::asio;
 
-std::size_t completion(const boost::system::error_code& error, std::size_t bytes_transferred){
+std::size_t completion(const boost::system::error_code &error, std::size_t bytes_transferred) {
     return ! error;
 }
 
-void writeHandler(const boost::system::error_code& error, std::size_t bytes_transferred){ std::cout << "***Hello! Write handler here!***\n"; }
+void writeHandler(const boost::system::error_code &error, std::size_t bytes_transferred) {
+    std::cout << "***Hello! Write handler here!***\n";
+}
 
-void readHandler(const boost::system::error_code& error, std::size_t bytes_transferred){ std::cout << "***Hello! Read handler here!***\n"; }
+void readHandler(const boost::system::error_code &error, std::size_t bytes_transferred) {
+    std::cout << "***Hello! Read handler here!***\n";
+}
 
-int main(int argc, char* argv[]){
+int main(int argc, char *argv[]) {
 
     std::string txData;
     std::getline(std::cin, txData);     //wczytywanie danych ze standardowego wejścia
 
 
-    if(argc != 3){
-        std::cout << "usage: ip port\n";
+    if(argc != 3) {
+        std::cout << "usage: ip port \n";
         return 1;
+
+
     }
 
     std::string addrStr(argv[1]);
@@ -57,7 +63,7 @@ int main(int argc, char* argv[]){
     boost::system::error_code ec;
     async_read(socket, response, transfer_all(), readHandler);
     io.run();
-    std::cout << "Server's response: " <<&response << std::endl;
+    std::cout << "Server's response: " << &response << std::endl;
 
     return 0;
 }

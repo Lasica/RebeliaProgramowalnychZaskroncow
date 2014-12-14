@@ -3,7 +3,7 @@ alias wow="git status"
 alias such="git"
 alias very="git"
 alias much="git"
-alias suchastyle="git ls-files -m | egrep '.*\.(cpp|h|c)$' | xargs ./astyle.sh"
+alias suchastyle="git ls-files | egrep '.*\.(cpp|h|c)$' | xargs ~/prog/RPZ/repo/RebeliaProgramowalnychZaskroncow/scripts/astyle.sh"
 alias commituj="suchastyle | git commit"
 alias rebuild="make clean all"
 
