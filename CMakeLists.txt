@@ -9,5 +9,5 @@ include_directories(
 	)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -pedantic -Wextra -std=c++11")
-#install(TARGETS rpz RUNTIME DESTINATION bin)
+#install(TARGETS rpz RUNTIME DESTINATION bin
 add_subdirectory(src)
