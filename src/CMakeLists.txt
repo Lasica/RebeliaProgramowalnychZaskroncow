@@ -11,5 +11,5 @@ set(rpz_SRCS
 	)
 
 add_executable(rpz ${rpz_SRCS})
-target_link_libraries(rpz ${LUA_LIBRARY} ${LUA_CORE_SRC} -llog4cpp -pthread -lboost_system)
+target_link_libraries(rpz ${LUA_LIBRARY} ${LUA_CORE_SRC} -llog4cpp -pthread ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
