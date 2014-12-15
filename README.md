@@ -44,5 +44,7 @@ OK, widze ze umknelo to waszej uwadze:
 
 9) jak korzystacie z jakichs edytorow, co tworza pliki tymczasowe, np. costam.autosave (o Tobie mowa, Pawle), to dodajcie sobie w .gitignore na samym dole dyrektywe, zeby takich smieci nie wrzucac na serwer w commitach. Dla tego przypadku byloby to *.autosave
 
+10) obecnie sie testuje przy pomocy make test. pliki wykonywalnie nie sa juz w build/src, a po prostu w build. Mozna tez odpalac poszczegolne klasy testow, jezeli sie dobrze to napisalo (np testy tylko konkretnej klasy). Generalnie jeden plik testowy powinien przypadac na jedną klase.
+
 
 pewnie jeszcze wyjda jakies kwiatki...
