@@ -22,3 +22,18 @@ Jezeli nie dziala wam "suchastyle", to przekopiujcie sobie zawartość z config/
 Polecam, żeby nie zapominac o odpalaniu astyle.sh, zrobic alias typu "suchastyle | git commit" - przyklad macie w config/.bashrc
 
 Jezeli astyle wam nie dziala, oznacza ze musicie sobie je sciagnac (z repo).
+
+
+OK, widze ze umknelo to waszej uwadze:
+1) wszelkie nowe pliki kodu zrodlowego maja sie znalezc w KATALOGU SRC
+2) wszelkie includy maja miec sciezki RELATYWNE OD KATALOGU src/
+3) WSZYSTKIE PLIKI NALEZACE TYLKO DO SERWERA -> KATALOG SERWER, a WSZYSTKIE PLIKI NALEZACE TYLKO DO KLIENTA -> KATALOG KLIENT
+4) WSZYSTKIE PLIKI PRAWDOPODOBNIE WSPOLDZIELONE PRZEZ SERWER/KLIENT -> KATALOG SHARED
+5) NIE TWORZYC NOWYCH KATALOGOW OSOBNO NA KAZDA KLASE
+6) po dodaniu nowego pliku .cpp NALEZY UPDATEOWAC PLIK src/CMakeLists.cpp w miejscu set("commonSRCS"... W PORZADKU ALFABETYCZNYM
+7) ZABRANIAM tworzenia plikow o nazwie "main.cpp"
+8) od teraz PROSZE TESTOWAC swoje dzieci tworzac stosowne testy w katalogu src/test na wzor pliku TemplateTest.h (tylko zrobic rozzserzenie .cpp zamiast .h, dalem .h zeby mi go nie kompilowal cmake)
+9) jak korzystacie z jakichs edytorow, co tworza pliki tymczasowe, np. costam.autosave (o Tobie mowa, Pawle), to dodajcie sobie w .gitignore na samym dole dyrektywe, zeby takich smieci nie wrzucac na serwer w commitach. Dla tego przypadku byloby to *.autosave
+
+
+pewnie jeszcze wyjda jakies kwiatki...
