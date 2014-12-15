@@ -13,7 +13,7 @@ class ResourceFactory {
     Resource *create(std::string idTag, boost::archive::text_iarchive &ia);
 // singleton
     ResourceFactory &operator=(const ResourceFactory &) = delete;
-    ResourceFactory(const ResourceFactory&) = delete;
+    ResourceFactory(const ResourceFactory &) = delete;
     static ResourceFactory &getInstance();
   private:
     ResourceFactory();

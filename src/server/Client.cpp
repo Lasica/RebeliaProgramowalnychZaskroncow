@@ -3,7 +3,7 @@
 
 
 // constructors & destructor
-unsigned int Client::nextID_=0;
+unsigned int Client::nextID_ = 0;
 
 Client::Client(std::string nick, short unsigned int port, boost::asio::ip::address ip, statename state, std::string gameID) :
     nickname_(nick), clientID_(Client::nextID_++), port_(port), ip_(ip), state_(state), gameID_(gameID) {
@@ -74,18 +74,16 @@ bool Client::is_in_game() {
 }
 
 //operator for std::set
-bool Client::operator<(const Client& comp) const {
-    if(this->get_ip_str()!=comp.get_ip_str()){
-        if(this->get_ip_str()<comp.get_ip_str()){
+bool Client::operator<(const Client &comp) const {
+    if(this->get_ip_str() != comp.get_ip_str()) {
+        if(this->get_ip_str() < comp.get_ip_str())
             return true;
-        } else {
+        else
             return false;
-        }
-    } else if(this->get_nickname()<comp.get_nickname()){
+    } else if(this->get_nickname() < comp.get_nickname())
         return true;
-    } else {
+    else
         return false;
-    }
 
 }
 

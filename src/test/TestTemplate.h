@@ -11,11 +11,10 @@
 
 // ------------- Tests Follow --------------
 BOOST_AUTO_TEST_SUITE( JakisBlokTestow )
-BOOST_AUTO_TEST_CASE( JakisAtomowyTest )
-{
-    BOOST_CHECK_EQUAL(2,2);
+BOOST_AUTO_TEST_CASE( JakisAtomowyTest ) {
+    BOOST_CHECK_EQUAL(2, 2);
     BOOST_CHECK(true);
-    BOOST_CHECK_MESSAGE( 2 == 2, "strony porownania " << 2 << ' '<< 2);
+    BOOST_CHECK_MESSAGE( 2 == 2, "strony porownania " << 2 << ' ' << 2);
     BOOST_TEST_MESSAGE("Template test message");
     BOOST_ERROR( "BLad, nie przerywa testu");
     BOOST_FAIL("Blad fatalny, przerywa test");

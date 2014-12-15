@@ -10,8 +10,7 @@
 #include "shared/ResourceFactory.h"
 
 // ------------- Tests Follow --------------
-BOOST_AUTO_TEST_CASE( assignment )
-{
+BOOST_AUTO_TEST_CASE( assignment ) {
 
-    BOOST_CHECK_EQUAL(2,3);
+    BOOST_CHECK_EQUAL(2, 3);
 }
