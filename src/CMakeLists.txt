@@ -1,4 +1,4 @@
-set(common_SRCS
+set(LIB_SOURCES
     server/Client.cpp
     server/ClientsRegister.cpp
     shared/ChatEntry.cpp
@@ -9,6 +9,29 @@ set(common_SRCS
     shared/Resource.cpp
 		shared/ResourceFactory.cpp
 	)
+
+set(LIB_HEADERS
+	luacore/LuaInterpreter.h
+	test/TestTemplate.h
+	server/ClientsRegister.hpp
+	server/Client.hpp
+	shared/ClientList.h
+	shared/ChatEntry.h
+	shared/Subject.h
+	shared/ClientListRaw.h
+	shared/Resource.h
+	shared/GameRoomListRaw.h
+	shared/GameRoomRaw.h
+	shared/GameRoom.h
+	shared/ChatHistory.h
+	shared/Observer.h
+	shared/ChatHistoryRaw.h
+	shared/ResourceFactory.h
+	shared/GameRoomList.h
+	shared/ChatEntryRaw.h
+	)
+
+add_library( PROJECT_LIBRARY ${LIB_SOURCES} ${LIB_HEADERS} )
 
 set(LIBRARIES
 	  ${LUA_LIBRARY} ${LUA_CORE_SRC} 
@@ -24,16 +47,18 @@ set(LIBRARIES
 #find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 include_directories (${Boost_INCLUDE_DIRS})
 
-add_executable(server ${common_SRCS} server/server.cpp)
-target_link_libraries(server ${LIBRARIES})
+add_executable(server server/server.cpp)
+target_link_libraries(server ${LIBRARIES} PROJECT_LIBRARY )
 
-add_executable(client ${common_SRCS} client/client.cpp)
-target_link_libraries(client ${LIBRARIES})
+add_executable(client client/client.cpp)
+target_link_libraries(client ${LIBRARIES} PROJECT_LIBRARY )
 
 
 #I like to keep test files in a separate source directory called test
 file(GLOB TEST_SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}   test/*.cpp)
 
+
+MESSAGE( STATUS "CURRENT SOURCE DIR: " ${CMAKE_CURRENT_SOURCE_DIR})
 MESSAGE( STATUS "REGISTERED TESTS:  " ${TEST_SRC})
 #Run through each source
 foreach(testSrc ${TEST_SRC})
@@ -42,10 +67,10 @@ foreach(testSrc ${TEST_SRC})
   get_filename_component(testName ${testSrc} NAME_WE)
 
   #Add compile target
-  add_executable(${testName} ${testSrc})
+	add_executable(${testName} ${testSrc})
 
   #link to Boost libraries AND your targets and dependencies
-  target_link_libraries(${testName} ${LIBRARIES})
+	target_link_libraries(${testName} ${LIBRARIES} PROJECT_LIBRARY)
 
   #I like to move testing binaries into a testBin directory
 	set_target_properties(${testName} PROPERTIES 
@@ -53,6 +78,7 @@ foreach(testSrc ${TEST_SRC})
 
   #Finally add it to test execution - 
   #Notice the WORKING_DIRECTORY and COMMAND
+	MESSAGE( STATUS "BINARY DIR: " ${CMAKE_BINARY_DIR})
   add_test(NAME ${testName} 
 		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/testBin 
 		COMMAND ${CMAKE_BINARY_DIR}/testBin/${testName} )

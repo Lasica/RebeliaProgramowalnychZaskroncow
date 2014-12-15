@@ -12,6 +12,8 @@ include_directories(
 	)
 
 set(Boost_USE_MULTITHREADED ON)
+set(CMAKE_CXX_CREATE_SHARED_LIBRARY ON)
+set(CMAKE_CXX_CREATE_SHARED_MODULE ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}) # zeby exec byl tez w build/, a nie tylko build/src
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -pedantic -Wextra -std=c++11")
 #install(TARGETS rpz RUNTIME DESTINATION bin
