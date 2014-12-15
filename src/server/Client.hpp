@@ -9,17 +9,16 @@ Każdy gracz jest opisany przez parametry charakteryzujące:
 
 ********************************************/
 
-
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
 #include <iostream>
 #include <string>
+#include <memory>
 #include <boost/asio.hpp>
 
 
 enum statename{ IN_LOBBY, IN_GAME };
-typedef unsigned int ClientID;
 
 class Client {
 public:
@@ -28,6 +27,8 @@ public:
     Client(const Client& c);
 
     ~Client();
+
+    typedef unsigned int            ClientID;
 
     std::string                     get_nickname() const;
     ClientID                        get_client_id() const;
@@ -39,11 +40,10 @@ public:
 
     bool                            is_in_game();            //true if state==IN_GAME
 
-    void                            set_state(statename s);
-    void                            set_game_id(std::string id);
+    void                            set_state(statename s) const;
+    void                            set_game_id(std::string id)const;
 
     bool                            operator<(const Client&) const;
-
 
 private:
     const std::string               nickname_;
@@ -54,8 +54,8 @@ private:
     const boost::asio::ip::address  ip_;
 
 
-    statename                       state_;
-    std::string                     gameID_;     // set only if player is IN_GAME
+    mutable std::unique_ptr<statename>      state_;
+    mutable std::string                     gameID_;     // set only if player is IN_GAME
 };
 
 #endif //CLIENT_HPP

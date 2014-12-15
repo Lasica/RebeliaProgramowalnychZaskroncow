@@ -8,16 +8,22 @@
 
 class ClientsRegister : public Subject {
 public:
+    typedef std::set<Client>::iterator ClientIt;
+    //typedef std::set<Client>::const_iterator ClientConstIt;
+
     static ClientsRegister& instance(); // singleton
 
-
-    //*** ma zwracać const iterator
-    ClientID register_client(std::string nick, short unsigned int port,
+    ClientIt register_client(std::string nick, short unsigned int port,
                                  std::string ip, statename state, std::string gameID);  //returns registered client's unique ID
-    void remove_client(unsigned int id);    //specify client with an id
-    void remove_client(std::string nick);   //or with a nick
 
-    void change_state(unsigned int id);
+    ClientIt look_up_with_id(Client::ClientID id);
+    ClientIt look_up_with_nickname(std::string nick);
+
+    void change_state(Client::ClientID id, statename state);
+    void change_state(std::string nick,statename state);
+
+    void remove_client(Client::ClientID id);    //specify client with an id
+    void remove_client(std::string nick);   //or with a nick
 
 private:
     ClientsRegister();
@@ -26,9 +32,6 @@ private:
 
     std::set<Client> clients_;
 
-    typedef std::set<Client>::iterator ClientIt;
-    ClientIt look_up_with_nickname(std::string);
-    ClientIt look_up_with_id(unsigned int id);
 };
 
 #endif //CLIENTSREGISTER_HPP

@@ -1,7 +1,7 @@
 set(common_SRCS
-    server/Client.cpp
-    server/ClientsRegister.cpp
     client/client.cpp
+    Client.cpp
+    ClientsRegister.cpp
     shared/ChatEntry.cpp
     shared/ChatHistory.cpp
     shared/ClientList.cpp
