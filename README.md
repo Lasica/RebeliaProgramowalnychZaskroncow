@@ -23,6 +23,8 @@ Polecam, żeby nie zapominac o odpalaniu astyle.sh, zrobic alias typu "suchastyl
 
 Jezeli astyle wam nie dziala, oznacza ze musicie sobie je sciagnac (z repo).
 
+Dodawajcie do wiki linki stron z ktorych skorzystaliscie.
+================================
 
 OK, widze ze umknelo to waszej uwadze:
 
