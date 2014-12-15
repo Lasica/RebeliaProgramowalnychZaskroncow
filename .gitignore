@@ -30,6 +30,12 @@
 # Kdevelop
 *.kdev4
 
+# QtCreator
+*.autosave
+
+# Tilde (~) files
+*~
+
 #work directories
 tmp
 build
