@@ -37,3 +37,5 @@ docs/*
 
 #executable
 rpz
+server
+client
