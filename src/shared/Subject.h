@@ -13,9 +13,9 @@
 
 class Subject {
   public:
-    virtual ~Subject() = 0;
-    virtual std::string getState(); // jeszcze nie wiem czy potrzebne
-    virtual std::string getChange(); // ale jesli powyzsza potrzebna to i ta
+    virtual ~Subject() {};
+    virtual std::string getState() = 0; // jeszcze nie wiem czy potrzebne
+    virtual std::string getChange() = 0; // ale jesli powyzsza potrzebna to i ta
     void add_observer(Observer *o) {
         obs_.push_back(o);
     }

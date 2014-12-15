@@ -37,6 +37,13 @@ client
 # vim
 *.swp
 
+# QtCreator
+*.autosave
+
+# Tilde (~) files
+*~
+>>>>>>> 473f2380d9edb8e3fd1b4338a084774e2e6d6c90
+
 #work directories
 tmp
 build

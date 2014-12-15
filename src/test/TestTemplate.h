@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE( JakisAtomowyTest ) {
     BOOST_CHECK_MESSAGE( 2 == 2, "strony porownania " << 2 << ' ' << 2);
     BOOST_TEST_MESSAGE("Template test message");
     //BOOST_CHECK_THROW() // ma rzucic wyjatek
-    //BOOST_CHECK_NOTHROW() // ma nie rzucic wyjatkiem
+    //BOOST_CHECK_NO_THROW() // ma nie rzucic wyjatkiem
     //BOOST_ERROR( "BLad, nie przerywa testu");
     BOOST_FAIL("Blad fatalny, przerywa test z negatywnym wynikiem. To template'owy test, wiec ma sie oblewac");
 }

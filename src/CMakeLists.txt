@@ -1,4 +1,6 @@
 set(common_SRCS
+    server/Client.cpp
+    server/ClientsRegister.cpp
     shared/ChatEntry.cpp
     shared/ChatHistory.cpp
     shared/ClientList.cpp
@@ -21,6 +23,13 @@ set(LIBRARIES
 
 #find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 include_directories (${Boost_INCLUDE_DIRS})
+
+add_executable(server ${common_SRCS} server/server.cpp)
+target_link_libraries(server ${LIBRARIES})
+
+add_executable(client ${common_SRCS} client/client.cpp)
+target_link_libraries(client ${LIBRARIES})
+
 
 #I like to keep test files in a separate source directory called test
 file(GLOB TEST_SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}   test/*.cpp)
@@ -48,9 +57,3 @@ foreach(testSrc ${TEST_SRC})
 		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/testBin 
 		COMMAND ${CMAKE_BINARY_DIR}/testBin/${testName} )
 endforeach(testSrc)
-
-add_executable(server ${common_SRCS} server/server.cpp)
-target_link_libraries(server ${LIBRARIES})
-
-add_executable(client ${common_SRCS} client/client.cpp)
-target_link_libraries(client ${LIBRARIES})
