@@ -6,14 +6,12 @@
 #include "ChatEntry.h"
 
 #include <vector>
-#include <boost/serialization/base_object.hpp>
+#include "ChatHistoryRaw.h"
 
-
-class ChatHistory : public Observer, public Resource {
+class ChatHistory : public Observer, public Resource, protected ChatHistoryRaw {
   public:
     ~ChatHistory();
   private:
-    friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version) const { }
     std::vector<ChatEntry> chatLog_;

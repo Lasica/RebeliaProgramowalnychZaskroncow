@@ -8,13 +8,12 @@
 
 #include "Resource.h"
 #include "Observer.h"
-#include <boost/serialization/base_object.hpp>
+#include "ClientListRaw.h"
 
-class ClientList : public Resource, public Observer {
+class ClientList : public Resource, public Observer, protected ClientListRaw {
   public:
     ClientList();
   private:
-    friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version) const {
     }
