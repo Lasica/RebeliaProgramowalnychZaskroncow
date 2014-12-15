@@ -3,9 +3,9 @@
 
 #include "Resource.h"
 #include "Observer.h"
-#include <boost/serialization/base_object.hpp>
+#include "GameRoomRaw.h"
 
-class GameRoom : public Resource {
+class GameRoom : public Resource, protected GameRoomRaw {
   public:
     /*
      * obiekty: ustawienia (parsowalne na lua):
@@ -17,7 +17,6 @@ class GameRoom : public Resource {
     GameRoom();
     ~GameRoom();
   private:
-    friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version) const {
     }

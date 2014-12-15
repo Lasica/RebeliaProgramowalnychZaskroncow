@@ -3,11 +3,10 @@
 
 #include "Observer.h"
 #include "Resource.h"
-#include <boost/serialization/base_object.hpp>
+#include "GameRoomListRaw.h"
 
-class GameRoomList : public Observer, public Resource {
+class GameRoomList : public Observer, public Resource, protected GameRoomListRaw {
   private:
-    friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version) const {
     }
