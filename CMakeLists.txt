@@ -8,6 +8,6 @@ include_directories(
 	${rpz_SOURCE_DIR}/src
 	)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -pedantic -Wextra -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -pedantic -Wextra -std=c++11 -lboost_system")
 #install(TARGETS rpz RUNTIME DESTINATION bin)
 add_subdirectory(src)

@@ -16,13 +16,7 @@
 #include <boost/asio.hpp>
 
 using boost::asio::ip::tcp;
-
-
-std::string make_daytime_string() {
-    using namespace std; // For time_t, time and ctime;
-    time_t now = time(0);
-    return ctime(&now);
-}
+using namespace boost::asio;
 
 class tcp_connection
     : public boost::enable_shared_from_this<tcp_connection> {
@@ -37,14 +31,24 @@ class tcp_connection
         return socket_;
     }
 
-    void start() {
-        message_ = make_daytime_string();
-        message_ += "NO I PYYK!";
+    //wyszystko pracuje w pętli, dlatego się nie rozłącza - ze start skacze do handler_write, z niego do start() itd. - tak było w przykładowym czacie
+    //Dodatkowo w każdej iteracji odbierane są dane przez read()
+    // message_ co ma wysłać
+    // response_ co zostało odebrane (przy czym jest typu streambuf)
+    void write() {
+    message_ = socket_.remote_endpoint().address().to_string(); // wysyła adres IP do odbiorcy
+
+    read();
         boost::asio::async_write(socket_, boost::asio::buffer(message_),
                                  boost::bind(&tcp_connection::handle_write,
                                              shared_from_this(),
                                              boost::asio::placeholders::error,
                                              boost::asio::placeholders::bytes_transferred));
+    }
+    void read(){
+  async_read(socket_, response_,
+                    boost::bind(&tcp_connection::handle_read, this,
+                    placeholders::error, placeholders::bytes_transferred));
     }
 
   private:
@@ -54,10 +58,16 @@ class tcp_connection
 
     void handle_write(const boost::system::error_code & /*error*/,
                       size_t /*bytes_transferred*/) {
+                        write();
+    }
+   void handle_read(const boost::system::error_code & /*error*/,
+                      size_t /*bytes_transferred*/) {
+
     }
 
     tcp::socket socket_;
     std::string message_;
+    boost::asio::streambuf response_;
 };
 
 class tcp_server {
@@ -80,7 +90,7 @@ class tcp_server {
     void handle_accept(tcp_connection::pointer new_connection,
                        const boost::system::error_code &error) {
         if (!error)
-            new_connection->start();
+            new_connection->write();
 
         start_accept();
     }
@@ -91,7 +101,7 @@ class tcp_server {
 
 
 int main() {
-    log4cpp::Appender *console_appender = new log4cpp::OstreamAppender("console", &std::cout);
+log4cpp::Appender *console_appender = new log4cpp::OstreamAppender("console", &std::cout);
     console_appender->setLayout(new log4cpp::BasicLayout());
 
     log4cpp::Appender *log_appender = new log4cpp::FileAppender("default", LOGFILE);
@@ -121,6 +131,7 @@ int main() {
 
     // or this way:
     root.errorStream() << "Another streamed error";
+
 
     try {
         boost::asio::io_service io_service;
