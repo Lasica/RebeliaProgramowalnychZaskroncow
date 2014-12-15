@@ -5,7 +5,6 @@ set(common_SRCS
     shared/GameRoom.cpp
     shared/GameRoomList.cpp
     shared/Resource.cpp
-		#    shared/Subject.cpp
 		shared/ResourceFactory.cpp
 	)
 
@@ -13,9 +12,11 @@ set(LIBRARIES
 	  ${LUA_LIBRARY} ${LUA_CORE_SRC} 
   	-llog4cpp 
   	-pthread 
-  	${Boost_FILESYSTEM_LIBRARY} 
-  	${Boost_SYSTEM_LIBRARY} 
-  	${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+		${Boost_LIBRARIES}
+		#${Boost_FILESYSTEM_LIBRARY} 
+		#${Boost_SYSTEM_LIBRARY} 
+		#${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+		#${Boost_SERIALIZATION}
 	)
 
 #find_package(Boost COMPONENTS unit_test_framework REQUIRED)
@@ -48,7 +49,8 @@ foreach(testSrc ${TEST_SRC})
 		COMMAND ${CMAKE_BINARY_DIR}/testBin/${testName} )
 endforeach(testSrc)
 
-add_executable(server ${common_SRCS} server.cpp)
+add_executable(server ${common_SRCS} server/server.cpp)
 target_link_libraries(server ${LIBRARIES})
-#add_executable(client ${common_SRCS} client.cpp)
-#target_link_libraries(client ${LIBRARIES})
+
+add_executable(client ${common_SRCS} client/client.cpp)
+target_link_libraries(client ${LIBRARIES})

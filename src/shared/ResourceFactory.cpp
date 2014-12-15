@@ -14,10 +14,10 @@ Resource *ResourceFactory::create(std::string idTag, boost::archive::text_iarchi
 }
 
 void ResourceFactory::register_resource(std::string idTag, ResourceFactory::CreateResourceFunction fun) {
-    if(callbacks_.find(idTag)!= callbacks_.end())
+    if(callbacks_.find(idTag) != callbacks_.end())
         callbacks_[idTag] = fun;
     else
-        throw "Unacceptable situation: trying to re-register object with the same id"; // TODO blad
+        throw "Unacceptable situation: trying to re-register object with the same id";  // TODO blad
 }
 
 ResourceFactory &ResourceFactory::getInstance() {
