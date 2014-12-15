@@ -16,6 +16,7 @@ class ClientList : public Resource, public Observer, protected ClientListRaw {
   private:
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version) const {
+
     }
 };
 

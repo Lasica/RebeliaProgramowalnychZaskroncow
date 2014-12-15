@@ -11,9 +11,6 @@
 class ChatHistory : public Observer, public Resource, protected ChatHistoryRaw {
   public:
     ~ChatHistory();
-  private:
-    template<class Archive>
-    void serialize(Archive &ar, const unsigned int version) const { }
     std::vector<ChatEntry> chatLog_;
 };
 
