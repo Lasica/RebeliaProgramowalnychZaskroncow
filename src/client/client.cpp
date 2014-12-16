@@ -18,15 +18,15 @@ Użycie:
 
 using namespace boost::asio;
 
-std::size_t completion(const boost::system::error_code &error, std::size_t bytes_transferred) {
+std::size_t completion(const boost::system::error_code &error, std::size_t /*bytes_transferred*/) {
     return ! error;
 }
 
-void writeHandler(const boost::system::error_code &error, std::size_t bytes_transferred) {
+void writeHandler(const boost::system::error_code &/*error*/, std::size_t /*bytes_transferred*/) {
     std::cout << "***Hello! Write handler here!***\n";
 }
 
-void readHandler(const boost::system::error_code &error, std::size_t bytes_transferred) {
+void readHandler(const boost::system::error_code &/*error*/, std::size_t /*bytes_transferred*/) {
     std::cout << "***Hello! Read handler here!***\n";
 }
 

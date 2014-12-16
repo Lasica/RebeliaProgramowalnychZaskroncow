@@ -57,12 +57,9 @@ target_link_libraries(client ${LIBRARIES} PROJECT_LIBRARY )
 #I like to keep test files in a separate source directory called test
 file(GLOB TEST_SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}   test/*.cpp)
 
-
-MESSAGE( STATUS "CURRENT SOURCE DIR: " ${CMAKE_CURRENT_SOURCE_DIR})
-MESSAGE( STATUS "REGISTERED TESTS:  " ${TEST_SRC})
 #Run through each source
 foreach(testSrc ${TEST_SRC})
-  MESSAGE( STATUS "COMPUTING TEST:  " ${testSrc})
+	MESSAGE( STATUS "REGISTERED TEST:  " ${testSrc})
   #Extract the filename without an extension (NAME_WE)
   get_filename_component(testName ${testSrc} NAME_WE)
 
@@ -78,7 +75,6 @@ foreach(testSrc ${TEST_SRC})
 
   #Finally add it to test execution - 
   #Notice the WORKING_DIRECTORY and COMMAND
-	MESSAGE( STATUS "BINARY DIR: " ${CMAKE_BINARY_DIR})
   add_test(NAME ${testName} 
 		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/testBin 
 		COMMAND ${CMAKE_BINARY_DIR}/testBin/${testName} )
