@@ -1,34 +1,40 @@
 set(LIB_SOURCES
+    client/client_main.cpp
     server/Client.cpp
     server/ClientsRegister.cpp
+    server/Server.cpp
+    server/server_main.cpp
     shared/ChatEntry.cpp
     shared/ChatHistory.cpp
     shared/ClientList.cpp
     shared/GameRoom.cpp
     shared/GameRoomList.cpp
     shared/Resource.cpp
-		shared/ResourceFactory.cpp
+    shared/ResourceFactory.cpp
+    shared/Subject.cpp
+    shared/TcpConnection.cpp
 	)
 
 set(LIB_HEADERS
-	luacore/LuaInterpreter.h
-	test/TestTemplate.h
-	server/ClientsRegister.hpp
-	server/Client.hpp
-	shared/ClientList.h
-	shared/ChatEntry.h
-	shared/Subject.h
-	shared/ClientListRaw.h
-	shared/Resource.h
-	shared/GameRoomListRaw.h
-	shared/GameRoomRaw.h
-	shared/GameRoom.h
-	shared/ChatHistory.h
-	shared/Observer.h
-	shared/ChatHistoryRaw.h
-	shared/ResourceFactory.h
-	shared/GameRoomList.h
-	shared/ChatEntryRaw.h
+    luacore/LuaInterpreter.h
+    server/Client.hpp
+    server/ClientsRegister.hpp
+    server/Server.h
+    shared/ChatEntry.h
+    shared/ChatEntryRaw.h
+    shared/ChatHistory.h
+    shared/ChatHistoryRaw.h
+    shared/ClientList.h
+    shared/ClientListRaw.h
+    shared/GameRoom.h
+    shared/GameRoomList.h
+    shared/GameRoomListRaw.h
+    shared/GameRoomRaw.h
+    shared/Observer.h
+    shared/ResourceFactory.h
+    shared/Resource.h
+    shared/Subject.h
+    shared/TcpConnection.h
 	)
 
 add_library( PROJECT_LIBRARY ${LIB_SOURCES} ${LIB_HEADERS} )
@@ -47,10 +53,10 @@ set(LIBRARIES
 #find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 include_directories (${Boost_INCLUDE_DIRS})
 
-add_executable(server server/server.cpp)
+add_executable(server server/server_main.cpp)
 target_link_libraries(server ${LIBRARIES} PROJECT_LIBRARY )
 
-add_executable(client client/client.cpp)
+add_executable(client client/client_main.cpp)
 target_link_libraries(client ${LIBRARIES} PROJECT_LIBRARY )
 
 
