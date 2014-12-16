@@ -1,4 +1,4 @@
-  #include "tcpcon.h"
+  #include "shared/TcpConnection.h"
 
   tcpConnection::pointer tcpConnection::create(boost::asio::io_service &io_service) {
         return pointer(new tcpConnection(io_service));

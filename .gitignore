@@ -26,14 +26,25 @@
 *.exe
 *.out
 *.app
+*.e
+rpz
+server
+client
 
 # Kdevelop
 *.kdev4
+
+# vim
+*.swp
+
+# QtCreator
+*.autosave
+
+# Tilde (~) files
+*~
+>>>>>>> 473f2380d9edb8e3fd1b4338a084774e2e6d6c90
 
 #work directories
 tmp
 build
 docs/*
-
-#executable
-rpz
