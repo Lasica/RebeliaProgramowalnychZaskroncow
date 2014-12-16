@@ -7,7 +7,7 @@ set(common_SRCS
     shared/GameRoom.cpp
     shared/GameRoomList.cpp
     shared/Resource.cpp
-		shared/ResourceFactory.cpp
+    shared/ResourceFactory.cpp
 	)
 
 set(LIBRARIES
@@ -24,13 +24,6 @@ set(LIBRARIES
 #find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 include_directories (${Boost_INCLUDE_DIRS})
 
-add_executable(server ${common_SRCS} server/server.cpp)
-target_link_libraries(server ${LIBRARIES})
-
-add_executable(client ${common_SRCS} client/client.cpp)
-target_link_libraries(client ${LIBRARIES})
-
-
 #I like to keep test files in a separate source directory called test
 file(GLOB TEST_SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}   test/*.cpp)
 
@@ -42,7 +35,7 @@ foreach(testSrc ${TEST_SRC})
   get_filename_component(testName ${testSrc} NAME_WE)
 
   #Add compile target
-  add_executable(${testName} ${testSrc})
+  add_executable(${common_SRCS} ${testName} ${testSrc})
 
   #link to Boost libraries AND your targets and dependencies
   target_link_libraries(${testName} ${LIBRARIES})
@@ -57,3 +50,9 @@ foreach(testSrc ${TEST_SRC})
 		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/testBin 
 		COMMAND ${CMAKE_BINARY_DIR}/testBin/${testName} )
 endforeach(testSrc)
+
+add_executable(server ${common_SRCS} server/server.cpp)
+target_link_libraries(server ${LIBRARIES})
+
+add_executable(client ${common_SRCS} client/client.cpp)
+target_link_libraries(client ${LIBRARIES})
