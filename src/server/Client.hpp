@@ -41,7 +41,7 @@ public:
     bool                            is_in_game();            //true if state==IN_GAME
 
     void                            set_state(statename s) const;
-    void                            set_game_id(std::string id)const;
+    void                            set_game_id(std::string id) const;
 
     bool                            operator<(const Client&) const;
 

@@ -15,7 +15,7 @@ ClientsRegister &ClientsRegister::instance() {
 }
 
 ClientsRegister::ClientIt ClientsRegister::register_client(std::string nick, short unsigned int port,
-                                                                    std::string ip, statename state, std::string gameID) {
+        std::string ip, statename state, std::string gameID) {
     ClientsRegister::ClientIt it = clients_.insert(Client(nick, port, ip, state, gameID)).first; // insert returns pair<ClientIt, bool>
 
     return it;
@@ -27,6 +27,10 @@ void ClientsRegister::remove_client(unsigned int id) {
 
 void ClientsRegister::remove_client(std::string nick) {
     clients_.erase(look_up_with_nickname(nick));
+}
+
+void ClientsRegister::remove_client(ClientIt it) {
+    clients_.erase(it);
 }
 
 
@@ -52,10 +56,24 @@ ClientIt ClientsRegister::look_up_with_id(Client::ClientID id) {
 }
 
 // functions to change state of Client (IN_GAME or IN_LOBBY)
-void ClientsRegister::change_state(Client::ClientID id, statename st){
+void ClientsRegister::change_state(Client::ClientID id, statename st) {
     look_up_with_id(id)->set_state(st);
 }
 
-void ClientsRegister::change_state(std::string nick, statename st){
+void ClientsRegister::change_state(std::string nick, statename st) {
     look_up_with_nickname(nick)->set_state(st);
 }
+
+void ClientsRegister::change_state(ClientIt it, statename st) {
+    it->set_state(st);
+}
+
+
+statename ClientsRegister::get_state(ClientIt it) {
+    return it->get_state();
+}
+
+std::string ClientsRegister::get_game_ID(ClientIt it) {
+    return it->get_game_id();
+}
+

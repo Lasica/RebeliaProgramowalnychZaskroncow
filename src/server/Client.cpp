@@ -12,7 +12,8 @@ Client::Client(std::string nick, short unsigned int port, boost::asio::ip::addre
 
 
 Client::Client(std::string nick, short unsigned int port, std::string ip, statename state, std::string gameID):
-    nickname_(nick), clientID_(Client::nextID_++), port_(port), ip_(boost::asio::ip::address::from_string(ip)), state_(new statename(state)), gameID_(gameID) {
+    nickname_(nick), clientID_(Client::nextID_++), port_(port), ip_(boost::asio::ip::address::from_string(ip)), state_(new statename(state)),
+    gameID_(gameID) {
     ;
 }
 
@@ -59,7 +60,7 @@ std::string Client::get_game_id() const {
 //set methods
 void Client::set_state(statename s) const {
     state_.reset(new statename);
-    *state_=s;
+    *state_ = s;
 }
 
 void Client::set_game_id(std::string id) const {
