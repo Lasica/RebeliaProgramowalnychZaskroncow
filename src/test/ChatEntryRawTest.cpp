@@ -12,6 +12,7 @@
 
 #include "shared/ChatEntryRaw.h"
 #include <sstream>
+#include <string>
 
 using namespace boost::unit_test;
 
@@ -45,7 +46,7 @@ BOOST_AUTO_TEST_CASE( write_read ) {
         // read class state from archive
         BOOST_CHECK_NO_THROW(ia >> newg);
         // archive and stream closed when destructors are called
-        std::cout << " " << newg.nick_ << newg.message_;
+        BOOST_TEST_MESSAGE(newg.nick_ << newg.message_);
     }
     BOOST_CHECK(newg.nick_ == g.nick_);
     BOOST_CHECK(newg.message_ == g.message_);
