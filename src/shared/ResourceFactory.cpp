@@ -17,7 +17,7 @@ void ResourceFactory::register_resource(std::string idTag, ResourceFactory::Crea
     if(callbacks_.find(idTag) != callbacks_.end())
         callbacks_[idTag] = fun;
     else
-        throw "Unacceptable situation: trying to re-register object with the same id";   // TODO blad
+        throw "Unacceptable situation: trying to re-register object with the same id";    // TODO blad
 }
 
 ResourceFactory &ResourceFactory::getInstance() {
