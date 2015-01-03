@@ -4,7 +4,7 @@
 #include "Resource.h"
 #include "ChatEntryRaw.h"
 
-class ChatEntry : public Resource, protected ChatEntryRaw {
+class ChatEntry : protected ChatEntryRaw {
   public:
     ChatEntry();
     ~ChatEntry();

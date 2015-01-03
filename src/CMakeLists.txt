@@ -4,11 +4,11 @@ set(LIB_SOURCES
     server/ClientsRegister.cpp
     server/Server.cpp
     server/server_main.cpp
-    shared/ChatEntry.cpp
-    shared/ChatHistory.cpp
-    shared/ClientList.cpp
-    shared/GameRoom.cpp
-    shared/GameRoomList.cpp
+	# shared/ChatEntry.cpp
+  # shared/ChatHistory.cpp
+  # shared/ClientList.cpp
+  # shared/GameRoom.cpp
+  # shared/GameRoomList.cpp
     shared/Resource.cpp
     shared/ResourceFactory.cpp
     shared/Subject.cpp
@@ -16,25 +16,25 @@ set(LIB_SOURCES
 	)
 
 set(LIB_HEADERS
-    luacore/LuaInterpreter.h
-    server/Client.hpp
-    server/ClientsRegister.hpp
-    server/Server.h
-    shared/ChatEntry.h
-    shared/ChatEntryRaw.h
-    shared/ChatHistory.h
-    shared/ChatHistoryRaw.h
-    shared/ClientList.h
-    shared/ClientListRaw.h
-    shared/GameRoom.h
-    shared/GameRoomList.h
-    shared/GameRoomListRaw.h
-    shared/GameRoomRaw.h
-    shared/Observer.h
-    shared/ResourceFactory.h
-    shared/Resource.h
-    shared/Subject.h
-    shared/TcpConnection.h
+	#luacore/LuaInterpreter.h
+	 server/Client.hpp
+	 server/ClientsRegister.hpp
+	 server/Server.h
+	# shared/ChatEntry.h
+	 shared/ChatEntryRaw.h
+	# shared/ChatHistory.h
+	# shared/ChatHistoryRaw.h
+	# shared/ClientList.h
+	# shared/ClientListRaw.h
+	# shared/GameRoom.h
+	# shared/GameRoomList.h
+	# shared/GameRoomListRaw.h
+	# shared/GameRoomRaw.h
+	 shared/Observer.h
+	 shared/ResourceFactory.h
+	 shared/Resource.h
+	 shared/Subject.h
+	 shared/TcpConnection.h
 	)
 
 add_library( PROJECT_LIBRARY ${LIB_SOURCES} ${LIB_HEADERS} )

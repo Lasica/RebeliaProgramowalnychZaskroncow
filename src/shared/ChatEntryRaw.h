@@ -3,8 +3,9 @@
 
 #include <boost/serialization/base_object.hpp>
 #include <string>
+#include "shared/Resource.h"
 
-class ChatEntryRaw {
+class ChatEntryRaw : public Resource {
   private:
     friend class boost::serialization::access;
     // When the class Archive corresponds to an output archive, the
