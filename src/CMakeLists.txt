@@ -47,11 +47,12 @@ set(LIBRARIES
   	-llog4cpp 
   	-pthread 
 		${Boost_LIBRARIES}
-		#${Boost_FILESYSTEM_LIBRARY} 
-		#${Boost_SYSTEM_LIBRARY} 
-		#${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
-		#${Boost_SERIALIZATION}
-	)
+		${Boost_FILESYSTEM_LIBRARY} 
+		${Boost_SYSTEM_LIBRARY} 
+		${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+		${Boost_SERIALIZATION}
+		${Boost_THREAD}
+)	
 
 #find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 include_directories (${Boost_INCLUDE_DIRS})

@@ -16,8 +16,12 @@ Packet::StreamBuffer Packet::get_data_streambuf() { // TODO do poprawienia, kied
     return x;
 }
 
-const Packet::Address& Packet::get_address() const
-{
+
+const Packet::Address &Packet::get_address() const {
     return sender_;
+}
+
+std::string Packet::get_data_string() {
+    return data_;
 }
 
