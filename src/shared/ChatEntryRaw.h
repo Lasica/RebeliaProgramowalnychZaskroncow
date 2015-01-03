@@ -13,8 +13,8 @@ class ChatEntryRaw : public Resource {
     // is a type of input archive the & operator is defined similar to >>.
     template<class Archive>
     void serialize(Archive &ar, const unsigned int) {
-        ar & nick_;
-        ar & message_;
+        ar &nick_;
+        ar &message_;
     }
   public:
     const static std::string idTag_;
@@ -27,6 +27,6 @@ class ChatEntryRaw : public Resource {
 };
 
 
-const std::string ChatEntryRaw::idTag_="ChatEntry";
+const std::string ChatEntryRaw::idTag_ = "ChatEntry";
 
 #endif //CHATENTRYRAW_H

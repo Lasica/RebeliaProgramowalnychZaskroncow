@@ -3,8 +3,8 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
-Resource* buildChatEntryRaw(ResourceFactory::codingStream &str) {
-    ChatEntryRaw* build = new ChatEntryRaw;
+Resource *buildChatEntryRaw(ResourceFactory::codingStream &str) {
+    ChatEntryRaw *build = new ChatEntryRaw;
     boost::archive::text_iarchive ar(str);
     ar >> *build;
     return build;
@@ -28,7 +28,7 @@ void ResourceFactory::register_resource(std::string idTag, ResourceFactory::Crea
     if(callbacks_.find(idTag) != callbacks_.end())
         callbacks_[idTag] = fun;
     else
-        throw "Unacceptable situation: trying to re-register object with the same id";    // TODO blad
+        throw "Unacceptable situation: trying to re-register object with the same id";     // TODO blad
 }
 
 ResourceFactory &ResourceFactory::getInstance() {

@@ -10,3 +10,7 @@ Packet::StreamBuffer Packet::get_data_streambuf() { //do poprawienia, kiedy będ
 
     return 15;
 }
+
+std::string Packet::get_data_string() {
+    return data_;
+}

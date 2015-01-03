@@ -7,7 +7,7 @@
 #include <sstream>
 
 class ResourceFactory {
-public:
+  public:
     typedef std::stringstream codingStream;
     typedef Resource *(*CreateResourceFunction)(codingStream &);
 
@@ -19,7 +19,7 @@ public:
     ResourceFactory(const ResourceFactory &) = delete;
 
     static ResourceFactory &getInstance();
-private:
+  private:
     ResourceFactory();
 
     typedef std::map<std::string, CreateResourceFunction> Callbacks;

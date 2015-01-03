@@ -9,7 +9,7 @@ set(LIB_SOURCES
   # shared/ClientList.cpp
   # shared/GameRoom.cpp
   # shared/GameRoomList.cpp
-  #  shared/Packet.cpp
+    shared/Packet.cpp
     shared/Resource.cpp
     shared/ResourceFactory.cpp
     shared/Subject.cpp
@@ -32,7 +32,7 @@ set(LIB_HEADERS
 	# shared/GameRoomListRaw.h
 	# shared/GameRoomRaw.h
 	 shared/Observer.h
-	# shared/Packet.hpp
+	 shared/Packet.hpp
 	 shared/ResourceFactory.h
 	 shared/Resource.h
 	 shared/Subject.h
