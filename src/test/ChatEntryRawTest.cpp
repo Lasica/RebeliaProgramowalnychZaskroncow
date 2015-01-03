@@ -6,22 +6,27 @@
 
 //VERY IMPORTANT - include this last
 #include <boost/test/unit_test.hpp>
+#include <boost/test/detail/unit_test_parameters.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
 #include "shared/ChatEntryRaw.h"
-#include <iostream>
-#include <fstream>
+#include <sstream>
+
+using namespace boost::unit_test;
 
 // ------------- Tests Follow --------------
 BOOST_AUTO_TEST_SUITE( serialsing )
 BOOST_AUTO_TEST_CASE( write_read ) {
+    if( runtime_config::log_level() <= boost::unit_test::log_warnings ) {
+        unit_test_log.set_threshold_level( boost::unit_test::log_messages );
+    }
 
     // create and open a character archive for output
     std::stringstream ofs;
 
     // create class instance
-    const ChatEntryRaw g("John", " siema! ");
+    ChatEntryRaw g("John", " siema! ");
 
     // save data to archive
     {

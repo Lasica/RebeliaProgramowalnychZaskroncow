@@ -15,8 +15,8 @@
 class Resource {
   public:
     virtual ~Resource() = 0;
-  protected:
-    const static std::string idTag_;
+//   protected:
+//     const static std::string idTag_;
 };
 
 #endif // RESOURCE_H
