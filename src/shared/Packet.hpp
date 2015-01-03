@@ -4,6 +4,7 @@
 #include <iostream>
 //#include <streambuf>
 #include <string>
+#include <sstream>
 #include <boost/serialization/base_object.hpp>
 
 
@@ -13,22 +14,24 @@ class Packet {
 public:
     Packet(std::string str);
 
-    typedef int StreamBuffer;
+    typedef std::string StreamBuffer;
+    typedef int Address;
+
     friend class boost::serialization::access;
     template<class Archive>     // dla serializacji w konstruktorze potrzeba znać Archive
-    void serialize(Archive & ar, const unsigned int version)
+    void serialize(Archive & ar, const unsigned int /*version*/)
     {
         ar & data_;
         ar & sender_;
     }
 
     StreamBuffer get_data_streambuf();
+    const Address& get_address() const;
 
 private:
 
     std::string data_;
 
-    typedef int Address;
     Address sender_;  // jaki typ?
 };
 

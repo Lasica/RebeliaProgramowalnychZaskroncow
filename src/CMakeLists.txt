@@ -3,13 +3,13 @@ set(LIB_SOURCES
     server/Client.cpp
     server/ClientsRegister.cpp
     server/Server.cpp
-  # server/server_main.cpp
+    server/server_main.cpp
 	# shared/ChatEntry.cpp
   # shared/ChatHistory.cpp
   # shared/ClientList.cpp
   # shared/GameRoom.cpp
   # shared/GameRoomList.cpp
-  #  shared/Packet.cpp
+    shared/Packet.cpp
     shared/Resource.cpp
     shared/ResourceFactory.cpp
     shared/Subject.cpp
@@ -20,7 +20,7 @@ set(LIB_HEADERS
 	#luacore/LuaInterpreter.h
 	 server/Client.hpp
 	 server/ClientsRegister.hpp
-	# server/Server.h
+	 server/Server.h
 	# shared/ChatEntry.h
 	 shared/ChatEntryRaw.h
 	# shared/ChatHistory.h
@@ -32,7 +32,7 @@ set(LIB_HEADERS
 	# shared/GameRoomListRaw.h
 	# shared/GameRoomRaw.h
 	 shared/Observer.h
-	# shared/Packet.hpp
+	 shared/Packet.hpp
 	 shared/ResourceFactory.h
 	 shared/Resource.h
 	 shared/Subject.h
@@ -55,11 +55,14 @@ set(LIBRARIES
 #find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 include_directories (${Boost_INCLUDE_DIRS})
 
-# add_executable(server server/server_main.cpp)
-# target_link_libraries(server ${LIBRARIES} PROJECT_LIBRARY )
+add_executable(server server/server_main.cpp)
+target_link_libraries(server ${LIBRARIES} PROJECT_LIBRARY )
 
 add_executable(client client/client_main.cpp)
 target_link_libraries(client ${LIBRARIES} PROJECT_LIBRARY )
+
+add_executable(fake_server server/fake_server_main.cpp)
+target_link_libraries(fake_server ${LIBRARIES} PROJECT_LIBRARY )
 
 
 #I like to keep test files in a separate source directory called test
