@@ -10,7 +10,6 @@ Packet::Packet(std::string str, PacketTag tag, Address ad) :
     ;
 }
 
-// Uwaga! Wykomentowane linie w poniższej metodzie wywołują błędy!
 Packet::StreamBuffer Packet::get_data_streambuf() { // TODO do poprawienia, kiedy będzie znany typ StreamBuffer
     Packet::StreamBuffer x;
     std::stringstream ofs;
@@ -18,7 +17,6 @@ Packet::StreamBuffer Packet::get_data_streambuf() { // TODO do poprawienia, kied
     oa << *this;
     ofs >> x;
     return x;
-    //return "Packet::get_data_streambuf() here!";
 }
 
 const Packet::Address &Packet::get_address() const {

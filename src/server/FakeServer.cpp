@@ -5,6 +5,7 @@
 #include <string>
 #include <thread>
 #include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
 
 
 
@@ -15,12 +16,12 @@ FakeServer::FakeServer(int x, std::string channel_, Strings INS) :
     for(int i = 0; i < num_of_connections_; ++i) {
         ins.push_back(new std::fstream);
         outs.push_back(new std::fstream);
-        out_names[i]= (std::to_string(i) + std::string("_") + channel_);
+        out_names[i] = (std::to_string(i) + std::string("_") + channel_);
         send(i, std::string("hello"));
     }
 }
 
-FakeServer::~FakeServer() {
+FakeServer::~FakeServer() {             // zastąpić clearem? vector sam się nie wyczyści przy dekonstruowaniu?
     for(int i = 0; i < num_of_connections_; ++i) {
         delete ins[i];
         delete outs[i];
@@ -58,6 +59,7 @@ bool FakeServer::scan_file(int x) {
     bool ret = true;
     try {
         std::string line;
+        std::string receivedData;   //czyścić to przed wejściem do kolejnego pliku?
         bool message = false;
 
         while(true) {
@@ -75,16 +77,37 @@ bool FakeServer::scan_file(int x) {
         while ( getline (*ins[x], line) ) {
             std::cout << line << '\n';
             if(line == "hello") {
-                handleStart(x);
+                handleStart(x);                 // ??
+
             } // start connection
             else if(line == "bye") {
                 handleFinish(x);
                 ret=false; // quit connection
             }
             else {
+                receivedData += line;   //trzeba zaznaczyć, że to dzieje się jeśli było poprzedzone "hello"
+
+
+                //TODO: tutaj przetworzyć tekst z pliku na Packet
             }
                 //set running false if there are no connections
         }
+
+            if(!receivedData.length()){
+
+                Packet newP;
+                //std::ifstream ifs("filename");
+                std::stringstream ifs;          //na razie, żeby sprawdzić, czy wczytywanie i deserializacja zadzialają
+                boost::archive::text_iarchive ia(ifs);
+                ia >> newP;
+
+                received.push(newP);
+
+                std::cout << received.back().get_data_string(); // pokzuje na cout zawartość odebranego pakietu (tylko dla testów)
+             }
+
+
+
 
         ins[x]->close();
     } catch(...) {

@@ -31,6 +31,8 @@ class FakeServer {
     void handleStart(Packet::Address);
     // wyrejestrowuje klienta z okreslonym adresem
     void handleFinish(Packet::Address);
+
+
   private:
     const std::chrono::milliseconds sleep_time_;
     bool running_;
@@ -38,6 +40,7 @@ class FakeServer {
     const std::string channel_;
     Strings out_names;
     Strings in_names;
+
 
     //to też wektory?
     Files ins;
