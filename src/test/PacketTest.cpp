@@ -27,7 +27,6 @@ BOOST_AUTO_TEST_CASE( write_read ) {
 
         BOOST_CHECK_NO_THROW( oa << pOut );
     }
-    BOOST_TEST_MESSAGE (ofs);
 
     Packet pIn;
     {
@@ -35,7 +34,11 @@ BOOST_AUTO_TEST_CASE( write_read ) {
         BOOST_CHECK_NO_THROW(ia >> pIn);
         std::cout << " " << pIn.get_data_string() << std::endl;
     }
+    BOOST_TEST_MESSAGE (ofs);
     BOOST_CHECK(pIn.get_data_string() == pOut.get_data_string());
+    BOOST_CHECK(pIn.get_tag() == pOut.get_tag());
+    BOOST_CHECK(pIn.get_data_streambuf() == pOut.get_data_streambuf());
+    BOOST_TEST_MESSAGE (std::to_string(pIn.get_address()) + std::string(" ") + std::to_string(pOut.get_address()));
 
 }
 BOOST_AUTO_TEST_SUITE_END()

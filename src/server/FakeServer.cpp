@@ -9,8 +9,12 @@
 
 FakeServer::FakeServer(int x, std::string channel_, Strings INS) :
     num_of_connections(x), channel(channel_), in_names(INS) {
+    out_names.resize(num_of_connections);
+    in_names.resize(num_of_connections);
+    //ins.resize(num_of_connections);
+    //outs.resize(num_of_connections);
     for(int i = 0; i < num_of_connections; ++i)
-        out_names[i] = '0' + std::to_string(i) + '_' + channel;
+        out_names[i]= (std::string("0") + std::to_string(i) + std::string("_") + channel);
 }
 
 

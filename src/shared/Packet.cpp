@@ -14,11 +14,11 @@ Packet::Packet(std::string str, PacketTag tag, Address ad) :
 Packet::StreamBuffer Packet::get_data_streambuf() { // TODO do poprawienia, kiedy będzie znany typ StreamBuffer
     Packet::StreamBuffer x;
     std::stringstream ofs;
-//    boost::archive::text_oarchive oa(ofs);
-//    oa << *this;
+    boost::archive::text_oarchive oa(ofs);
+    oa << *this;
     ofs >> x;
-    //return x;
-    return "Packet::get_data_streambuf() here!";
+    return x;
+    //return "Packet::get_data_streambuf() here!";
 }
 
 const Packet::Address &Packet::get_address() const {
