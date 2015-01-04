@@ -10,19 +10,24 @@
 #include "server/ClientsRegister.hpp"
 
 
+class SureOpen;
+
 class FakeServer {
   public:
     typedef std::vector<std::string> Strings;
     typedef std::vector<std::fstream *> Files;
 
     // ile polaczen, jaki sufiks nazwy plikow, jakie wejscia
-    FakeServer(int x, std::string channel_, Strings INS);
+    FakeServer(int connections_number, std::string channel_name, Strings in_files_names);
     ~FakeServer();
-    bool scan_file(int x);
+
+    void scan_file(int x);
     void send(int x, Packet::StreamBuffer data);
     void run(); // zeby nie zawieszac programu, mozna odpalic w innym watku
+
     std::queue<Packet> to_send;
     std::queue<Packet> received;
+
     /*
      * ponizej sa handlery, podobne co beda w oryginalnym serwerze, jednak formalizm jest troche inny -
      * w oryginalnym serwerze beda watki znajace adres klienta, wiec te funkcje beda bez argumentow
@@ -36,19 +41,19 @@ class FakeServer {
 
 
   private:
-    const std::chrono::milliseconds sleep_time_;
+    static const std::chrono::milliseconds sleep_time_;
     bool running_;
     const int num_of_connections_;
     const std::string channel_;
     Strings out_names;
     Strings in_names;
 
-
     ClientsRegister connectedClients;
 
-    //to też wektory?
     Files ins;
     Files outs;
+
+    friend class SureOpen;
 };
 
 #endif // FAKESERVER_H

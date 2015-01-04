@@ -16,6 +16,8 @@ int main() {
     strIN.push_back("2_CHtest");
 
     FakeServer fakeS(3, "CHtest", strIN);
+    Packet doomPacket("bye", CONNECTION_END, 1);
+    fakeS.to_send.push(doomPacket);
     fakeS.run();
 
     return 0;
