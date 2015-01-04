@@ -8,15 +8,16 @@
 #include <boost/serialization/base_object.hpp>
 
 
-enum PacketTag { CHAT_ENTRY, GAME_STATE };
+enum PacketTag { CHAT_ENTRY, GAME_STATE, CONNECTION_END, CONNECTION_BEGIN };
 
 class Packet {
 public:
-    Packet()   { ; }
     typedef int Address;
+    typedef std::string StreamBuffer;
+
+    Packet() { }
     Packet(std::string str, PacketTag tag, Address ad);
 
-    typedef std::string StreamBuffer;
 
     friend class boost::serialization::access;
     template<class Archive>     // dla serializacji w konstruktorze potrzeba znać Archive

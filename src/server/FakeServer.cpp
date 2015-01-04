@@ -7,21 +7,48 @@
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 
+const std::chrono::milliseconds FakeServer::sleep_time_(500);
+
+/*
+ * Pomocnicza klasa do tworzenia obiektow automatycznych dbajaca o otwarcie i zamkniecie pliku w zakresie nazw
+ */
+class SureOpen {
+    std::fstream *ptr;
+  public:
+    SureOpen(std::fstream *ptr_, std::string &name, std::ios_base::openmode mode) : ptr(ptr_) {
+        while(true) {
+            ptr->open(name, mode);
+
+            if(ptr->is_open()) // upewnij sie, ze udalo sie otworzyc plik
+                break;
+
+            std::cout << "Nieudana proba otwarcia pliku " << name << std::endl;
+            std::this_thread::sleep_for(FakeServer::sleep_time_);
+        }
+    }
+    ~SureOpen() {
+        ptr->close();
+    }
+};
+
 
 
 FakeServer::FakeServer(int x, std::string channel_, Strings INS) :
-    sleep_time_(500), num_of_connections_(x), channel_(channel_), in_names(INS)  {
+    num_of_connections_(x), channel_(channel_), in_names(INS)  {
     out_names.resize(num_of_connections_);
     in_names.resize(num_of_connections_);
+
     for(int i = 0; i < num_of_connections_; ++i) {
         ins.push_back(new std::fstream);
         outs.push_back(new std::fstream);
+
         out_names[i] = (std::to_string(i) + std::string("_") + channel_);
+
         send(i, std::string("hello"));
     }
 }
 
-FakeServer::~FakeServer() {             // zastąpić clearem? vector sam się nie wyczyści przy dekonstruowaniu?
+FakeServer::~FakeServer() {
     for(int i = 0; i < num_of_connections_; ++i) {
         delete ins[i];
         delete outs[i];
@@ -40,111 +67,84 @@ void FakeServer::run() { // do odpalenia w innym watku?
 
         // sprawdz kanaly przychodzace
         for(int i = 0; i < num_of_connections_; ++i)
-            running_ = scan_file(i);
+            scan_file(i);
 
         // sprawdz kolejke wysylkowa
         if(!to_send.empty()) {
             std::cout << "Dane do wyslania: " << to_send.size() << std::endl;
+
             Packet a = to_send.front();
             to_send.pop();
             int address = a.get_address();
-            Packet::StreamBuffer data = a.get_data_streambuf();  // # buf zamiast buff
+            Packet::StreamBuffer data = a.get_data_streambuf();
+
             send(address, data);
         }
+
+        //TODO: running_ = liczba_klientow > 0;
         std::this_thread::sleep_for(sleep_time_);
     }
 }
 
-bool FakeServer::scan_file(int x) {
-    bool ret = true;
+void FakeServer::scan_file(int x) {
     try {
         std::string line;
         std::string receivedData;   //czyścić to przed wejściem do kolejnego pliku?
-        bool message = false;
+        {
+            SureOpen file(ins[x], in_names[x], std::fstream::in);
 
-        while(true) {
-            ins[x]->open(out_names[x], std::fstream::in);
-            if(ins[x]->is_open())
-                break;
-            if(!message) {
-                std::cout << "Nieudana proba otwarcia pliku w celu odczytu " << in_names[x] << std::endl;
-                std::this_thread::sleep_for(4*sleep_time_);
-                //message = true;
+            while ( getline (*ins[x], line) ) {
+                std::cout << "Wczytalem linie z kanalu "<< x <<":\n"<< line << '\n'; //DEBUG
+
+                if(line == "hello") {
+                    handleStart(x);                 // zarejestruj nowego klienta pod adresem x
+                } else if(line == "bye")
+                    handleFinish(x);                // wyrejestruj klienta pod adresem x
+                else {
+                    receivedData += line;
+
+
+                    //TODO: tutaj przetworzyć tekst z pliku na Packet
+                }
             }
-        }
 
-        // wczytaj i handluj jako pakiet, jesli bylo exit - to exit. TODO
-        while ( getline (*ins[x], line) ) {
-            std::cout << line << '\n';
-            if(line == "hello") {
-                handleStart(x);                 // ??
-
-            } // start connection
-            else if(line == "bye") {
-                handleFinish(x);
-                ret=false; // quit connection
-            }
-            else {
-                receivedData += line;   //trzeba zaznaczyć, że to dzieje się jeśli było poprzedzone "hello"
-
-
-                //TODO: tutaj przetworzyć tekst z pliku na Packet
-            }
-                //set running false if there are no connections
-        }
-
-            if(!receivedData.length()){
+            if(receivedData.length()) {
 
                 Packet newP;
-                //std::ifstream ifs("filename");
                 std::stringstream ifs;          //na razie, żeby sprawdzić, czy wczytywanie i deserializacja zadzialają
                 boost::archive::text_iarchive ia(ifs);
                 ia >> newP;
 
                 received.push(newP);
 
-                std::cout << received.back().get_data_string(); // pokzuje na cout zawartość odebranego pakietu (tylko dla testów)
-             }
-
-
-
-
-        ins[x]->close();
+                std::cout << received.back().Packet::get_data_string(); // pokzuje na cout zawartość odebranego pakietu (tylko dla testów)
+            }
+        } // koniec bloku SureOpen - zamkniecie pliku
     } catch(...) {
+        std::cout << "wyjatek!!! Nieprawidlowe dane sterujace (pakiet)\n";    // tymczasowo, dla (nie)bezpieczenstwa
     }
-
-    return ret;
+    {
+        // wyczysc zawartosc wczytana z pliku
+        SureOpen(ins[x], in_names[x], std::fstream::out | std::fstream::trunc);
+    }
 }
 
 void FakeServer::send(int x, Packet::StreamBuffer data) {
-    bool message=false;
-    while(true) {
-        outs[x]->open(in_names[x], std::fstream::out | std::fstream::trunc);
-
-        if(outs[x]->is_open())
-            break;
-        if(!message) {
-            std::cout << "Nieudana proba otwarcia pliku w celu zapisu " << out_names[x] << std::endl;
-            //message = true;
-            std::this_thread::sleep_for(sleep_time_);
-        }
-    }
-
+    std::cout << "Wysylam dane na kanal " << x << ":\n" << data << std::endl;
+    SureOpen file(outs[x], out_names[x], std::fstream::out | std::fstream::trunc);
     *outs[x] << data;
-    outs[x]->close();
 }
 
-void FakeServer::handleAccept(Packet::Address)
-{
-
+void FakeServer::handleAccept(Packet::Address) {
+std::cout << "Hello! It's handleAccept!\n";
 }
 
-void FakeServer::handleFinish(Packet::Address)
-{
+void FakeServer::handleFinish(Packet::Address  ) {
+std::cout << "Hello! It's handleFinish!\n";
 // wyrejestruj
 }
 
-void FakeServer::handleStart(Packet::Address)
-{
-
+void FakeServer::handleStart(Packet::Address  ) {
+std::cout << "Hello! It's handleStart!\n";
+//zarejestruj klienta o adresie
 }
