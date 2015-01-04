@@ -17,7 +17,6 @@ BOOST_AUTO_TEST_CASE( ParametrizedCtor1 ) {
     BOOST_CHECK_EQUAL(test.get_ip_str(), "125.0.0.145");
     BOOST_CHECK_EQUAL(test.get_state(), IN_GAME);
     BOOST_CHECK_EQUAL(test.get_game_id(), "ParametrizedCtor1");
-    BOOST_CHECK_EQUAL(test.get_client_id(), 0);
 }
 
 BOOST_AUTO_TEST_CASE( ParametrizedCtor2 ) {
@@ -30,7 +29,6 @@ BOOST_AUTO_TEST_CASE( ParametrizedCtor2 ) {
     BOOST_CHECK_EQUAL(test.get_ip_str(), "125.0.0.145");
     BOOST_CHECK_EQUAL(test.get_state(), IN_GAME);
     BOOST_CHECK_EQUAL(test.get_game_id(), "ParametrizedCtor2");
-    BOOST_CHECK_EQUAL(test.get_client_id(), 1);
 
 }
 
@@ -44,7 +42,6 @@ BOOST_AUTO_TEST_CASE( CopyCtor ) {
     BOOST_CHECK_EQUAL(copy.get_ip_str(), "125.0.0.145");
     BOOST_CHECK_EQUAL(copy.get_state(), IN_GAME);
     BOOST_CHECK_EQUAL(copy.get_game_id(), "CopyCtor");
-    BOOST_CHECK_EQUAL(copy.get_client_id(), 2);
     BOOST_CHECK_EQUAL(copy.get_client_id(), copy.get_client_id());
 }
 
@@ -54,8 +51,6 @@ BOOST_AUTO_TEST_CASE( IDGeneration ) {
     Client id4("id4", 12, "125.0.0.145", IN_GAME, "idTest");
     Client id4copy(id4);
 
-    BOOST_CHECK_EQUAL(id3.get_client_id(), 3);
-    BOOST_CHECK_EQUAL(id4.get_client_id(), 4);
     BOOST_CHECK_EQUAL(id4.get_client_id(), id4.get_client_id());
 
 }

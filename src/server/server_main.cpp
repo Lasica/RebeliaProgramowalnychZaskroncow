@@ -17,7 +17,7 @@
 using boost::asio::ip::tcp;
 using namespace boost::asio;
 int main() {
-log4cpp::Appender *console_appender = new log4cpp::OstreamAppender("console", &std::cout);
+    log4cpp::Appender *console_appender = new log4cpp::OstreamAppender("console", &std::cout);
     console_appender->setLayout(new log4cpp::BasicLayout());
 
     log4cpp::Appender *log_appender = new log4cpp::FileAppender("default", LOGFILE);

@@ -2,6 +2,7 @@ set(LIB_SOURCES
     client/client_main.cpp
     server/Client.cpp
     server/ClientsRegister.cpp
+    server/FakeServer.cpp
     server/Server.cpp
     server/server_main.cpp
 	# shared/ChatEntry.cpp
@@ -20,6 +21,7 @@ set(LIB_HEADERS
 	#luacore/LuaInterpreter.h
 	 server/Client.hpp
 	 server/ClientsRegister.hpp
+	 server/FakeServer.h
 	 server/Server.h
 	# shared/ChatEntry.h
 	 shared/ChatEntryRaw.h

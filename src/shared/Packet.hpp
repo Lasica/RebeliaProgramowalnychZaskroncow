@@ -12,31 +12,34 @@ enum PacketTag { CHAT_ENTRY, GAME_STATE };
 
 class Packet {
 public:
-    Packet() { ; }
-    Packet(std::string str);
+    Packet()   { ; }
+    typedef int Address;
+    Packet(std::string str, PacketTag tag, Address ad);
 
     typedef std::string StreamBuffer;
-    typedef int Address;
 
     friend class boost::serialization::access;
     template<class Archive>     // dla serializacji w konstruktorze potrzeba znać Archive
     void serialize(Archive & ar, const unsigned int /*version*/)
     {
         ar & data_;
-        ar & sender_;
+        ar & tag_;
     }
 
+    //TODO
     StreamBuffer get_data_streambuf();
     const Address& get_address() const;
 
     //na potrzeby testów - niekoniecznie jest potrzebne dla programu
     std::string get_data_string();
+    PacketTag get_tag();
 
 private:
 
     std::string data_;
+    PacketTag tag_;
 
-    Address sender_;  // jaki typ?
+    Address address_;
 };
 
 #endif //PACKET_HPP

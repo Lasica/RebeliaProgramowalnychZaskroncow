@@ -10,14 +10,13 @@ using boost::asio::ip::tcp;
 using namespace boost::asio;
 
 class tcpConnection;
-class tcpServer
-{
-public:
+class tcpServer {
+  public:
     std::deque<tcpConnection::pointer> connections;
-    tcpServer(boost::asio::io_service&);
-private:
+    tcpServer(boost::asio::io_service &);
+  private:
     void startAccept();
     void handleAccept(tcpConnection::pointer,
-                       const boost::system::error_code&);
+                      const boost::system::error_code &);
     tcp::acceptor acceptor_;
 };

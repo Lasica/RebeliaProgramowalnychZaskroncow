@@ -15,13 +15,12 @@ using namespace boost::unit_test;
 // ------------- Tests Follow --------------
 BOOST_AUTO_TEST_SUITE( Serialsing )
 BOOST_AUTO_TEST_CASE( write_read ) {
-    if( runtime_config::log_level() <= boost::unit_test::log_warnings ) {
+    if( runtime_config::log_level() <= boost::unit_test::log_warnings )
         unit_test_log.set_threshold_level( boost::unit_test::log_messages );
-    }
 
     std::stringstream ofs;
 
-    Packet pOut("Hello! Test data here.");
+    Packet pOut("Hello! Test data here.", CHAT_ENTRY, 5);
 
     {
         boost::archive::text_oarchive oa(ofs);

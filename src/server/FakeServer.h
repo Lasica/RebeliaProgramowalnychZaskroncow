@@ -4,25 +4,30 @@
 #include <fstream>
 #include <sstream>
 #include <queue>
+#include <vector>
 #include "shared/Packet.hpp"
 
-class FakeServer
-{
-public:
+class FakeServer {
+  public:
+    typedef std::vector<std::string> Strings;
+    typedef std::vector<std::fstream> Files;
+
     // ile polaczen, jaki sufiks nazwy plikow, jakie wejscia
-    FakeServer(int x, std::string channel_, std::string INS[num_of_connections] );
+    FakeServer(int x, std::string channel_, Strings INS);
     bool scan_file(int x);
-    void send(int x, std::stingstream data);
+    void send(int x, Packet::StreamBuffer data);
     void run(); // zeby nie zawieszac programu, mozna odpalic w innym watku
     std::queue<Packet> to_send;
-private:
+  private:
     bool running;
-    const std::string channel;
     const int num_of_connections;
-    std::string out_names[num_of_connections];
-    std::string in_names[num_of_connections];
-    std::fstream ins[num_of_connections];
-    std::fstream outs[num_of_connections];
+    const std::string channel;
+    Strings out_names;
+    Strings in_names;
+
+    //to też wektory?
+    Files ins;
+    Files outs;
 };
 
 #endif // FAKESERVER_H
