@@ -2,6 +2,7 @@
 #include "server/FakeServer.h"
 
 #include <boost/serialization/base_object.hpp>
+#include <boost/serialization/vector.hpp>
 #include <iostream>
 #include <string>
 using namespace boost::asio;
@@ -17,6 +18,9 @@ int main() {
     strIN.push_back("str5");
 
     FakeServer fakeS(5, "CHtest", strIN);
+    for(auto a: strIN){
+        std::cout <<  a << std::endl;
+    }
 
     return 0;
 }
