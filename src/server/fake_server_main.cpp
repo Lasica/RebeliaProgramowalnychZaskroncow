@@ -11,16 +11,12 @@ using namespace std;
 int main() {
 
     FakeServer::Strings strIN;
-    strIN.push_back("str1");
-    strIN.push_back("str2");
-    strIN.push_back("str3");
-    strIN.push_back("str4");
-    strIN.push_back("str5");
+    strIN.push_back("0_CHtest");
+    strIN.push_back("1_CHtest");
+    strIN.push_back("2_CHtest");
 
-    FakeServer fakeS(5, "CHtest", strIN);
-    for(auto a: strIN){
-        std::cout <<  a << std::endl;
-    }
+    FakeServer fakeS(3, "CHtest", strIN);
+    fakeS.run();
 
     return 0;
 }
