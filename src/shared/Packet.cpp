@@ -15,7 +15,7 @@ Packet::StreamBuffer Packet::get_data_streambuf() { // TODO do poprawienia, kied
     std::stringstream ofs;
     boost::archive::text_oarchive oa(ofs);
     oa << *this;
-    ofs >> x;
+    x = ofs.str();
     return x;
 }
 

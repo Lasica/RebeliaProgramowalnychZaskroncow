@@ -35,11 +35,37 @@ BOOST_AUTO_TEST_CASE( write_read ) {
         std::cout << " " << pIn.get_data_string() << std::endl;
     }
     BOOST_TEST_MESSAGE (ofs);
-    BOOST_CHECK(pIn.get_data_string() == pOut.get_data_string());
-    BOOST_CHECK(pIn.get_tag() == pOut.get_tag());
-    BOOST_CHECK(pIn.get_data_streambuf() == pOut.get_data_streambuf());
+    BOOST_CHECK_EQUAL(  pIn.get_data_string()   ,     pOut.get_data_string()    );
+    BOOST_CHECK_EQUAL(  pIn.get_tag()           ,     pOut.get_tag()            );
+    BOOST_CHECK_EQUAL(  pIn.get_data_streambuf(),     pOut.get_data_streambuf() );
     BOOST_TEST_MESSAGE (std::to_string(pIn.get_address()) + std::string(" ") + std::to_string(pOut.get_address()));
 
+}
+
+BOOST_AUTO_TEST_CASE( testing_get_data_streambuf ) {
+    std::stringstream ofs;
+
+    Packet exemplaryPacket("Hello! Test data here.", CHAT_ENTRY, 5);
+
+    {
+        boost::archive::text_oarchive oa(ofs);
+
+        BOOST_CHECK_NO_THROW( oa << exemplaryPacket );
+    }
+    std::string codingString;
+    codingString = ofs.str();
+    BOOST_CHECK_EQUAL(codingString, exemplaryPacket.get_data_streambuf());
+    ofs.flush();
+    ofs << exemplaryPacket.get_data_streambuf();
+    Packet readPacket;
+    {
+        boost::archive::text_iarchive ia(ofs);
+
+        BOOST_CHECK_NO_THROW( ia >> readPacket );
+    }
+    BOOST_CHECK_EQUAL(  exemplaryPacket.get_data_string()   ,     readPacket.get_data_string()    );
+    BOOST_CHECK_EQUAL(  exemplaryPacket.get_tag()           ,     readPacket.get_tag()            );
+    BOOST_CHECK_EQUAL(  exemplaryPacket.get_data_streambuf(),     readPacket.get_data_streambuf() );
 }
 BOOST_AUTO_TEST_SUITE_END()
 

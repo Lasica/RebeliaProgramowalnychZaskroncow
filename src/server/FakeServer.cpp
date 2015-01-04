@@ -121,6 +121,7 @@ void FakeServer::scan_file(int x) {
 
             Packet newP;
             std::stringstream ifs;          //na razie, żeby sprawdzić, czy wczytywanie i deserializacja zadzialają
+            ifs << receivedData;
             boost::archive::text_iarchive ia(ifs);
             ia >> newP;
             received.push(newP);
@@ -128,8 +129,8 @@ void FakeServer::scan_file(int x) {
             std::cout << received.back().Packet::get_data_string(); // pokzuje na cout zawartość odebranego pakietu (tylko dla testów)
         }
     } // koniec bloku SureOpen - zamkniecie pliku
-    catch(...) {
-        std::cout << "wyjatek!!! Nieprawidlowe dane sterujace (pakiet)\n";    // tymczasowo, dla (nie)bezpieczenstwa
+    catch(std::exception &e) {
+        std::cerr << "wyjatek!!! Nieprawidlowe dane (pakiet)\n" << e.what() << std::endl;    // tymczasowo, dla (nie)bezpieczenstwa
     }
 
     {
