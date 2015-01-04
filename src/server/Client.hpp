@@ -16,7 +16,7 @@ Każdy gracz jest opisany przez parametry charakteryzujące:
 #include <string>
 #include <memory>
 #include <boost/asio.hpp>
-
+#include "server/Address.hpp"
 
 enum statename{ IN_LOBBY, IN_GAME };
 
@@ -27,6 +27,8 @@ public:
     Client(const Client& c);
 
     ~Client();
+
+    Address                         address;
 
     typedef unsigned int            ClientID;
 

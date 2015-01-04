@@ -19,7 +19,8 @@ set(LIB_SOURCES
 
 set(LIB_HEADERS
 	#luacore/LuaInterpreter.h
-	 server/Client.hpp
+	server/Address.hpp
+	server/Client.hpp
 	 server/ClientsRegister.hpp
 	 server/FakeServer.h
 	 server/Server.h

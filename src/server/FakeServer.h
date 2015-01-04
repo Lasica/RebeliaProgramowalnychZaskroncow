@@ -7,11 +7,13 @@
 #include <vector>
 #include <chrono>
 #include "shared/Packet.hpp"
+#include "server/ClientsRegister.hpp"
+
 
 class FakeServer {
   public:
     typedef std::vector<std::string> Strings;
-    typedef std::vector<std::fstream*> Files;
+    typedef std::vector<std::fstream *> Files;
 
     // ile polaczen, jaki sufiks nazwy plikow, jakie wejscia
     FakeServer(int x, std::string channel_, Strings INS);
@@ -26,11 +28,11 @@ class FakeServer {
      * w oryginalnym serwerze beda watki znajace adres klienta, wiec te funkcje beda bez argumentow
      */
     // buduje pakiet i przenosi go na kolejke received
-    void handleAccept(Packet::Address);
+    void handleAccept(Address addr);
     // rejestruje polaczenie z klientem o okreslonym adresie
-    void handleStart(Packet::Address);
+    void handleStart(Address);
     // wyrejestrowuje klienta z okreslonym adresem
-    void handleFinish(Packet::Address);
+    void handleFinish(Address);
 
 
   private:
@@ -41,6 +43,8 @@ class FakeServer {
     Strings out_names;
     Strings in_names;
 
+
+    ClientsRegister connectedClients;
 
     //to też wektory?
     Files ins;

@@ -3,15 +3,11 @@
 
 #include "ClientsRegister.hpp"
 #include "Client.hpp"
+#include "Address.hpp"
 
 
 ClientsRegister::ClientsRegister() {
     ;
-}
-
-ClientsRegister &ClientsRegister::instance() {
-    static ClientsRegister instance;
-    return instance;
 }
 
 ClientsRegister::ClientIt ClientsRegister::register_client(std::string nick, short unsigned int port,
@@ -49,6 +45,16 @@ ClientIt ClientsRegister::look_up_with_nickname(std::string nick) {
 ClientIt ClientsRegister::look_up_with_id(Client::ClientID id) {
     for(auto it = clients_.begin(); it != clients_.end(); ++it) {
         if(it->get_client_id() == id)
+            return it;
+    }
+
+    return clients_.end();
+}
+
+ClientIt ClientsRegister::look_up_with_address(Address addr) {
+    for(auto it = clients_.begin(); it != clients_.end(); ++it) {
+        if(it->address.nickname ==
+                addr.nickname)   // jeśli będą problemy (nie powinno być), to można dodać porównywanie ip i portów (to i tak nie pomoże)
             return it;
     }
 

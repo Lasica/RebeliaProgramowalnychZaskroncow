@@ -4,13 +4,15 @@
 #include <string>
 #include <set>
 #include "server/Client.hpp"
+#include "server/Address.hpp"
 #include "shared/Subject.h"
+
 
 class ClientsRegister : public Subject {
 public:
     typedef std::set<Client>::iterator ClientIt;
-
-    static ClientsRegister& instance(); // singleton
+    ClientsRegister();
+    ~ClientsRegister() { }
 
     ClientIt register_client(std::string nick, short unsigned int port,
                                  std::string ip, statename state, std::string gameID);  //returns registered client's iterator
@@ -18,6 +20,7 @@ public:
 
     ClientIt look_up_with_id(Client::ClientID id);
     ClientIt look_up_with_nickname(std::string nick);
+    ClientIt look_up_with_address(Address addr);
 
     void change_state(Client::ClientID id, statename state);
     void change_state(std::string nick, statename state);
@@ -31,10 +34,9 @@ public:
     std::string get_game_ID(ClientIt it);
 
 private:
-    ClientsRegister();
     ClientsRegister(ClientsRegister& copy) = delete;
     ClientsRegister& operator=(const ClientsRegister&) = delete;
-    ~ClientsRegister() { }
+
 
     std::set<Client> clients_;
 
