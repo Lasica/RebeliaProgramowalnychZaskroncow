@@ -106,8 +106,7 @@ void FakeServer::scan_file(int x) {
 
                     handleStart(incomingConnectionAddress);       // rejestracja nowego klienta
 
-                }
-                else if(line == "bye") {    // "bye" <=> istniejący Client prosi o wyrejestrowanie
+                } else if(line == "bye") {  // "bye" <=> istniejący Client prosi o wyrejestrowanie
                     Address disconnectAddress;
                     disconnectAddress.ip = x;
                     disconnectAddress.port = x;
@@ -129,14 +128,14 @@ void FakeServer::scan_file(int x) {
             std::cout << received.back().Packet::get_data_string(); // pokzuje na cout zawartość odebranego pakietu (tylko dla testów)
         }
     } // koniec bloku SureOpen - zamkniecie pliku
-catch(...) {
-    std::cout << "wyjatek!!! Nieprawidlowe dane sterujace (pakiet)\n";    // tymczasowo, dla (nie)bezpieczenstwa
-}
+    catch(...) {
+        std::cout << "wyjatek!!! Nieprawidlowe dane sterujace (pakiet)\n";    // tymczasowo, dla (nie)bezpieczenstwa
+    }
 
-{
-    // wyczysc zawartosc wczytana z pliku
-    SureOpen(ins[x], in_names[x], std::fstream::out | std::fstream::trunc);
-}
+    {
+        // wyczysc zawartosc wczytana z pliku
+        SureOpen(ins[x], in_names[x], std::fstream::out | std::fstream::trunc);
+    }
 }
 
 void FakeServer::send(int x, Packet::StreamBuffer data) {
