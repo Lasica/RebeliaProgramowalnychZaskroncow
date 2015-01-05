@@ -2,6 +2,7 @@
 #define RESOURCEFACTORY_H
 
 #include "Resource.h"
+#include "shared/Packet.hpp"
 #include <string>
 #include <map>
 #include <sstream>
@@ -11,8 +12,8 @@ class ResourceFactory {
     typedef std::stringstream codingStream;
     typedef Resource *(*CreateResourceFunction)(codingStream &);
 
-    void register_resource(std::string idTag, CreateResourceFunction fun);
-    Resource *create(std::string idTag, codingStream &str);
+    void register_resource(PacketTag idTag, CreateResourceFunction fun);
+    Resource *create(PacketTag idTag, codingStream &str);
 
 // singleton
     ResourceFactory &operator=(const ResourceFactory &) = delete;
@@ -22,7 +23,7 @@ class ResourceFactory {
   private:
     ResourceFactory();
 
-    typedef std::map<std::string, CreateResourceFunction> Callbacks;
+    typedef std::map<PacketTag, CreateResourceFunction> Callbacks;
     Callbacks callbacks_;
 };
 

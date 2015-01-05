@@ -11,7 +11,7 @@ ClientsRegister::ClientsRegister() {
 }
 
 ClientsRegister::ClientIt ClientsRegister::register_client(std::string nick, short unsigned int port,
-        std::string ip, statename state, std::string gameID) {
+        Address::IP ip, statename state, std::string gameID) {
     ClientsRegister::ClientIt it = clients_.insert(Client(nick, port, ip, state, gameID)).first; // insert returns pair<ClientIt, bool>
 
     return it;
@@ -35,7 +35,7 @@ typedef std::set<Client>::iterator ClientIt;
 // look_up  functions find object with given nick or id
 ClientIt ClientsRegister::look_up_with_nickname(std::string nick) {
     for(auto it = clients_.begin(); it != clients_.end(); ++it) {
-        if(it->get_nickname() == nick)
+        if(it->address.nickname == nick)
             return it;
     }
 

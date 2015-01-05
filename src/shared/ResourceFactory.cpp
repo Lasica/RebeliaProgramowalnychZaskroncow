@@ -1,5 +1,6 @@
 #include "ResourceFactory.h"
 #include "shared/ChatEntryRaw.h"
+#include "shared/Packet.hpp"
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
@@ -12,10 +13,10 @@ Resource *buildChatEntryRaw(ResourceFactory::codingStream &str) {
 
 ResourceFactory::ResourceFactory() {
     /* TODO: rejestracja */
-    callbacks_.insert(std::pair<std::string, CreateResourceFunction>(ChatEntryRaw::idTag_, buildChatEntryRaw));
+    callbacks_.insert(std::pair<PacketTag, CreateResourceFunction>(ChatEntryRaw::idTag_, buildChatEntryRaw));
 }
 
-Resource *ResourceFactory::create(std::string idTag, codingStream &str) {
+Resource *ResourceFactory::create(PacketTag idTag, codingStream &str) {
     Callbacks::const_iterator i = callbacks_.find(idTag);
 
     if(i == callbacks_.end()) {
@@ -24,11 +25,11 @@ Resource *ResourceFactory::create(std::string idTag, codingStream &str) {
         return (i->second)(str);
 }
 
-void ResourceFactory::register_resource(std::string idTag, ResourceFactory::CreateResourceFunction fun) {
+void ResourceFactory::register_resource(PacketTag idTag, ResourceFactory::CreateResourceFunction fun) {
     if(callbacks_.find(idTag) != callbacks_.end())
         callbacks_[idTag] = fun;
     else
-        throw "Unacceptable situation: trying to re-register object with the same id";          // TODO blad
+        throw "Unacceptable situation: trying to re-register object with the same id";           // TODO blad
 }
 
 ResourceFactory &ResourceFactory::getInstance() {

@@ -4,6 +4,7 @@
 #include <boost/serialization/base_object.hpp>
 #include <string>
 #include "shared/Resource.h"
+#include "shared/Packet.hpp"
 
 class ChatEntryRaw : public Resource {
   private:
@@ -17,7 +18,7 @@ class ChatEntryRaw : public Resource {
         ar &message_;
     }
   public:
-    const static std::string idTag_;
+    const static  PacketTag idTag_;
     std::string nick_;
     std::string message_;
     ChatEntryRaw() {};
@@ -27,6 +28,6 @@ class ChatEntryRaw : public Resource {
 };
 
 
-const std::string ChatEntryRaw::idTag_ = "ChatEntry";
+const PacketTag ChatEntryRaw::idTag_ = CHAT_ENTRY;
 
 #endif //CHATENTRYRAW_H

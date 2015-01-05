@@ -5,8 +5,9 @@
 //#include <streambuf>
 #include <string>
 #include <sstream>
+#include <memory>
 #include <boost/serialization/base_object.hpp>
-
+#include <shared/Resource.h>
 
 enum PacketTag { CHAT_ENTRY, GAME_STATE, CONNECTION_END, CONNECTION_BEGIN };
 
@@ -36,6 +37,7 @@ public:
     PacketTag get_tag();
 
 private:
+    //Resource& content_;
 
     std::string data_;
     PacketTag tag_;

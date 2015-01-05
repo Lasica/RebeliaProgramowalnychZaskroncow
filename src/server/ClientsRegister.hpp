@@ -15,7 +15,7 @@ public:
     ~ClientsRegister() { }
 
     ClientIt register_client(std::string nick, short unsigned int port,
-                                 std::string ip, statename state, std::string gameID);  //returns registered client's iterator
+                                 Address::IP ip, statename state, std::string gameID);  //returns registered client's iterator
 
 
     ClientIt look_up_with_id(Client::ClientID id);

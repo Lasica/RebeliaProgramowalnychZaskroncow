@@ -4,7 +4,9 @@
 #include <string>
 
 struct Address {
-    int ip;     // do zmiany później
+    typedef int IP;
+
+    IP ip;     // do zmiany później
     short int port;
     std::string nickname; // potrzebne?    
 };

@@ -22,21 +22,17 @@ enum statename{ IN_LOBBY, IN_GAME };
 
 class Client {
 public:
-    Client(std::string nick, short unsigned int port, boost::asio::ip::address ip, statename state, std::string gameID);
-    Client(std::string nick, short unsigned int port, std::string ip, statename state, std::string gameID);
+    Client(std::string nick, short unsigned int port, Address::IP ip, statename state, std::string gameID);
+   // Client(std::string nick, short unsigned int port, std::string ip, statename state, std::string gameID);
     Client(const Client& c);
 
     ~Client();
 
-    Address                         address;
+    Address                         address;        //nick, ip, port
 
     typedef unsigned int            ClientID;
 
-    std::string                     get_nickname() const;
     ClientID                        get_client_id() const;
-    short unsigned int              get_port() const;
-    boost::asio::ip::address        get_ip() const;
-    std::string                     get_ip_str() const;
     statename                       get_state() const;
     std::string                     get_game_id() const;
 
@@ -48,13 +44,9 @@ public:
     bool                            operator<(const Client&) const;
 
 private:
-    const std::string               nickname_;
+    // const std::string               nickname_; // jest już w strukturze address, ale może powinno być tutaj?
     const unsigned int              clientID_;   //unique ID for every player
     static unsigned int             nextID_;
-
-    const unsigned short int        port_;
-    const boost::asio::ip::address  ip_;
-
 
     mutable std::unique_ptr<statename>      state_;
     mutable std::string                     gameID_;     // set only if player is IN_GAME

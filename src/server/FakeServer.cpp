@@ -160,7 +160,7 @@ void FakeServer::handleFinish(Address addr) {
 }
 
 void FakeServer::handleStart(Address addr) {
-    connectedClients.register_client(addr.nickname, 5, "111.111.111.111", IN_LOBBY, "");
+    connectedClients.register_client(addr.nickname, 5, 7, IN_LOBBY, "");
 
     // do testów
     std::cout << "*** Hello FakeServer::handleStart here! ***" << std::endl;
