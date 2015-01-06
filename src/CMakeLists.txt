@@ -1,5 +1,6 @@
 set(LIB_SOURCES
     client/client_main.cpp
+		server/Address.cpp
     server/Client.cpp
     server/ClientsRegister.cpp
     server/FakeServer.cpp

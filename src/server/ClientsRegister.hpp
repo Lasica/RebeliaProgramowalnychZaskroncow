@@ -18,9 +18,9 @@ public:
                                  Address::IP ip, statename state, std::string gameID);  //returns registered client's iterator
 
 
-    ClientIt look_up_with_id(Client::ClientID id);
-    ClientIt look_up_with_nickname(std::string nick);
-    ClientIt look_up_with_address(Address addr);
+    ClientIt look_up_with_id(Client::ClientID id)    const;
+    ClientIt look_up_with_nickname(std::string nick) const;
+    ClientIt look_up_with_address(Address addr)      const;
 
     void change_state(Client::ClientID id, statename state);
     void change_state(std::string nick, statename state);
@@ -30,8 +30,9 @@ public:
     void remove_client(std::string nick);   //or with a nick
     void remove_client(ClientIt it);
 
-    statename get_state(ClientIt it);
-    std::string get_game_ID(ClientIt it);
+    statename   get_state(const ClientIt &it)   const { return it->get_state();   }
+    std::string get_game_ID(const ClientIt &it) const { return it->get_game_id(); }
+    int         get_size()                      const { return clients_.size();   }
 
 private:
     ClientsRegister(ClientsRegister& copy) = delete;
