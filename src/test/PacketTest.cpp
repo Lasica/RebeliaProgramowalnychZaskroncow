@@ -46,23 +46,23 @@ BOOST_AUTO_TEST_CASE( testing_get_data_streambuf ) {
     std::stringstream ofs;
 
     Packet exemplaryPacket("Hello! Test data here.", CHAT_ENTRY, 5);
-
     {
         boost::archive::text_oarchive oa(ofs);
-
         BOOST_CHECK_NO_THROW( oa << exemplaryPacket );
     }
-    std::string codingString;
-    codingString = ofs.str();
-    BOOST_CHECK_EQUAL(codingString, exemplaryPacket.get_data_streambuf());
+    //UWAGA NA VOODOO, w tej linijce dzieje sie MAAAGIAAAA (dlaczego jest potrzebny enter?)
+    Packet::StreamBuffer streambuff = exemplaryPacket.get_data_streambuf() + std::string("\n");
+    BOOST_CHECK_EQUAL( streambuff, ofs.str() );
+
     ofs.flush();
     ofs << exemplaryPacket.get_data_streambuf();
+
     Packet readPacket;
     {
         boost::archive::text_iarchive ia(ofs);
-
         BOOST_CHECK_NO_THROW( ia >> readPacket );
     }
+
     BOOST_CHECK_EQUAL(  exemplaryPacket.get_data_string()   ,     readPacket.get_data_string()    );
     BOOST_CHECK_EQUAL(  exemplaryPacket.get_tag()           ,     readPacket.get_tag()            );
     BOOST_CHECK_EQUAL(  exemplaryPacket.get_data_streambuf(),     readPacket.get_data_streambuf() );

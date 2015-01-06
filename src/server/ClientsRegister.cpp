@@ -33,7 +33,7 @@ void ClientsRegister::remove_client(ClientIt it) {
 typedef std::set<Client>::iterator ClientIt;
 
 // look_up  functions find object with given nick or id
-ClientIt ClientsRegister::look_up_with_nickname(std::string nick) {
+ClientIt ClientsRegister::look_up_with_nickname(std::string nick) const {
     for(auto it = clients_.begin(); it != clients_.end(); ++it) {
         if(it->address.nickname == nick)
             return it;
@@ -42,7 +42,7 @@ ClientIt ClientsRegister::look_up_with_nickname(std::string nick) {
     return clients_.end();
 }
 
-ClientIt ClientsRegister::look_up_with_id(Client::ClientID id) {
+ClientIt ClientsRegister::look_up_with_id(Client::ClientID id) const {
     for(auto it = clients_.begin(); it != clients_.end(); ++it) {
         if(it->get_client_id() == id)
             return it;
@@ -51,7 +51,7 @@ ClientIt ClientsRegister::look_up_with_id(Client::ClientID id) {
     return clients_.end();
 }
 
-ClientIt ClientsRegister::look_up_with_address(Address addr) {
+ClientIt ClientsRegister::look_up_with_address(Address addr) const {
     for(auto it = clients_.begin(); it != clients_.end(); ++it) {
         if(it->address.nickname ==
                 addr.nickname)   // jeśli będą problemy (nie powinno być), to można dodać porównywanie ip i portów (to i tak nie pomoże)
@@ -73,13 +73,3 @@ void ClientsRegister::change_state(std::string nick, statename st) {
 void ClientsRegister::change_state(ClientIt it, statename st) {
     it->set_state(st);
 }
-
-
-statename ClientsRegister::get_state(ClientIt it) {
-    return it->get_state();
-}
-
-std::string ClientsRegister::get_game_ID(ClientIt it) {
-    return it->get_game_id();
-}
-

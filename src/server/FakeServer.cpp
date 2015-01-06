@@ -130,7 +130,7 @@ void FakeServer::scan_file(int x) {
         }
     } // koniec bloku SureOpen - zamkniecie pliku
     catch(std::exception &e) {
-        std::cerr << "wyjatek!!! Nieprawidlowe dane (pakiet)\n" << e.what() << std::endl;    // tymczasowo, dla (nie)bezpieczenstwa
+        std::cerr << "Wyjatek!!! Nieprawidlowe dane (pakiet)\n" << e.what() << std::endl;    // tymczasowo, dla (nie)bezpieczenstwa
     }
 
     {
@@ -156,12 +156,12 @@ void FakeServer::handleFinish(Address addr) {
 
 
     // do testów
-    std::cout << "*** Hello FakeServer::handleFinish here! ***" << std::endl;
+    std::cout << "Wyrejestrowuje klienta o adresie " << addr << ". Zostalo " << connectedClients.get_size() << " klientow.\n";
 }
 
 void FakeServer::handleStart(Address addr) {
     connectedClients.register_client(addr.nickname, 5, 7, IN_LOBBY, "");
 
     // do testów
-    std::cout << "*** Hello FakeServer::handleStart here! ***" << std::endl;
+    std::cout << "Rejestruje klienta o adresie" << addr << ". Jest obecnie " << connectedClients.get_size() << " klientow.\n";
 }

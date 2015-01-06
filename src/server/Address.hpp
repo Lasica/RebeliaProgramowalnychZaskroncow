@@ -2,6 +2,7 @@
 #define ADDRESS_HPP
 
 #include <string>
+#include <iostream>
 
 struct Address {
     typedef int IP;
@@ -10,5 +11,7 @@ struct Address {
     short int port;
     std::string nickname; // potrzebne?    
 };
+
+std::ostream& operator<<(std::ostream &o, const Address &a);
 
 #endif // ADDRESS_HPP
