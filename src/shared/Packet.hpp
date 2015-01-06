@@ -26,6 +26,8 @@ public:
     {
         ar & data_;
         ar & tag_;
+        //ar & content_;    //docelowo zamiast data_
+        //ar & address.nickname;      //może nickname przenieść z powrotem do Packet?
     }
 
     //TODO
@@ -37,7 +39,13 @@ public:
     PacketTag get_tag();
 
 private:
+
+    // problem: co się stanie z obiektem, do którego odwołuje się referencja po usunięciu tego, konkretnego pakietu?
     //Resource& content_;
+
+    // wskazywany obiekt zostaje usunięty wraz z pakietem
+    // trzeba używać odpowiedniej metody do inicjalizowania tego wskaźnika (std::move(...)?)
+    //std::unique_ptr<Resource> content_;
 
     std::string data_;
     PacketTag tag_;
@@ -46,3 +54,4 @@ private:
 };
 
 #endif //PACKET_HPP
+

@@ -7,6 +7,7 @@
 #define RESOURCE_H
 
 #include <string>
+#include "shared/Packet.hpp"
 
 /*Byl zamiar utworzenia klasy ktora mozna tlumaczyc na archiwum
  * i z funkcja wirtualna serialise(), zeby wszystkie zasoby po niej dziedziczyly,
@@ -16,7 +17,7 @@ class Resource {
   public:
     virtual ~Resource() = 0;
 //   protected:
-//     const static std::string idTag_;
+//   const static PacketTag idTag_;
 };
 
 #endif // RESOURCE_H
