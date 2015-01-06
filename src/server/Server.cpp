@@ -1,41 +1,47 @@
 
-#include "server/Server.h"
+#include "Server.h"
+#define PORT 8001
+namespace server {
+TcpServer::TcpServer(boost::asio::io_service &io_service)
+    : acceptor_(io_service, tcp::endpoint(tcp::v4(), PORT)), io_(io_service) {
+}
 
-using boost::asio::ip::tcp;
-using namespace boost::asio;
-//namespace posix = boost::asio::posix;
+void TcpServer::startAccept() {
+    mtx_.lock();
+    connections_.push_back(TcpConnection::create(acceptor_.get_io_service()));
+    mtx_.unlock();
+    acceptor_.async_accept(connections_.back()->socket(),
+                           boost::bind(&TcpServer::handleAccept, this,
+                                       boost::asio::placeholders::error));
+}
 
-    tcpServer::tcpServer(boost::asio::io_service &io_service)
-        : acceptor_(io_service, tcp::endpoint(tcp::v4(), 13)) {
-        startAccept();
-    }
+void TcpServer::handleAccept( const boost::system::error_code &error) {
+    if (!error)
+        connections_.back()->waitData();
 
-    void tcpServer::startAccept() {
-        std::deque<tcpConnection::pointer>::iterator it;
-        connections.push_back(tcpConnection::create(acceptor_.get_io_service()));
-        it = connections.end();
-        --it;
-        acceptor_.async_accept((*it)->socket(),
-                               boost::bind(&tcpServer::handleAccept, this, *it,
-                                           boost::asio::placeholders::error));
-        connections.erase(it);
-    }
+    mtx_.lock();
+    connections_.push_back(TcpConnection::create(acceptor_.get_io_service()));
+    mtx_.unlock();
+    acceptor_.async_accept(connections_.back()->socket(),
+                           boost::bind(&TcpServer::handleAccept, this,
+                                       boost::asio::placeholders::error));
 
-    void tcpServer::handleAccept(tcpConnection::pointer newConnection,
-                       const boost::system::error_code &error) {
-        if (!error)
-        {
-        //Prosty echoserver
-        // przesyła z powrotem odebraną wiadomość od odbiorcy + ip odbiorcy
-        // dostęp do wszystkich nawiązanych połączeń jest poprzez kolekcję connections typu deque
-        // newConnection jest połączeniem które wywołało tą instancję uchwytu
-        // czyli kiedy przychodzi nowe połączenie wykonywany jest poniższy kod
-            newConnection->read();
-            newConnection->message = newConnection->response;
-            newConnection->message += newConnection->ipAdress();
-            newConnection->write();
-            newConnection->close();
-        }
-    }
+}
+void TcpServer::start() {
+    startAccept();
+    boost::thread bt(boost::bind(&boost::asio::io_service::run, &io_));
 
+}
+TcpServer &TcpServer::getInstance(boost::asio::io_service &io) {
+    static TcpServer serv(io);
+    return serv;
+}
+TcpServer::ConIter TcpServer::getConIter() {
+    ConIter it(connections_, &mtx_);
+    return it;
+}
 
+unsigned TcpServer::connections() {
+    return connections_.size() - 1;
+}
+}

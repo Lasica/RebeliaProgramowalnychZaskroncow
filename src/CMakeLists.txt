@@ -4,6 +4,7 @@ set(LIB_SOURCES
     server/ClientsRegister.cpp
     server/Server.cpp
     server/server_main.cpp
+    server/ConnectionsIterator.cpp
 	# shared/ChatEntry.cpp
   # shared/ChatHistory.cpp
   # shared/ClientList.cpp

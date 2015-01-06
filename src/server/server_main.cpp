@@ -8,16 +8,10 @@
 #include "log4cpp/Priority.hh"
 
 #define LOGFILE "tmp/server.log"
-#include <iostream>
-#include <string>
-#include <boost/bind.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
-using boost::asio::ip::tcp;
 using namespace boost::asio;
 int main() {
-log4cpp::Appender *console_appender = new log4cpp::OstreamAppender("console", &std::cout);
+    log4cpp::Appender *console_appender = new log4cpp::OstreamAppender("console", &std::cout);
     console_appender->setLayout(new log4cpp::BasicLayout());
 
     log4cpp::Appender *log_appender = new log4cpp::FileAppender("default", LOGFILE);
@@ -48,13 +42,42 @@ log4cpp::Appender *console_appender = new log4cpp::OstreamAppender("console", &s
     // or this way:
     root.errorStream() << "Another streamed error";
 
-    try {
-        boost::asio::io_service io_service;
-        tcpServer server(io_service);
-        io_service.run();
-    } catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
+    io_service io;
+    server::TcpServer &server = server::TcpServer::getInstance(io);
+    server.start();
+    std::cout << "Serwer uruchomiony" << std::endl;
+    //Przykłady//////////////
+    server::TcpServer::ConIter it =
+        server.getConIter(); //automatycznie wskazuje na połączenie nr 0 (w sumie ani to iterator ani wskaźnik, nie wiem)
+    server::TcpServer::ConIter it2 = server.getConIter();
+    ++it2;
+    --it2;
+    it = it + 2;
+    it[0]; // działa jak klasyczny operator [], czyli zwraca połączenie spod indeksu 0, ale uwaga - tu pewne ulepszenie - dodatkowo ustawia iterator, żeby wskazywał na połączenie podane w argumencie.
+    it.begin(); // ustawia na połączenie nr 0, równoważne z it[0], z tą różnicą, że nic nie zwraca
+    unsigned i = 0;
+
+    while(true) {
+        if(i < server.connections()) {
+            std::cout << "Liczba połączeń: " << (i = server.connections());
+            it.end(); //wskazuje na ostatnie połączenie w tablicy, wynika to z faktu, że nowe połączenia są umieszczane na końcu tablicy
+            (*it)->write("Witaj");
+            std::string ans = (*it)->read();
+            std::cout << " odpowiedź z " << (*it)->ipAdress() << " : " << ans << std::endl;
+
+            if (ans == "CLOSE") {
+                it.close(); //zamyka (usuwa) połączenie
+                --i;
+
+                if(server.connections() == 0) {
+                    server.stop();
+                    break;
+                }
+            }
+        }
+
     }
 
+//Przykłady///////////////////////
     return 0;
 }
