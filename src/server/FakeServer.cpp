@@ -81,16 +81,21 @@ void FakeServer::run() { // do odpalenia w innym watku?
             send(address, data);
         }
 
+        // DEBUG
+        std::cout << "Received packets so far: " << received.size() << std::endl;
+
+
         //TODO: running_ = liczba_klientow > 0;
         std::this_thread::sleep_for(sleep_time_);
     }
+
 }
 
 
 void FakeServer::scan_file(int x) {
     try {
         std::string line;
-        std::string receivedData;   //czyścić to przed wejściem do kolejnego pliku?
+        std::string receivedData;
         {
             SureOpen file(ins[x], in_names[x], std::fstream::in);
 
@@ -112,8 +117,11 @@ void FakeServer::scan_file(int x) {
                     disconnectAddress.port = x;
                     disconnectAddress.nickname = in_names[x];
                     handleFinish(disconnectAddress);                // wyrejestruj klienta pod adresem x
-                } else
+                } else {
                     receivedData += line;
+                    std::cout << "*** Received data:\n";
+                    std::cout << receivedData << std::endl;
+                }
             }
         }
 

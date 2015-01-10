@@ -3,7 +3,7 @@ set(LIB_SOURCES
 		server/Address.cpp
     server/Client.cpp
     server/ClientsRegister.cpp
-    server/FakeServer.cpp
+  #  server/FakeServer.cpp
     server/Server.cpp
     server/server_main.cpp
 	# shared/ChatEntry.cpp
@@ -14,7 +14,6 @@ set(LIB_SOURCES
     shared/Handshake.cpp
     shared/Packet.cpp
     shared/Resource.cpp
-    shared/ResourceFactory.cpp
     shared/Subject.cpp
     shared/TcpConnection.cpp
 	)
@@ -40,7 +39,6 @@ set(LIB_HEADERS
          shared/HandshakeRaw.hpp
 	 shared/Observer.h
 	 shared/Packet.hpp
-	 shared/ResourceFactory.h
 	 shared/Resource.h
 	 shared/Subject.h
 	 shared/TcpConnection.h

@@ -2,54 +2,49 @@
 #define PACKET_HPP
 
 #include <iostream>
-//#include <streambuf>
 #include <string>
-#include <sstream>
-#include <memory>
+#include <boost/serialization/type_info_implementation.hpp> // header wymagany przez shared_ptr (bug w booscie, opisany w internecie)
+#include <boost/shared_ptr.hpp>
 #include <boost/serialization/base_object.hpp>
+#include <boost/serialization/shared_ptr.hpp>   //implementacja serializacji boost::shared_ptr
 #include <shared/Resource.h>
 
-enum PacketTag { CHAT_ENTRY, GAME_STATE, CONNECTION_END, CONNECTION_BEGIN };
+#include "server/Address.hpp"
 
 class Packet {
 public:
+    //TODO: zrobić "coś", żeby kod się kompilował po podaniu do konstruktora enumu zamiast przypisanego mu inta...
+    enum Tag { RESOURCE = 1, CONNECTION_END = 2, CONNECTION_BEGIN = 3 };
+    typedef boost::shared_ptr<Resource> ResourcePtr;
+    // TODO: usunąć ten typedef - adresem będzie struktura typu Address
     typedef int Address;
     typedef std::string StreamBuffer;
 
-    Packet() { }
-    Packet(std::string str, PacketTag tag, Address ad);
-
+    Packet() { ; }
+    Packet(Resource* content__, Tag tag__, Address ad__);
+    Packet(ResourcePtr content__, Tag tag__, Address ad__);
 
     friend class boost::serialization::access;
-    template<class Archive>     // dla serializacji w konstruktorze potrzeba znać Archive
-    void serialize(Archive & ar, const unsigned int /*version*/)
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int)
     {
-        ar & data_;
+        ar & content_;  // serializacja obiektu pokazywanego przez scoped_ptr jest teraz banalnie prosta
         ar & tag_;
-        //ar & content_;    //docelowo zamiast data_
-        //ar & address.nickname;      //może nickname przenieść z powrotem do Packet?
+        ar & address_;
     }
 
     //TODO
-    StreamBuffer get_data_streambuf();
+    //StreamBuffer get_data_streambuf();
     const Address& get_address() const;
 
-    //na potrzeby testów - niekoniecznie jest potrzebne dla programu
-    std::string get_data_string();
-    PacketTag get_tag();
+    // !!! uwaga - inna metoda o nazwie get_tag() istnieje w Resource
+    Tag get_tag();
+
+    std::string show_resource_content(){ return content_->show_content();}
 
 private:
-
-    // problem: co się stanie z obiektem, do którego odwołuje się referencja po usunięciu tego, konkretnego pakietu?
-    //Resource& content_;
-
-    // wskazywany obiekt zostaje usunięty wraz z pakietem
-    // trzeba używać odpowiedniej metody do inicjalizowania tego wskaźnika (std::move(...)?)
-    //std::unique_ptr<Resource> content_;
-
-    std::string data_;
-    PacketTag tag_;
-
+    ResourcePtr content_;
+    Tag tag_;
     Address address_;
 };
 

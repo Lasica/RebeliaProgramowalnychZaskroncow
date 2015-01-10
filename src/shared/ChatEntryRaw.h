@@ -2,32 +2,51 @@
 #define CHATENTRYRAW_H
 
 #include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>       //makro BOOST_CLASS_EXPORT
+
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
 #include <string>
 #include "shared/Resource.h"
-#include "shared/Packet.hpp"
 
-class ChatEntryRaw : public Resource {
-  private:
+struct ChatEntryRaw;
+BOOST_CLASS_EXPORT(ChatEntryRaw)
+
+
+struct ChatEntryRaw : public Resource {
+    ChatEntryRaw() {
+        ;
+    }
+    ChatEntryRaw(const std::string &nick__, const std::string &message__) :
+        nick_(nick__), message_(message__) {
+        ;
+    }
+    virtual ~ChatEntryRaw() {
+        ;
+    }
+
+    virtual Resource::Tag get_tag() {
+        return CHAT_ENTRY;
+    }
+
     friend class boost::serialization::access;
-    // When the class Archive corresponds to an output archive, the
-    // & operator is defined similar to <<.  Likewise, when the class Archive
-    // is a type of input archive the & operator is defined similar to >>.
     template<class Archive>
     void serialize(Archive &ar, const unsigned int) {
+        //serializacja klasy bazowej
+        ar &boost::serialization::base_object<Resource>(*this);
+        //serializacja pól tej klasy
         ar &nick_;
         ar &message_;
     }
-  public:
-    const static  PacketTag idTag_;
+
     std::string nick_;
     std::string message_;
-    ChatEntryRaw() {};
-    ChatEntryRaw(const std::string &nick__, const std::string &message__) :
-        nick_(nick__), message_(message__) {
+
+
+    virtual std::string show_content() {
+        return "** ChatEntry **, nick==" + nick_ + ", message==" + message_ + "\n";
     }
+
 };
-
-
-const PacketTag ChatEntryRaw::idTag_ = CHAT_ENTRY;
 
 #endif //CHATENTRYRAW_H

@@ -6,28 +6,40 @@
 #ifndef HANDSHAKE_RAW_HPP
 #define HANDSHAKE_RAW_HPP
 
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>       //makro BOOST_CLASS_EXPORT
+
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
+
+#include <string>
 #include "shared/Resource.h"
 #include "server/Address.hpp"
-#include "shared/Packet.hpp"
 
-class HandshakeRaw : public Resource {
-public:
+struct HandshakeRaw;
+BOOST_CLASS_EXPORT(HandshakeRaw)
+
+struct HandshakeRaw : public Resource {
+    HandshakeRaw() { ; }
     HandshakeRaw(Address ad) : address_(ad) { ; }
-    ~HandshakeRaw() { ; }
+    virtual ~HandshakeRaw() { ; }
 
-    const static  PacketTag idTag_;
+    virtual Resource::Tag get_tag() { return HANDSHAKE; }
 
-private:
     friend class boost::serialization::access;
-
     template<class Archive>
     void serialize(Archive &ar, const unsigned int) {
+        //serializacja klasy bazowej
+        ar & boost::serialization::base_object<Resource>(*this);
+
         ar & address_;
     }
 
     Address address_;
-};
 
-const PacketTag HandshakeRaw::idTag_ = CONNECTION_BEGIN;
+
+    // tylko dla testów
+    virtual std::string show_content() { return ("** HandshakeRaw **, address.ip==" + std::to_string(address_.ip) + ", address.port==" + std::to_string(address_.port) + "address.nick==" + address_.nickname + "\n"); }
+};
 
 #endif //HANDSHAKE_RAW_HPP
