@@ -7,7 +7,7 @@
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 
-const std::chrono::milliseconds FakeServer::sleep_time_(500);
+const std::chrono::milliseconds FakeServer::sleepTime_(500);
 
 /*
  * Pomocnicza klasa do tworzenia obiektow automatycznych dbajaca o otwarcie i zamkniecie pliku w zakresie nazw
@@ -23,7 +23,7 @@ class SureOpen {
                 break;
 
             std::cout << "Nieudana proba otwarcia pliku " << name << std::endl;
-            std::this_thread::sleep_for(FakeServer::sleep_time_);
+            std::this_thread::sleep_for(FakeServer::sleepTime_);
         }
     }
     ~SureOpen() {
@@ -34,22 +34,22 @@ class SureOpen {
 
 
 FakeServer::FakeServer(int x, std::string channel_, Strings INS) :
-    num_of_connections_(x), channel_(channel_), in_names(INS)  {
-    out_names.resize(num_of_connections_);
-    in_names.resize(num_of_connections_);
+    ServerResources(), numberOfConnections_(x), channel_(channel_), inNames_(INS)  {
+    outNames_.resize(numberOfConnections_);
+    inNames_.resize(numberOfConnections_);
 
-    for(int i = 0; i < num_of_connections_; ++i) {
+    for(int i = 0; i < numberOfConnections_; ++i) {
         ins.push_back(new std::fstream);
         outs.push_back(new std::fstream);
 
-        out_names[i] = (std::to_string(i) + std::string("_") + channel_);
+        outNames_[i] = (std::to_string(i) + std::string("_") + channel_);
 
         send(i, std::string("hello"));
     }
 }
 
 FakeServer::~FakeServer() {
-    for(int i = 0; i < num_of_connections_; ++i) {
+    for(int i = 0; i < numberOfConnections_; ++i) {
         delete ins[i];
         delete outs[i];
     }
@@ -59,22 +59,22 @@ FakeServer::~FakeServer() {
 
 void FakeServer::run() { // do odpalenia w innym watku?
     // dodac watki do odpalenia
-    running_ = true;
+    ServerResources::init();
     int iterations = 0;
 
     while(running_) {
         std::cout << "Iteracja... " << iterations++ << std::endl;
 
         // sprawdz kanaly przychodzace
-        for(int i = 0; i < num_of_connections_; ++i)
+        for(int i = 0; i < numberOfConnections_; ++i)
             scan_file(i);
 
         // sprawdz kolejke wysylkowa
-        if(!to_send.empty()) {
-            std::cout << "Dane do wyslania: " << to_send.size() << std::endl;
+        if(!toSend.empty()) {
+            std::cout << "Dane do wyslania: " << toSend.size() << std::endl;
 
-            Packet a = to_send.front();
-            to_send.pop();
+            Packet a = toSend.front();
+            toSend.pop();
             int address = a.get_address();
             Packet::StreamBuffer data = a.get_data_streambuf();
 
@@ -86,7 +86,7 @@ void FakeServer::run() { // do odpalenia w innym watku?
 
 
         //TODO: running_ = liczba_klientow > 0;
-        std::this_thread::sleep_for(sleep_time_);
+        std::this_thread::sleep_for(sleepTime_);
     }
 
 }
@@ -97,7 +97,7 @@ void FakeServer::scan_file(int x) {
         std::string line;
         std::string receivedData;
         {
-            SureOpen file(ins[x], in_names[x], std::fstream::in);
+            SureOpen file(ins[x], inNames_[x], std::fstream::in);
 
 
             while ( getline (*ins[x], line) ) {
@@ -107,16 +107,16 @@ void FakeServer::scan_file(int x) {
                     Address incomingConnectionAddress;
                     incomingConnectionAddress.ip = x;
                     incomingConnectionAddress.port = x;
-                    incomingConnectionAddress.nickname = in_names[x];
+                    incomingConnectionAddress.nickname = inNames_[x];
 
-                    handleStart(incomingConnectionAddress);       // rejestracja nowego klienta
+                    handle_start(incomingConnectionAddress);       // rejestracja nowego klienta
 
                 } else if(line == "bye") {  // "bye" <=> istniejący Client prosi o wyrejestrowanie
                     Address disconnectAddress;
                     disconnectAddress.ip = x;
                     disconnectAddress.port = x;
-                    disconnectAddress.nickname = in_names[x];
-                    handleFinish(disconnectAddress);                // wyrejestruj klienta pod adresem x
+                    disconnectAddress.nickname = inNames_[x];
+                    handle_finish(disconnectAddress);                // wyrejestruj klienta pod adresem x
                 } else {
                     receivedData += line;
                     std::cout << "*** Received data:\n";
@@ -134,7 +134,6 @@ void FakeServer::scan_file(int x) {
             ia >> newP;
             received.push(newP);
 
-            std::cout << received.back().Packet::get_data_string(); // pokzuje na cout zawartość odebranego pakietu (tylko dla testów)
         }
     } // koniec bloku SureOpen - zamkniecie pliku
     catch(std::exception &e) {
@@ -143,23 +142,23 @@ void FakeServer::scan_file(int x) {
 
     {
         // wyczysc zawartosc wczytana z pliku
-        SureOpen(ins[x], in_names[x], std::fstream::out | std::fstream::trunc);
+        SureOpen(ins[x], inNames_[x], std::fstream::out | std::fstream::trunc);
     }
 }
 
 void FakeServer::send(int x, Packet::StreamBuffer data) {
     std::cout << "Wysylam dane na kanal " << x << ":\n" << data << std::endl;
-    SureOpen file(outs[x], out_names[x], std::fstream::out | std::fstream::trunc);
+    SureOpen file(outs[x], outNames_[x], std::fstream::out | std::fstream::trunc);
     *outs[x] << data;
 }
 
 
 
-void FakeServer::handleAccept(Address addr) {
+void FakeServer::handle_accept(Address addr) {
     ;
 }
 
-void FakeServer::handleFinish(Address addr) {
+void FakeServer::handle_finish(Address addr) {
     connectedClients.remove_client(connectedClients.look_up_with_address(addr));
 
 
@@ -167,7 +166,7 @@ void FakeServer::handleFinish(Address addr) {
     std::cout << "Wyrejestrowuje klienta o adresie " << addr << ". Zostalo " << connectedClients.get_size() << " klientow.\n";
 }
 
-void FakeServer::handleStart(Address addr) {
+void FakeServer::handle_start(Address addr) {
     connectedClients.register_client(addr.nickname, 5, 7, IN_LOBBY, "");
 
     // do testów

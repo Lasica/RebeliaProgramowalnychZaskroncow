@@ -11,9 +11,11 @@
 
 #include "server/Address.hpp"
 
+
 class Packet {
 public:
     //TODO: zrobić "coś", żeby kod się kompilował po podaniu do konstruktora enumu zamiast przypisanego mu inta...
+    // dziala, tylko konsekwencja umieszczenia go w klasie jest odnoszenie sie poprzez Packet::RESOURCE, itd.
     enum Tag { RESOURCE = 1, CONNECTION_END = 2, CONNECTION_BEGIN = 3 };
     typedef boost::shared_ptr<Resource> ResourcePtr;
     // TODO: usunąć ten typedef - adresem będzie struktura typu Address
@@ -30,11 +32,10 @@ public:
     {
         ar & content_;  // serializacja obiektu pokazywanego przez scoped_ptr jest teraz banalnie prosta
         ar & tag_;
-        ar & address_;
     }
 
-    //TODO
-    //StreamBuffer get_data_streambuf();
+    //TODO - tego moze nie byc, poniewaz Pakiet ma metode serialize.
+    StreamBuffer get_data_streambuf();
     const Address& get_address() const;
 
     // !!! uwaga - inna metoda o nazwie get_tag() istnieje w Resource

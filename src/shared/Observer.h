@@ -6,9 +6,11 @@
 #ifndef OBSERVER_H
 #define OBSERVER_H
 
+#include "shared/Resource.h"
+
 class Observer {
   public:
-    virtual void update() {};
+    virtual void update(Resource*) {};
     virtual ~Observer() {};
 };
 

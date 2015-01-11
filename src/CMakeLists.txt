@@ -3,11 +3,13 @@ set(LIB_SOURCES
 		server/Address.cpp
     server/Client.cpp
     server/ClientsRegister.cpp
-  #  server/FakeServer.cpp
+		server/FakeServer.cpp
+		server/Packet_handler.cpp
     server/Server.cpp
+		server/ServerResources.cpp
     server/server_main.cpp
 	# shared/ChatEntry.cpp
-  # shared/ChatHistory.cpp
+    shared/ChatRegister.cpp
   # shared/ClientList.cpp
   # shared/GameRoom.cpp
   # shared/GameRoomList.cpp
@@ -24,10 +26,12 @@ set(LIB_HEADERS
 	server/Client.hpp
 	 server/ClientsRegister.hpp
 	 server/FakeServer.h
+	 server/Packet_handler.h
 	 server/Server.h
+	 server/ServerResources.h
 	# shared/ChatEntry.h
 	 shared/ChatEntryRaw.h
-	# shared/ChatHistory.h
+	 shared/ChatRegister.h
 	# shared/ChatHistoryRaw.h
 	# shared/ClientList.h
 	# shared/ClientListRaw.h
@@ -35,8 +39,8 @@ set(LIB_HEADERS
 	# shared/GameRoomList.h
 	# shared/GameRoomListRaw.h
 	# shared/GameRoomRaw.h
-         shared/Handshake.hpp
-         shared/HandshakeRaw.hpp
+   shared/Handshake.hpp
+   shared/HandshakeRaw.hpp
 	 shared/Observer.h
 	 shared/Packet.hpp
 	 shared/Resource.h

@@ -8,7 +8,7 @@
 #include "shared/Subject.h"
 
 
-class ClientsRegister : public Subject {
+class ClientsRegister {
 public:
     typedef std::set<Client>::iterator ClientIt;
     ClientsRegister();
