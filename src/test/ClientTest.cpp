@@ -11,7 +11,7 @@
 // - kiedy struktura Address będzie miała już właściwą postać i właściwy typ
 //   trzeba zmienić zmienne typu Address::IP z int na coś innego
 
-
+/*
 BOOST_AUTO_TEST_SUITE( ConstructorsTests )
 
 BOOST_AUTO_TEST_CASE( ParametrizedCtor1 ) {
@@ -133,7 +133,7 @@ BOOST_AUTO_TEST_SUITE_END()
 
 
 
-
+*/
 
 
 

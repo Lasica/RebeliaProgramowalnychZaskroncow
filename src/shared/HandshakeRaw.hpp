@@ -20,8 +20,7 @@ struct HandshakeRaw;
 BOOST_CLASS_EXPORT(HandshakeRaw)
 
 struct HandshakeRaw : public Resource {
-    HandshakeRaw() { ; }
-    HandshakeRaw(Address ad) : address_(ad) { ; }
+    HandshakeRaw(Address ad=Address(0,0)) : address_(ad) { ; }
     virtual ~HandshakeRaw() { ; }
 
     virtual Resource::Tag get_tag() { return HANDSHAKE; }
@@ -39,7 +38,7 @@ struct HandshakeRaw : public Resource {
 
 
     // tylko dla testów
-    virtual std::string show_content() { return ("** HandshakeRaw **, address.ip==" + std::to_string(address_.ip) + ", address.port==" + std::to_string(address_.port) + "address.nick==" + address_.nickname + "\n"); }
+    virtual std::string show_content() { return ("** HandshakeRaw **, address.ip==" + std::to_string(address_.ip) + ", address.port==" + std::to_string(address_.port) + "\n"); }
 };
 
 #endif //HANDSHAKE_RAW_HPP

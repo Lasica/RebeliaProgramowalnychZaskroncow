@@ -19,10 +19,10 @@ public:
     enum Tag { RESOURCE = 1, CONNECTION_END = 2, CONNECTION_BEGIN = 3 };
     typedef boost::shared_ptr<Resource> ResourcePtr;
     // TODO: usunąć ten typedef - adresem będzie struktura typu Address
-    typedef int Address;
+    //typedef int Address;
     typedef std::string StreamBuffer;
 
-    Packet() { ; }
+    //Packet() { ; }
     Packet(Resource* content__, Tag tag__, Address ad__);
     Packet(ResourcePtr content__, Tag tag__, Address ad__);
 
