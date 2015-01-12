@@ -86,19 +86,18 @@ BOOST_AUTO_TEST_SUITE( serializacja )
 BOOST_AUTO_TEST_CASE( essential_serialization_tests ) {
 
     boost::shared_ptr<Resource> pCE(new ChatEntryRaw("TestNick", "TestMSG"));
-    Address HSad = { .ip = 5, .port = 11, .nickname = "TestNickname" };
+    Address HSad;
+    HSad.ip = 5;
+    HSad.port = 11;
+    HSad.nickname = "TestNickname";
     boost::shared_ptr<Resource> pHS(new HandshakeRaw(HSad));
 
-    // enumy nie chcą się inicjalizować inaczej...
-    Packet CEPacket(pCE, static_cast<Packet::Tag>(1), 5);
-    Packet HSPacket(pHS, static_cast<Packet::Tag>(3), 6);
+    Packet CEPacket(pCE, Packet::RESOURCE, 5);
+    Packet HSPacket(pHS, Packet::CONNECTION_BEGIN, 6);
 
     std::ofstream ofs("PacketTestFile"); // strumieniem jest tutaj plik
 
-    std::cout << "*** Checkpoint 1***\n";
-
     boost::archive::text_oarchive oa(ofs);
-    std::cout << "*** Checkpoint 2***\n";
 
     oa << CEPacket;
     oa << HSPacket;
@@ -109,7 +108,6 @@ BOOST_AUTO_TEST_CASE( essential_serialization_tests ) {
 
     std::ifstream ifs("PacketTestFile");
     boost::archive::text_iarchive ia(ifs);
-    std::cout << "*** Checkpoint 3***\n";
 
     ia >> CEPacketDeserialized;
     ia >> HSPacketDeserialized;
@@ -118,6 +116,61 @@ BOOST_AUTO_TEST_CASE( essential_serialization_tests ) {
     BOOST_CHECK_EQUAL(HSPacketDeserialized.show_resource_content(), HSPacket.show_resource_content());
 
 }
+
+BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
+
+    Resource* pResource = new ChatEntryRaw("deleting_pointer_to_resource", "TestMSG");
+    std::ofstream ofs("PACKET_TEST_deleting_pointer_to_resource"); // strumieniem jest tutaj plik
+
+    boost::archive::text_oarchive oaTest(ofs);
+
+    oaTest << pResource;
+    ofs.close();
+
+    delete pResource;   // deleting this pointer to check, if object can be restored from file
+
+    Resource* pDeserialized;
+
+    std::ifstream ifs("PACKET_TEST_deleting_pointer_to_resource");
+    boost::archive::text_iarchive ia(ifs);
+
+    ia >> pDeserialized;
+    ifs.close();
+
+    ChatEntryRaw identicalWithSerialized("deleting_pointer_to_resource", "TestMSG");
+
+    BOOST_CHECK_EQUAL(pDeserialized->show_content(), identicalWithSerialized.show_content());
+
+}
+
+BOOST_AUTO_TEST_CASE( deleting_pointer_to_packet ) {
+
+    Resource* pResource = new ChatEntryRaw("deleting_pointer_to_resource", "TestMSG");
+    Packet* pPacket = new Packet(pResource, Packet::RESOURCE, 2);
+    std::ofstream ofs("PACKET_TEST_deleting_pointer_to_packet"); // strumieniem jest tutaj plik
+
+    boost::archive::text_oarchive oaTest(ofs);
+
+    oaTest << pPacket;
+    ofs.close();
+
+    // deleting this pointer to check, if object can be restored from file
+    delete pPacket;
+
+    Packet* pDeserializedPacket;
+
+    std::ifstream ifs("PACKET_TEST_deleting_pointer_to_packet");
+    boost::archive::text_iarchive ia(ifs);
+
+    ia >> pDeserializedPacket;
+    ifs.close();
+
+    ChatEntryRaw identicalWithSerialized("deleting_pointer_to_resource", "TestMSG");
+
+    BOOST_CHECK_EQUAL(pDeserializedPacket->show_resource_content(), identicalWithSerialized.show_content());
+
+}
+
 
 BOOST_AUTO_TEST_SUITE_END()
 

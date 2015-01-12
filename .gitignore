@@ -38,6 +38,9 @@ rpz
 # QtCreator
 *.autosave
 
+# Kate
+*.user
+
 # Tilde (~) files
 *~
 

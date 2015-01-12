@@ -11,7 +11,8 @@ set(LIB_SOURCES
 	# shared/ChatEntry.cpp
     shared/ChatRegister.cpp
   # shared/ClientList.cpp
-  # shared/GameRoom.cpp
+    shared/GameRoom.cpp
+    shared/GameRoomRaw.cpp
   # shared/GameRoomList.cpp
     shared/Handshake.cpp
     shared/Packet.cpp
@@ -35,8 +36,8 @@ set(LIB_HEADERS
 	# shared/ChatHistoryRaw.h
 	# shared/ClientList.h
 	# shared/ClientListRaw.h
-	# shared/GameRoom.h
-	# shared/GameRoomList.h
+         shared/GameRoom.h
+        # shared/GameRoomList.h
 	# shared/GameRoomListRaw.h
 	# shared/GameRoomRaw.h
    shared/Handshake.hpp
