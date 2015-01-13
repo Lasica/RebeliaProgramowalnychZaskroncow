@@ -1,55 +1,69 @@
-//Link to Boost
 #define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE ChatEntryRawTest
 
-//Define our Module name (prints at testing)
-#define BOOST_TEST_MODULE "Przykladowy test"
-
-//VERY IMPORTANT - include this last
-#include <boost/test/unit_test.hpp>
 #include <boost/test/detail/unit_test_parameters.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
+#include <boost/shared_ptr.hpp>
 
+
+#include "server/Address.hpp"
+#include "shared/Resource.h"
 #include "shared/ChatEntryRaw.h"
-#include <sstream>
-#include <string>
+#include <fstream>
+
+#include <boost/test/unit_test.hpp>
 
 using namespace boost::unit_test;
 
-// ------------- Tests Follow --------------
-BOOST_AUTO_TEST_SUITE( serialsing )
-BOOST_AUTO_TEST_CASE( write_read ) {
+BOOST_AUTO_TEST_SUITE( ChatEntryRaw_serialization )
+
+BOOST_AUTO_TEST_CASE( simple_case ) {
 //    if( runtime_config::log_level() <= boost::unit_test::log_warnings )
 //        unit_test_log.set_threshold_level( boost::unit_test::log_messages );
 
-//    // create and open a character archive for output
-//    std::stringstream ofs;
+    ChatEntryRaw sampleCER = ChatEntryRaw("CERptr", "serializationTest");
 
-//    // create class instance
-//    ChatEntryRaw g("John", " siema! ");
+    std::ofstream ofs("ChatEntryRawTest_simple_case");
+    boost::archive::text_oarchive oa(ofs);
+    BOOST_CHECK_NO_THROW(  oa << sampleCER  );
+    ofs.close();
 
-//    // save data to archive
-//    {
-//        boost::archive::text_oarchive oa(ofs);
-//        // write class instance to archive
-//        BOOST_CHECK_NO_THROW( oa << g );
-//        // archive and stream closed when destructors are called
-//    }
-//    BOOST_TEST_MESSAGE (ofs);
+    ChatEntryRaw restoredCER;
+    std::ifstream ifs("ChatEntryRawTest_simple_case");
+    boost::archive::text_iarchive ia(ifs);
+    BOOST_CHECK_NO_THROW(  ia >> restoredCER  );
+    ifs.close();
 
-//    // ... some time later restore the class instance to its orginal state
-//    ChatEntryRaw newg;
-//    {
-//        // create and open an archive for input
-//        //std::ifstream ifs("filename");
-//        boost::archive::text_iarchive ia(ofs);
-//        // read class state from archive
-//        BOOST_CHECK_NO_THROW(ia >> newg);
-//        // archive and stream closed when destructors are called
-//        BOOST_TEST_MESSAGE(newg.nick_ << newg.message_);
-//    }
-//    BOOST_CHECK(newg.nick_ == g.nick_);
-//    BOOST_CHECK(newg.message_ == g.message_);
+    BOOST_CHECK_EQUAL(  sampleCER.show_content(),   restoredCER.show_content()  );
+    BOOST_CHECK_EQUAL(  sampleCER.nick_,            restoredCER.nick_  );
+    BOOST_CHECK_EQUAL(  sampleCER.message_,         restoredCER.message_ );
+    BOOST_CHECK_EQUAL(  sampleCER.get_tag(),        restoredCER.get_tag()  );
+}
+
+BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
+
+    Resource* pResource = new ChatEntryRaw("deleting_pointer_to_resource", "TestMSG");
+    std::ofstream ofs("ChatEntryRawTest_deleting_pointer_to_resource"); // strumieniem jest tutaj plik
+
+    boost::archive::text_oarchive oaTest(ofs);
+
+    oaTest << pResource;
+    ofs.close();
+
+    delete pResource;   // deleting this pointer to check, if object can be restored from file
+
+    Resource* pDeserialized;
+
+    std::ifstream ifs("ChatEntryRawTest_deleting_pointer_to_resource");
+    boost::archive::text_iarchive ia(ifs);
+
+    ia >> pDeserialized;
+    ifs.close();
+
+    ChatEntryRaw identicalWithSerialized("deleting_pointer_to_resource", "TestMSG");
+
+    BOOST_CHECK_EQUAL(pDeserialized->show_content(), identicalWithSerialized.show_content());
 
 }
 BOOST_AUTO_TEST_SUITE_END()

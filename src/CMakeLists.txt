@@ -2,8 +2,9 @@ set(LIB_SOURCES
     client/client_main.cpp
 		server/Address.cpp
     server/Client.cpp
+    server/ClientDataRaw.cpp
     server/ClientsRegister.cpp
-		server/FakeServer.cpp
+		#server/FakeServer.cpp
 		server/Packet_handler.cpp
     server/Server.cpp
 		server/ServerResources.cpp
@@ -12,7 +13,7 @@ set(LIB_SOURCES
     shared/ChatRegister.cpp
   # shared/ClientList.cpp
     shared/GameRoom.cpp
-    shared/GameRoomRaw.cpp
+  #  shared/GameRoomRaw.cpp
   # shared/GameRoomList.cpp
     shared/Handshake.cpp
     shared/Packet.cpp
@@ -25,8 +26,9 @@ set(LIB_HEADERS
 	#luacore/LuaInterpreter.h
 	server/Address.hpp
 	server/Client.hpp
-	 server/ClientsRegister.hpp
-	 server/FakeServer.h
+        server/ClientDataRaw.h
+         server/ClientsRegister.hpp
+	 #server/FakeServer.h
 	 server/Packet_handler.h
 	 server/Server.h
 	 server/ServerResources.h
@@ -39,7 +41,7 @@ set(LIB_HEADERS
          shared/GameRoom.h
         # shared/GameRoomList.h
 	# shared/GameRoomListRaw.h
-	# shared/GameRoomRaw.h
+         shared/GameRoomRaw.h
    shared/Handshake.hpp
    shared/HandshakeRaw.hpp
 	 shared/Observer.h
@@ -71,8 +73,8 @@ target_link_libraries(server ${LIBRARIES} PROJECT_LIBRARY )
 add_executable(client client/client_main.cpp)
 target_link_libraries(client ${LIBRARIES} PROJECT_LIBRARY )
 
-add_executable(fake_server server/fake_server_main.cpp)
-target_link_libraries(fake_server ${LIBRARIES} PROJECT_LIBRARY )
+#add_executable(fake_server server/fake_server_main.cpp)
+#target_link_libraries(fake_server ${LIBRARIES} PROJECT_LIBRARY )
 
 
 #I like to keep test files in a separate source directory called test

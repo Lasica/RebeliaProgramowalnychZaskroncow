@@ -7,7 +7,6 @@
 #include "server/Client.hpp"
 #include <boost/shared_ptr.hpp>
 
-//#include <set>
 #include <list>
 
 class GameRoom : protected GameRoomRaw {
@@ -21,16 +20,18 @@ public:
      */
     typedef boost::shared_ptr<Client> ClientPtr;
 
-    GameRoom(ClientPtr host) : id_(gameRoomCounter_++), numOfPlayers_(1), host_(host) { }
+    GameRoom(ClientPtr host, std::string gameRoomName) : GameRoomRaw(gameRoomName), id_(gameRoomCounter_++), numOfPlayers_(1), host_(host) { }
     ~GameRoom();
-    // może jednak zastosować iteratory z ClientsRegister?
 
+    // może jednak zastosować iteratory z ClientsRegister?
+    // albo ID klientów?
     void add_player(ClientPtr newPlayer);
     // TODO (w poniższej lub innej metodzie): kiedy usuwany jest host - cały GameRoom jest kasowany
     void remove_player(ClientPtr player);
 
-    typedef unsigned int ID;
+    typedef int ID;
     ID get_id() { return id_; }
+
 
 private:
     const ID id_;   //id danego GameRoomu

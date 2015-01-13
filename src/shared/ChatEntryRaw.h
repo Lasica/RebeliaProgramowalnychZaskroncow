@@ -14,20 +14,12 @@ BOOST_CLASS_EXPORT(ChatEntryRaw)
 
 
 struct ChatEntryRaw : public Resource {
-    ChatEntryRaw() {
-        ;
-    }
+    ChatEntryRaw() { }
     ChatEntryRaw(const std::string &nick__, const std::string &message__) :
-        nick_(nick__), message_(message__) {
-        ;
-    }
-    virtual ~ChatEntryRaw() {
-        ;
-    }
+        nick_(nick__), message_(message__) { }
+    virtual ~ChatEntryRaw() { }
 
-    virtual Resource::Tag get_tag() {
-        return CHAT_ENTRY;
-    }
+    virtual Resource::Tag get_tag() { return Resource::CHAT_ENTRY; }
 
     friend class boost::serialization::access;
     template<class Archive>

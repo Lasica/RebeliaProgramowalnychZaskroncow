@@ -5,17 +5,25 @@
 
 #include <boost/test/unit_test.hpp>
 #include "server/ClientsRegister.hpp"
+#include "server/Address.hpp"
+#include "server/ClientDataRaw.h"
+#include "server/Client.hpp"
 
-
+// TODO: kiedy w ClientsRegister będzie już wybrany kontener i sposób odwoływania się do Clientów
 
 BOOST_AUTO_TEST_SUITE( ClientsRegisterClass )
+BOOST_AUTO_TEST_CASE( not_ready ) {
 
-////BOOST_AUTO_TEST_CASE( GettingInstance ) {
+    BOOST_FAIL( "Test not ready yet" );
+}
+//BOOST_AUTO_TEST_CASE( registering_clients ) {
+//    Address sampleAd1(1, 2);
+//    ClientState sampleState1(ClientState::GAME, 1);
 
-////    BOOST_REQUIRE( &(ClientsRegister::instance()) != nullptr );
-////    BOOST_CHECK_EQUAL( &(ClientsRegister::instance()), &(ClientsRegister::instance()) );
-////}
+//    ClientsRegister testRegister;
+  //  ClientsRegister::ClientIt client1 = testRegister.register_client("client1", sampleAd1, sampleState1);
 
+//}
 //BOOST_AUTO_TEST_CASE( RegisteringClients ) {
 //    ClientsRegister::ClientIt it1 = ClientsRegister::instance().register_client("c1", 11, "111.111.111.111", IN_LOBBY, "");
 //    ClientsRegister::ClientIt it2 = ClientsRegister::instance().register_client("identicalTest", 44, "100.100.100.100", IN_GAME,

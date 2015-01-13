@@ -11,7 +11,7 @@
 #include <string>
 
 struct Resource {
-    enum Tag { CHAT_ENTRY, HANDSHAKE };
+    enum Tag { CHAT_ENTRY, HANDSHAKE, GAMEROOM };
 
     virtual ~Resource() = 0;
     virtual Tag get_tag() = 0;

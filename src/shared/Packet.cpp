@@ -24,7 +24,7 @@ Packet::StreamBuffer Packet::get_data_streambuf() { // TODO do poprawienia, kied
    return ofs.str(); // ten return chyba nie ma sensu
 }
 
-const Packet::Address &Packet::get_address() const {
+const Address& Packet::get_address() const {
     return address_;
 }
 
