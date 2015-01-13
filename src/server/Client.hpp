@@ -16,46 +16,36 @@ Każdy gracz jest opisany przez parametry charakteryzujące:
 #include <string>
 #include <memory>
 #include <boost/asio.hpp>
+#include "server/Address.hpp"
+#include "shared/Observer.h"
+#include "shared/typedefinitions.h"
+#include "server/ClientDataRaw.h"
 
-
-enum statename{ IN_LOBBY, IN_GAME };
-
-class Client {
+class Client : public Observer, public ClientDataRaw {
 public:
-    Client(std::string nick, short unsigned int port, boost::asio::ip::address ip, statename state, std::string gameID);
-    Client(std::string nick, short unsigned int port, std::string ip, statename state, std::string gameID);
+    Client(std::string nick, Address address, ClientState state);
+    // Client(std::string nick, short unsigned int port, std::string ip, statename state, std::string gameID);
     Client(const Client& c);
 
     ~Client();
 
-    typedef unsigned int            ClientID;
-
-    std::string                     get_nickname() const;
     ClientID                        get_client_id() const;
-    short unsigned int              get_port() const;
-    boost::asio::ip::address        get_ip() const;
-    std::string                     get_ip_str() const;
-    statename                       get_state() const;
-    std::string                     get_game_id() const;
-
-    bool                            is_in_game();            //true if state==IN_GAME
-
-    void                            set_state(statename s) const;
-    void                            set_game_id(std::string id) const;
+    ClientState                     get_state() const;
+    std::string                     get_nickname() const { return nickname_; }
+    Address                         get_address() const { return address_; }
+    //bool                            is_in_game();            //true if state==IN_GAME OBSOLETE
+    void                            set_state(ClientState s);
 
     bool                            operator<(const Client&) const;
+    virtual void                    update(Resource *updateInfo);
 
 private:
     const std::string               nickname_;
-    const unsigned int              clientID_;   //unique ID for every player
-    static unsigned int             nextID_;
+    const Address                   address_;
 
-    const unsigned short int        port_;
-    const boost::asio::ip::address  ip_;
-
-
-    mutable std::unique_ptr<statename>      state_;
-    mutable std::string                     gameID_;     // set only if player is IN_GAME
+    static ClientID                 nextID_;
+    //ClientState                     state_;
+    //std::unique_ptr<ClientState>      state_;
 };
 
 #endif //CLIENT_HPP

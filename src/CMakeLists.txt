@@ -1,43 +1,55 @@
 set(LIB_SOURCES
     client/client_main.cpp
+		server/Address.cpp
     server/Client.cpp
+    server/ClientDataRaw.cpp
     server/ClientsRegister.cpp
-    server/Server.cpp
-    server/server_main.cpp
     server/ConnectionsIterator.cpp
+		#server/FakeServer.cpp
+		server/Packet_handler.cpp
+    server/Server.cpp
+		server/ServerResources.cpp
+    server/server_main.cpp
 	# shared/ChatEntry.cpp
-  # shared/ChatHistory.cpp
+    shared/ChatRegister.cpp
   # shared/ClientList.cpp
-  # shared/GameRoom.cpp
+    shared/GameRoom.cpp
+  #  shared/GameRoomRaw.cpp
   # shared/GameRoomList.cpp
+    shared/Handshake.cpp
     shared/Packet.cpp
     shared/Resource.cpp
-    shared/ResourceFactory.cpp
     shared/Subject.cpp
     shared/TcpConnection.cpp
 	)
 
 set(LIB_HEADERS
-	#luacore/LuaInterpreter.h
-	 server/Client.hpp
-	 server/ClientsRegister.hpp
-	 server/Server.h
-	# shared/ChatEntry.h
-	 shared/ChatEntryRaw.h
-	# shared/ChatHistory.h
-	# shared/ChatHistoryRaw.h
-	# shared/ClientList.h
-	# shared/ClientListRaw.h
-	# shared/GameRoom.h
-	# shared/GameRoomList.h
-	# shared/GameRoomListRaw.h
-	# shared/GameRoomRaw.h
-	 shared/Observer.h
-	 shared/Packet.hpp
-	 shared/ResourceFactory.h
-	 shared/Resource.h
-	 shared/Subject.h
-	 shared/TcpConnection.h
+ #luacore/LuaInterpreter.h
+	server/Address.hpp
+	server/Client.hpp
+  server/ClientDataRaw.h
+  server/ClientsRegister.hpp
+ #server/FakeServer.h
+	server/Packet_handler.h
+	server/Server.h
+	server/ServerResources.h
+ #shared/ChatEntry.h
+	shared/ChatEntryRaw.h
+	shared/ChatRegister.h
+ #shared/ChatHistoryRaw.h
+ #shared/ClientList.h
+ #shared/ClientListRaw.h
+  shared/GameRoom.h
+ #shared/GameRoomList.h
+ #shared/GameRoomListRaw.h
+  shared/GameRoomRaw.h
+  shared/Handshake.hpp
+  shared/HandshakeRaw.hpp
+	shared/Observer.h
+	shared/Packet.hpp
+	shared/Resource.h
+	shared/Subject.h
+	shared/TcpConnection.h
 	)
 
 add_library( PROJECT_LIBRARY ${LIB_SOURCES} ${LIB_HEADERS} )
@@ -63,8 +75,8 @@ target_link_libraries(server ${LIBRARIES} PROJECT_LIBRARY )
 add_executable(client client/client_main.cpp)
 target_link_libraries(client ${LIBRARIES} PROJECT_LIBRARY )
 
-add_executable(fake_server server/fake_server_main.cpp)
-target_link_libraries(fake_server ${LIBRARIES} PROJECT_LIBRARY )
+#add_executable(fake_server server/fake_server_main.cpp)
+#target_link_libraries(fake_server ${LIBRARIES} PROJECT_LIBRARY )
 
 
 #I like to keep test files in a separate source directory called test

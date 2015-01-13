@@ -54,4 +54,5 @@ namespace server {
       boost::asio::io_service &io_;
       boost::mutex mtx_;
   };
-};
+
+}

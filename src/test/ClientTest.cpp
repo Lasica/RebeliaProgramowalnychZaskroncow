@@ -3,125 +3,101 @@
 #define BOOST_TEST_MODULE ClientTestModule
 
 #include <boost/test/unit_test.hpp>
+#include <server/ClientDataRaw.h>
 #include "server/Client.hpp"
+#include "server/Address.hpp"
+
+
+// TODO:
+// - kiedy struktura Address będzie miała już właściwą postać i właściwy typ
+//  można zamienić domyślne konstruktory Address na parametryzowane
 
 BOOST_AUTO_TEST_SUITE( ConstructorsTests )
 
-BOOST_AUTO_TEST_CASE( ParametrizedCtor1 ) {
+BOOST_AUTO_TEST_CASE( parametrized_ctor_1 ) {
 
-    Client test = Client("test", 12, boost::asio::ip::address::from_string("125.0.0.145"), IN_GAME, "ParametrizedCtor1");
-
-    BOOST_CHECK_EQUAL(test.get_nickname(), "test");
-    BOOST_CHECK_EQUAL(test.get_port(), 12);
-    BOOST_CHECK_EQUAL(test.get_ip(), boost::asio::ip::address::from_string("125.0.0.145"));
-    BOOST_CHECK_EQUAL(test.get_ip_str(), "125.0.0.145");
-    BOOST_CHECK_EQUAL(test.get_state(), IN_GAME);
-    BOOST_CHECK_EQUAL(test.get_game_id(), "ParametrizedCtor1");
-    BOOST_CHECK_EQUAL(test.get_client_id(), 0);
-}
-
-BOOST_AUTO_TEST_CASE( ParametrizedCtor2 ) {
-
-    Client test = Client("test", 12, "125.0.0.145", IN_GAME, "ParametrizedCtor2");
+    Address testAd = Address(5,6);
+    Client test = Client("test", testAd, ClientState(ClientState::LOBBY, 0));
 
     BOOST_CHECK_EQUAL(test.get_nickname(), "test");
-    BOOST_CHECK_EQUAL(test.get_port(), 12);
-    BOOST_CHECK_EQUAL(test.get_ip(), boost::asio::ip::address::from_string("125.0.0.145"));
-    BOOST_CHECK_EQUAL(test.get_ip_str(), "125.0.0.145");
-    BOOST_CHECK_EQUAL(test.get_state(), IN_GAME);
-    BOOST_CHECK_EQUAL(test.get_game_id(), "ParametrizedCtor2");
-    BOOST_CHECK_EQUAL(test.get_client_id(), 1);
-
+    BOOST_CHECK_EQUAL(test.get_address().port, testAd.port);
+    BOOST_CHECK_EQUAL(test.get_address().ip, testAd.ip);
+    BOOST_CHECK_EQUAL(test.state_.location, ClientState::LOBBY);
+    BOOST_CHECK_EQUAL(test.state_.locationIdentifier, 0);
 }
 
-BOOST_AUTO_TEST_CASE( CopyCtor ) {
 
-    Client sample = Client("sample", 12, "125.0.0.145", IN_GAME, "CopyCtor");
+BOOST_AUTO_TEST_CASE( copy_ctor ) {
+
+    Address copyTestAd = Address(3, 4);
+
+    Client sample = Client("sample", copyTestAd, ClientState(ClientState::GAME, 3));
     Client copy(sample);
-    BOOST_CHECK_EQUAL(copy.get_nickname(), "sample");
-    BOOST_CHECK_EQUAL(copy.get_port(), 12);
-    BOOST_CHECK_EQUAL(copy.get_ip(), boost::asio::ip::address::from_string("125.0.0.145"));
-    BOOST_CHECK_EQUAL(copy.get_ip_str(), "125.0.0.145");
-    BOOST_CHECK_EQUAL(copy.get_state(), IN_GAME);
-    BOOST_CHECK_EQUAL(copy.get_game_id(), "CopyCtor");
-    BOOST_CHECK_EQUAL(copy.get_client_id(), 2);
-    BOOST_CHECK_EQUAL(copy.get_client_id(), copy.get_client_id());
-}
-
-BOOST_AUTO_TEST_CASE( IDGeneration ) {
-
-    Client id3("id3", 12, "125.0.0.145", IN_GAME, "idTest");
-    Client id4("id4", 12, "125.0.0.145", IN_GAME, "idTest");
-    Client id4copy(id4);
-
-    BOOST_CHECK_EQUAL(id3.get_client_id(), 3);
-    BOOST_CHECK_EQUAL(id4.get_client_id(), 4);
-    BOOST_CHECK_EQUAL(id4.get_client_id(), id4.get_client_id());
-
+    BOOST_CHECK_EQUAL(copy.get_nickname(), sample.get_nickname());
+    BOOST_CHECK_EQUAL(copy.get_address().port, sample.get_address().port);
+    BOOST_CHECK_EQUAL(copy.get_address().ip, sample.get_address().ip);
+    BOOST_CHECK_EQUAL(copy.state_.location, sample.state_.location);
+    BOOST_CHECK_EQUAL(copy.state_.locationIdentifier, sample.state_.locationIdentifier);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
-
 
 
 
 BOOST_AUTO_TEST_SUITE( SetMethods )
 
-Client setTests("setTest", 12, "125.0.0.145", IN_GAME, "gameID1");
+    Address setTestAd = Address(15,36);
 
-BOOST_AUTO_TEST_CASE( State ) {
 
-    setTests.set_state(IN_LOBBY);
-    BOOST_CHECK_EQUAL(setTests.get_state(), IN_LOBBY);
+    Client setTests("setTest", setTestAd, ClientState(ClientState::GAMEROOM, 12));
+
+BOOST_AUTO_TEST_CASE( state ) {
+
+    setTests.set_state(ClientState(ClientState::LOBBY, 0));
+    BOOST_CHECK_EQUAL(setTests.get_state().location, ClientState::LOBBY);
+    BOOST_CHECK_EQUAL(setTests.get_state().locationIdentifier, 0);
 }
-
-BOOST_AUTO_TEST_CASE( GameID ) {
-
-    setTests.set_game_id("testID");
-    BOOST_CHECK_EQUAL(setTests.get_game_id(), "testID");
-
-}
-
 BOOST_AUTO_TEST_SUITE_END()
-
-
-
 
 BOOST_AUTO_TEST_SUITE( OperatorLessThan )
 
-Client opTest1("operatorTestA", 12, "125.0.0.145", IN_GAME, "opTest");
-Client opTest2("operatorTestA", 12, "255.255.255.255", IN_GAME, "opTest");
-Client opTest3("operatorTestB", 12, "125.0.0.145", IN_GAME, "opTest");
-Client opTest4("operatorTestC", 12, "255.255.255.255", IN_GAME, "opTest");
+    // Operator:
+    // 1. compares ports
+    // 2. compares ips
 
-BOOST_AUTO_TEST_CASE( DifferentIPsAndNicks ) {
-    BOOST_CHECK( opTest1 < opTest4 );
-    BOOST_CHECK( !(opTest4 < opTest1) );
+    Address greaterIpAd = Address(100,1);
+    Address lesserIpAd = Address(1, 1);
+
+    Address greaterPortAd = Address(1, 100);
+    Address lesserPortAd = Address(1,1);
+
+    Address twinAddressAd = Address(1,1);
+
+    ClientState s(ClientState::LOBBY, 0);
+
+    Client greaterIp("greaterIpClient", greaterIpAd, s);
+    Client lesserIp("lesserIpClient",lesserIpAd, s);
+    Client greaterPort("greaterPortClient", greaterPortAd, s);
+    Client lesserPort("lesserPortClient", lesserPortAd, s);
+    Client twinClient1("twinClient", twinAddressAd, s);
+    Client twinClient2("twinClient", twinAddressAd, s);
+
+
+BOOST_AUTO_TEST_CASE( different_ports ) {
+    BOOST_CHECK(  lesserPort < greaterPort );
+    BOOST_CHECK( !(greaterPort < lesserPort) );
 }
 
-BOOST_AUTO_TEST_CASE( DifferentIPs ) {
-    BOOST_CHECK( opTest1 < opTest2 );
-    BOOST_CHECK( !(opTest2 < opTest1) );
+BOOST_AUTO_TEST_CASE( different_ips) {
+    BOOST_CHECK(  lesserIp < greaterIp  );
+    BOOST_CHECK( !(greaterIp < lesserIp) );
 }
 
-BOOST_AUTO_TEST_CASE( DifferentNicks ) {
-    BOOST_CHECK( opTest1 < opTest3 );
-    BOOST_CHECK( !(opTest3 < opTest1) );
-}
-
-BOOST_AUTO_TEST_CASE( Equal ) {
-    BOOST_CHECK( !(opTest1 < opTest1) );
-
+BOOST_AUTO_TEST_CASE( equal ) {
+    BOOST_CHECK( !(twinClient1 < twinClient2) );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
-
-
-
-
-
-
-
 
 
 

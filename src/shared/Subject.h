@@ -16,14 +16,15 @@ class Subject {
     virtual ~Subject() {};
     //virtual std::string getState() = 0; // jeszcze nie wiem czy potrzebne
     //virtual std::string getChange() = 0; // ale jesli powyzsza potrzebna to i ta
-    void add_observer(Observer *o) {
+    void addObserver(Observer *o) {
         obs_.push_back(o);
     }
-    void notify() {
-        for(Observer *o : obs_)
-            o->update();
-    }
-  private:
+    virtual void notify() = 0;
+//     {
+//         for(Observer *o : obs_)
+//             o->update();
+//     }
+  protected:
     std::vector<Observer *> obs_;
 };
 

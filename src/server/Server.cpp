@@ -43,4 +43,5 @@ namespace server {
   unsigned TcpServer::connections() {
       return connections_.size() - 1;
   }
-};
+}
+

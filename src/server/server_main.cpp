@@ -8,7 +8,13 @@
 #include "log4cpp/Priority.hh"
 
 #define LOGFILE "tmp/server.log"
+#include <iostream>
+#include <string>
+#include <boost/bind.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
+using boost::asio::ip::tcp;
 using namespace boost::asio;
 int main() {
     log4cpp::Appender *console_appender = new log4cpp::OstreamAppender("console", &std::cout);
