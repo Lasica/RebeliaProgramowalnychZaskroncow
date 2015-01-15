@@ -2,16 +2,18 @@
 #define _TYPEDEFINITIONS_
 #include <queue>
 #include <boost/shared_ptr.hpp>
+#include <string>
 
 class Packet;
-typedef std::queue<Packet> PacketQueue;
-    typedef unsigned int       ClientID;
-    typedef int AddressIP;
-    typedef short int AddressPort;
-
 class Client;
-typedef boost::shared_ptr<Client> ClientPtr;
+class TcpConnection;
 
-typedef int GameRoomID;
+typedef std::queue<Packet>                  PacketQueue;
+typedef unsigned int                        ClientID;
+typedef std::string                         AddressIP;
+typedef unsigned short                      AddressPort;
+typedef boost::shared_ptr<TcpConnection>    TcpPointer;
+typedef boost::shared_ptr<Client>           ClientPtr;
+typedef int                                 GameRoomID;
 
 #endif

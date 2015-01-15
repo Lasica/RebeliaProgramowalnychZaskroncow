@@ -6,9 +6,8 @@
 // constructors & destructor
 ClientID Client::nextID_ = 0;
 
-Client::Client(std::string nick, Address address, ClientState state) :
-ClientDataRaw(state, Client::nextID_++), nickname_(nick), address_(address)
-{ }
+Client::Client( Address address, ClientState state, TcpPointer pointer, std::string nick) :
+    ClientDataRaw(state, Client::nextID_++), nickname_(nick), address_(address), connection_(pointer) { }
 
 // Client::Client(std::string nick, Address address, ClientState state, std::string gameID) :
 //     clientID_(Client::nextID_++), state_(new ClientState(state)) {
@@ -26,7 +25,7 @@ ClientDataRaw(state, Client::nextID_++), nickname_(nick), address_(address)
 
 // copy c-tor copy also the unique id of every client
 Client::Client(const Client &c) :
-    ClientDataRaw(c.state_, c.clientID_), nickname_(c.nickname_), address_(c.address_) {
+    ClientDataRaw(c.state_, c.clientID_), nickname_(c.nickname_), address_(c.address_), connection_(c.connection_) {
 }
 
 Client::~Client() {

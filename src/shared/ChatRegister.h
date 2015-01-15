@@ -9,7 +9,7 @@
 class ChatRegister : public Subject {
   public:
     void register_message(ChatEntryRaw &message);
-private:
+  private:
     std::vector<ChatEntryRaw> chatLog_;
     void notify();
 };

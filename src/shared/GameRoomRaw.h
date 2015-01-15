@@ -24,17 +24,18 @@ struct GameRoomRaw : public Resource {
 
     std::string gameRoomName;
     std::list<std::string> playersNames;    // nicki wszystkich graczy w tym pokoju
-    virtual Tag get_tag() { return GAMEROOM; }
+    virtual Tag get_tag() {
+        return GAMEROOM;
+    }
 
     virtual std::string show_content() { return ("** GameRoomRaw **, gameRoomName==" + gameRoomName + std::string([this]()->std::string{ std::string temp(""); for(auto a: playersNames) temp+=a; return temp;}()) +"\n"); }
 
-//protected:
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int) {
-        ar & boost::serialization::base_object<Resource>(*this);
-        ar & gameRoomName;
-        ar & playersNames;
+        ar &boost::serialization::base_object<Resource>(*this);
+        ar &gameRoomName;
+        ar &playersNames;
     }
 };
 

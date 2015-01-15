@@ -4,14 +4,14 @@
 #include "ClientsRegister.hpp"
 #include "Client.hpp"
 #include "Address.hpp"
-
+#include "shared/typedefinitions.h"
 
 ClientsRegister::ClientsRegister() {
     ;
 }
 
-ClientsRegister::ClientIt ClientsRegister::register_client(std::string nick, Address address, ClientState state) {
-    ClientsRegister::ClientIt it = clients_.insert(Client(nick, address, state)).first; // insert returns pair<ClientIt, bool>
+ClientsRegister::ClientIt ClientsRegister::register_client(Address address, ClientState state, TcpPointer pointer) {
+    ClientsRegister::ClientIt it = clients_.insert(Client(address, state, pointer)).first; // insert returns pair<ClientIt, bool>
 
     return it;
 }

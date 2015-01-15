@@ -1,7 +1,11 @@
 #include "TcpConnection.h"
-namespace server {
-TcpConnection::pointer TcpConnection::create(boost::asio::io_service &io_service) {
-    return pointer(new TcpConnection(io_service));
+#include "Packet.hpp"
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
+#include <sstream>
+
+TcpPointer TcpConnection::create(boost::asio::io_service &io_service) {
+    return TcpPointer(new TcpConnection(io_service));
 }
 
 tcp::socket &TcpConnection::socket() {
@@ -10,45 +14,60 @@ tcp::socket &TcpConnection::socket() {
 void TcpConnection::write(std::string message) {
 
 
-    boost::asio::async_write(socket_, boost::asio::buffer(message),
-                             boost::bind(&TcpConnection::handleWrite,
-                                         shared_from_this(),
-                                         boost::asio::placeholders::error,
-                                         boost::asio::placeholders::bytes_transferred));
+    async_write(socket_, boost::asio::buffer(message),
+                boost::bind(&TcpConnection::handle_write,
+                            shared_from_this(),
+                            boost::asio::placeholders::error,
+                            boost::asio::placeholders::bytes_transferred));
 }
-void TcpConnection::waitData() {
-    async_read(socket_,  boost::asio::buffer(response_, size_),
-               boost::bind(&TcpConnection::handleRead, this,
+void TcpConnection::wait_data() {
+    async_read(socket_, response_,
+               boost::bind(&TcpConnection::handle_read, this,
                            placeholders::error, placeholders::bytes_transferred));
 }
 void TcpConnection::close() {
     this->socket_.close();
 }
-std::string TcpConnection::ipAdress() {
+std::string TcpConnection::ip_address() {
     return this->socket_.remote_endpoint().address().to_string();
 }
 
 TcpConnection::TcpConnection(boost::asio::io_service &io_service)
     : socket_(io_service) {
-    size_ = MAX_SIZE_MSG;
 }
 
-void TcpConnection::handleWrite(const boost::system::error_code &err,
-                                size_t size) {
+void TcpConnection::handle_write(const boost::system::error_code & /*err*/,
+                                 size_t /*size*/) {
 
 }
 
-void TcpConnection::handleRead(const boost::system::error_code &err,
-                               size_t size) {
-    if(!err)
-        waitData();
+void TcpConnection::handle_read(const boost::system::error_code &err,
+                                size_t /*size*/) {
+    if(!err) {
+        Packet packet;
+        std::istream is(&response_);
+        boost::archive::text_iarchive ia(is); //jak go zaadresować?
+ 	try{
+       	ia >> packet; //gdzie mam umieścić ten pakiet, jak uzyskać dostęp do kolejki?
 
+        }
+        catch(...)
+	{
+         
+
+	}	     
+     	wait_data();
+    }
 }
-std::string TcpConnection::read() {
+/*std::string TcpConnection::read() { //być może nie będzie już dalej potrzebne
     mtx_.lock();
     std::string tmp (response_);
     std::memset(response_, ' ', sizeof(response_));
     mtx_.unlock();
     return tmp;
-}
+}*/
+
+unsigned short TcpConnection::port() {
+    return this->socket_.remote_endpoint().port();
+
 }

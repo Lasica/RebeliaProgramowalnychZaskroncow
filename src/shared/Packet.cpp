@@ -18,13 +18,13 @@ Packet::Packet(ResourcePtr content__, Tag tag__, Address ad__) :
 }
 
 Packet::StreamBuffer Packet::get_data_streambuf() { // TODO do poprawienia, kiedy będzie znany typ StreamBuffer
-   std::stringstream ofs;
-   boost::archive::text_oarchive oa(ofs);
-   oa << *this;
-   return ofs.str(); // ten return chyba nie ma sensu
+    std::stringstream ofs;
+    boost::archive::text_oarchive oa(ofs);
+    oa << *this;
+    return ofs.str(); // ten return chyba nie ma sensu
 }
 
-const Address& Packet::get_address() const {
+const Address &Packet::get_address() const {
     return address_;
 }
 

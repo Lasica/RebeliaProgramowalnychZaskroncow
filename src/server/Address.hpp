@@ -25,6 +25,6 @@ struct Address {
     Address() : ip(0), port(1) { }  // konstruktor bezparametrowy przydaje się m.in w testach i dla konstruktora bezparametrowego Packetu
 };
 
-std::ostream& operator<<(std::ostream &o, const Address &a);
+std::ostream &operator<<(std::ostream &o, const Address &a);
 
 #endif // ADDRESS_HPP

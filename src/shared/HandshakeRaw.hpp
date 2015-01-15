@@ -23,25 +23,33 @@ BOOST_CLASS_EXPORT_KEY(HandshakeRaw)
 struct HandshakeRaw : public Resource {
 
 
-    HandshakeRaw(Address ad=Address(0,0)) : address_(ad) { ; }
-    virtual ~HandshakeRaw() { ; }
+    HandshakeRaw(Address ad = Address(0, 0)) : address_(ad) {
+        ;
+    }
+    virtual ~HandshakeRaw() {
+        ;
+    }
 
-    virtual Resource::Tag get_tag() { return Resource::HANDSHAKE; }
+    virtual Resource::Tag get_tag() {
+        return Resource::HANDSHAKE;
+    }
 
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int) {
         //serializacja klasy bazowej
-        ar & boost::serialization::base_object<Resource>(*this);
+        ar &boost::serialization::base_object<Resource>(*this);
 
-        ar & address_;
+        ar &address_;
     }
 
     Address address_;
 
 
     // tylko dla testów
-    virtual std::string show_content() { return ("** HandshakeRaw **, address.ip==" + std::to_string(address_.ip) + ", address.port==" + std::to_string(address_.port) + "\n"); }
+    virtual std::string show_content() {
+        return ("** HandshakeRaw **, address.ip==" + address_.ip + ", address.port==" + std::to_string(address_.port) + "\n");
+    }
 };
 
 #endif //HANDSHAKE_RAW_HPP

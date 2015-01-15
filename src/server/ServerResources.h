@@ -6,8 +6,7 @@
 #include "shared/typedefinitions.h"
 #include "server/Packet_handler.h"
 
-struct ServerResources
-{
+struct ServerResources {
     std::thread packetHandler;
     PacketQueue received;
     PacketQueue toSend;
@@ -27,7 +26,7 @@ struct ServerResources
         packetHandler.join();
     }
 
-protected:
+  protected:
     bool running_;
 };
 

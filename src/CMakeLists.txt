@@ -4,7 +4,7 @@ set(LIB_SOURCES
     server/Client.cpp
     server/ClientDataRaw.cpp
     server/ClientsRegister.cpp
-    server/ConnectionsIterator.cpp
+######### server/ConnectionsIterator.cpp
 		#server/FakeServer.cpp
 		server/Packet_handler.cpp
     server/Server.cpp

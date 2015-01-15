@@ -23,7 +23,7 @@ BOOST_CLASS_EXPORT_KEY(GameRoom)
 
 //TODO: dziedziczenie public, czy protected? przy protected trzeba dopisać gettery/settery
 class GameRoom : public GameRoomRaw {
-public:
+ public:
     /*
      * obiekty: ustawienia (parsowalne na lua):
      * dla przykladu: mapa, predkosci wezy,

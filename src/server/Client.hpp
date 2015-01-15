@@ -20,14 +20,13 @@ Każdy gracz jest opisany przez parametry charakteryzujące:
 #include "shared/Observer.h"
 #include "shared/typedefinitions.h"
 #include "server/ClientDataRaw.h"
+#include "shared/TcpConnection.h"
 
 class Client : public Observer, public ClientDataRaw {
-public:
-
+  public:
     // TODO: W klasie ClientDataRaw lub tutaj dodać inicjację ClientID_ z jakiegoś licznika
-    Client(std::string nick, Address address, ClientState state);
-    // Client(std::string nick, short unsigned int port, std::string ip, statename state, std::string gameID);
-    Client(const Client& c);
+    Client( Address address, ClientState state, TcpPointer pointer=nullptr, std::string nick = "UNREGISTERED");
+    Client(const Client &c);
 
     ~Client();
 
@@ -35,17 +34,17 @@ public:
     ClientState                     get_state() const;
     std::string                     get_nickname() const { return nickname_; }
     Address                         get_address() const { return address_; }
-    //bool                            is_in_game();            //true if state==IN_GAME OBSOLETE
-    void                            set_state(ClientState s);
 
-    bool                            operator<(const Client&) const;
+    void                            set_state(ClientState s);
+    bool                            operator<(const Client &) const;
     virtual void                    update(Resource *updateInfo);
 
-private:
+  private:
     const std::string               nickname_;
     const Address                   address_;
 
     static ClientID                 nextID_;
+    TcpPointer                      connection_;
     //ClientState                     state_;
     //std::unique_ptr<ClientState>      state_;
 };

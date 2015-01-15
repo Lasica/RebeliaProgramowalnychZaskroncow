@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE( essential_test ) {
 
     Address ad;
     ClientState cs(ClientState::LOBBY, 0);
-    ClientPtr testHost(new Client("testHost", ad, cs));
+    ClientPtr testHost(new Client(ad, cs, nullptr, "testHost"));
 
     GameRoom testGR(testHost, "testGameRoom");
 
@@ -45,9 +45,9 @@ BOOST_AUTO_TEST_SUITE(  adding_and_removing_players  )
 BOOST_AUTO_TEST_CASE  ( add_player  ) {
     Address ad;
     ClientState cs(ClientState::LOBBY, 0);
-    ClientPtr testHost(new Client("testHost", ad, cs));
-    ClientPtr testPlayer1(new Client("testPlayer1", ad, cs));
-    ClientPtr testPlayer2(new Client("testPlayer2", ad, cs));
+    ClientPtr testHost(new Client(ad, cs, nullptr, "testHost"));
+    ClientPtr testPlayer1(new Client(ad, cs, nullptr, "testPlayer1"));
+    ClientPtr testPlayer2(new Client(ad, cs, nullptr, "testPlayer2"));
 
     GameRoom testGR(testHost, "testGameRoom");
     testGR.add_player(testPlayer1);
