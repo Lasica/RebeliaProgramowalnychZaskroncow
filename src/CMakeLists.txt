@@ -50,6 +50,7 @@ set(LIB_HEADERS
 	shared/Resource.h
 	shared/Subject.h
 	shared/TcpConnection.h
+  shared/typedefinitions.h # czy to jest tu potrzebne?
 	)
 
 add_library( PROJECT_LIBRARY ${LIB_SOURCES} ${LIB_HEADERS} )

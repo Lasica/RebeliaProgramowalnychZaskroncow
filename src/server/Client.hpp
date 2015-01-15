@@ -23,6 +23,8 @@ Każdy gracz jest opisany przez parametry charakteryzujące:
 
 class Client : public Observer, public ClientDataRaw {
 public:
+
+    // TODO: W klasie ClientDataRaw lub tutaj dodać inicjację ClientID_ z jakiegoś licznika
     Client(std::string nick, Address address, ClientState state);
     // Client(std::string nick, short unsigned int port, std::string ip, statename state, std::string gameID);
     Client(const Client& c);

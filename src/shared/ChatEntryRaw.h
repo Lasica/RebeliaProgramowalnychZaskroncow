@@ -10,8 +10,8 @@
 #include "shared/Resource.h"
 
 struct ChatEntryRaw;
-BOOST_CLASS_EXPORT(ChatEntryRaw)
-
+//BOOST_CLASS_EXPORT(ChatEntryRaw)
+BOOST_CLASS_EXPORT_KEY(ChatEntryRaw)
 
 struct ChatEntryRaw : public Resource {
     ChatEntryRaw() { }

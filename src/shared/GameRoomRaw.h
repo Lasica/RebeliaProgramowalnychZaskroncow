@@ -12,23 +12,23 @@
 #include <list>
 
 struct GameRoomRaw;
-BOOST_CLASS_EXPORT(GameRoomRaw)
+//BOOST_CLASS_EXPORT(GameRoomRaw)
+BOOST_CLASS_EXPORT_KEY(GameRoomRaw)
 
 
 struct GameRoomRaw : public Resource {
 
-    GameRoomRaw() {}
+    GameRoomRaw() { }
     GameRoomRaw(std::string name) : gameRoomName(name) { }
-    ~GameRoomRaw() {}
+    virtual ~GameRoomRaw() { }
 
     std::string gameRoomName;
     std::list<std::string> playersNames;    // nicki wszystkich graczy w tym pokoju
     virtual Tag get_tag() { return GAMEROOM; }
 
-
     virtual std::string show_content() { return ("** GameRoomRaw **, gameRoomName==" + gameRoomName + std::string([this]()->std::string{ std::string temp(""); for(auto a: playersNames) temp+=a; return temp;}()) +"\n"); }
 
-private:
+//protected:
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int) {

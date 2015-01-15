@@ -17,7 +17,8 @@
 #include "server/Address.hpp"
 
 struct HandshakeRaw;
-BOOST_CLASS_EXPORT(HandshakeRaw)
+//BOOST_CLASS_EXPORT(HandshakeRaw)
+BOOST_CLASS_EXPORT_KEY(HandshakeRaw)
 
 struct HandshakeRaw : public Resource {
 

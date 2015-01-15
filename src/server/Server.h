@@ -1,3 +1,4 @@
+//TODO(?): dodać zabezpieczenie przed podwójnym załączeniem (ifndef...)
 #include <iostream>
 #include <string>
 #include <boost/bind.hpp>
