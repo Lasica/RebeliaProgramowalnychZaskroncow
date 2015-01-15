@@ -10,7 +10,7 @@
 #include "server/Address.hpp"
 
 class Handshake : protected HandshakeRaw {
-public:
+  public:
     Handshake(Address ad);
     ~Handshake();
 

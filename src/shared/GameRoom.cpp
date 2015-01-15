@@ -3,9 +3,8 @@
 #include "server/ClientDataRaw.h"
 
 GameRoom::~GameRoom() {
-    for(auto a: players_){
+    for(auto a : players_)
         remove_player(a);
-    }
 }
 
 // najpierw trzeba sprawdzać, czy na tym serwerze są jeszcze wolne miejsca

@@ -10,7 +10,7 @@
 #include <list>
 
 class GameRoom : protected GameRoomRaw {
-public:
+  public:
     /*
      * obiekty: ustawienia (parsowalne na lua):
      * dla przykladu: mapa, predkosci wezy,
@@ -30,10 +30,12 @@ public:
     void remove_player(ClientPtr player);
 
     typedef int ID;
-    ID get_id() { return id_; }
+    ID get_id() {
+        return id_;
+    }
 
 
-private:
+  private:
     const ID id_;   //id danego GameRoomu
     unsigned int numOfPlayers_;
 

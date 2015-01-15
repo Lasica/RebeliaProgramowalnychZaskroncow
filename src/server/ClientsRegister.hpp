@@ -8,11 +8,11 @@
 #include "shared/Subject.h"
 
 class ClientsRegister {
-public:
+  public:
     typedef std::set<Client>::iterator ClientIt;
     ClientsRegister();
     ~ClientsRegister() { }
-    ClientIt register_client(std::string nick, Address address, ClientState state);
+    ClientIt register_client(Address address, ClientState state, TcpPointer pointer);
     //ClientIt register_client(std::string nick, short unsigned int port,
     //                             AddressIP ip, ClientState state, std::string gameID);  //returns registered client's iterator
 
@@ -34,12 +34,16 @@ public:
     //void remove_client(std::string nick);   //or with a nick
     void remove_client(ClientIt it);
 
-    ClientState get_state(const ClientIt &it)   const { return it->get_state();   } // game Id is in state
-    int         get_size()                      const { return clients_.size();   }
+    ClientState get_state(const ClientIt &it)   const {
+        return it->get_state();      // game Id is in state
+    }
+    int         get_size()                      const {
+        return clients_.size();
+    }
 
-private:
-    ClientsRegister(ClientsRegister& copy) = delete;
-    ClientsRegister& operator=(const ClientsRegister&) = delete;
+  private:
+    ClientsRegister(ClientsRegister &copy) = delete;
+    ClientsRegister &operator=(const ClientsRegister &) = delete;
 
 
     std::set<Client> clients_;

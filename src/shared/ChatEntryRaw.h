@@ -19,7 +19,9 @@ struct ChatEntryRaw : public Resource {
         nick_(nick__), message_(message__) { }
     virtual ~ChatEntryRaw() { }
 
-    virtual Resource::Tag get_tag() { return Resource::CHAT_ENTRY; }
+    virtual Resource::Tag get_tag() {
+        return Resource::CHAT_ENTRY;
+    }
 
     friend class boost::serialization::access;
     template<class Archive>

@@ -7,15 +7,14 @@
 #include "shared/Packet.hpp"
 #include "shared/typedefinitions.h"
 
-class Packet_handler
-{
-public:
+class Packet_handler {
+  public:
     Packet_handler(std::queue<Packet> *inQueue, bool *running, std::chrono::milliseconds sleepTime) :
         inQueue_(inQueue), running_(running), sleepTime_(sleepTime) { }
     void operator()();
-private:
-    PacketQueue * const inQueue_;
-    bool * const running_;
+  private:
+    PacketQueue *const inQueue_;
+    bool *const running_;
     std::chrono::milliseconds sleepTime_;
 };
 

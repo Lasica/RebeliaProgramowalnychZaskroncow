@@ -10,7 +10,7 @@
 
 class Observer {
   public:
-    virtual void update(Resource*) {};
+    virtual void update(Resource *) {};
     virtual ~Observer() {};
 };
 
