@@ -10,8 +10,8 @@ ClientsRegister::ClientsRegister() {
     ;
 }
 
-ClientsRegister::ClientIt ClientsRegister::register_client(Address address, ClientState state, TcpPointer pointer) {
-    ClientsRegister::ClientIt it = clients_.insert(Client(address, state, pointer)).first; // insert returns pair<ClientIt, bool>
+ClientsRegister::ClientIt ClientsRegister::register_client(Address address, TcpPointer pointer) {
+    ClientsRegister::ClientIt it = clients_.insert(Client(address, pointer)).first; // insert returns pair<ClientIt, bool>
 
     return it;
 }

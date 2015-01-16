@@ -22,8 +22,9 @@ class GameRoom;
 BOOST_CLASS_EXPORT_KEY(GameRoom)
 
 //TODO: dziedziczenie public, czy protected? przy protected trzeba dopisać gettery/settery
+//FIXME: dziedziczenie raczej protected. Gameroom tez powinien dziedziczyc po Subject - skoro mamy mechanizm obserwatora, uzywajmy go jak najczesciej. Mysle tez, ze mozna wykorzystac tamtejszą listę subskrybentów zamiast tej listy tutaj. W końcu jedynym
 class GameRoom : public GameRoomRaw {
- public:
+  public:
     /*
      * obiekty: ustawienia (parsowalne na lua):
      * dla przykladu: mapa, predkosci wezy,
@@ -34,8 +35,9 @@ class GameRoom : public GameRoomRaw {
 
     // numOfPlayers_ ustawiam na 0, bo jest potem zwiększany w add_player
     GameRoom(ClientPtr host, std::string gameRoomName) :
-        GameRoomRaw(gameRoomName), id_(gameRoomCounter_++),
-        numOfPlayers_(0), host_(host) { add_player(host); }
+        GameRoomRaw(gameRoomName), id_(gameRoomCounter_++), numOfPlayers_(0), host_(host) {
+        add_player(host);
+    }
 
     // dla serializacji
     GameRoom() : id_(-1) { }
@@ -43,13 +45,18 @@ class GameRoom : public GameRoomRaw {
     virtual ~GameRoom();
 
     // może jednak zastosować iteratory z ClientsRegister?
-    // albo ID klientów?
+    // FIXME: powinno byc uzywane ID klientow wszedzie w tej klasie (a w zasadzie w klasie RAW), poniewaz takie informacje o gameroomie
+    // beda serializowane i przesylane przez internet - sa widoczne dla klienta
     void add_player(ClientPtr newPlayer);
     // TODO (w poniższej lub innej metodzie): kiedy usuwany jest host - cały GameRoom jest kasowany
     void remove_player(ClientPtr player);
 
-    GameRoomID      get_id() { return id_; }
-    unsigned int    get_number_of_players() { return numOfPlayers_; }
+    GameRoomID      get_id() {
+        return id_;
+    }
+    unsigned int    get_number_of_players() {
+        return numOfPlayers_;
+    }
 
     // ****************
     //UWAGA! Ta klasa i jej serializacja wymaga skrupulatnego przetestowania!
@@ -66,11 +73,12 @@ class GameRoom : public GameRoomRaw {
 //    }
 
 
-private:
+  private:
     const GameRoomID id_;   //id danego GameRoomu
     unsigned int numOfPlayers_;
 
-    std::list<ClientPtr> players_;
+    std::list<ClientPtr> players_; //FIXME: nie powinienes trzymac listy graczy tu,
+    // jak i listy nickow w klasie GameRoomRaw. To powinno byc tylko w klasie Raw, tak jak i host.
     ClientPtr host_;    // ten gracz ma specjalne uprawnienia
 
     static GameRoomID gameRoomCounter_; //licznik GameRoomów, potrzebny do inicjalizacji id_

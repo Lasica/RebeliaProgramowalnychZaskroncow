@@ -6,8 +6,9 @@
 // constructors & destructor
 ClientID Client::nextID_ = 0;
 
-Client::Client( Address address, ClientState state, TcpPointer pointer, std::string nick) :
-    ClientDataRaw(state, Client::nextID_++), nickname_(nick), address_(address), connection_(pointer) { }
+Client::Client( Address address, TcpPointer pointer, std::string nick) :
+    ClientDataRaw(Client::nextID_++, nick, ClientState()), address_(address), connection_(pointer) {
+}
 
 // Client::Client(std::string nick, Address address, ClientState state, std::string gameID) :
 //     clientID_(Client::nextID_++), state_(new ClientState(state)) {
@@ -25,7 +26,7 @@ Client::Client( Address address, ClientState state, TcpPointer pointer, std::str
 
 // copy c-tor copy also the unique id of every client
 Client::Client(const Client &c) :
-    ClientDataRaw(c.state_, c.clientID_), nickname_(c.nickname_), address_(c.address_), connection_(c.connection_) {
+    ClientDataRaw(c.clientID_, c.nickname_, c.state_), address_(c.address_), connection_(c.connection_) {
 }
 
 Client::~Client() {
@@ -59,5 +60,11 @@ bool Client::operator<(const Client &comp) const {
 }
 
 // TODO
-void Client::update(Resource *updateInfo) { }   // bez definicji tej metody nie kompiluje się Client
+void Client::update(Resource *updateInfo) {
+    Packet updatePackage(Packet::RESOURCE, address_, updateInfo);
+    send(updatePackage);
+}   // bez definicji tej metody nie kompiluje się Client
 
+inline void Client::send(Packet &packet) {
+    connection_->write(packet.get_data_streambuf()); //TODO: to be edited using streambufs
+}

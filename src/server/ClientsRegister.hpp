@@ -12,7 +12,7 @@ class ClientsRegister {
     typedef std::set<Client>::iterator ClientIt;
     ClientsRegister();
     ~ClientsRegister() { }
-    ClientIt register_client(Address address, ClientState state, TcpPointer pointer);
+    ClientIt register_client(Address address, TcpPointer pointer);
     //ClientIt register_client(std::string nick, short unsigned int port,
     //                             AddressIP ip, ClientState state, std::string gameID);  //returns registered client's iterator
 

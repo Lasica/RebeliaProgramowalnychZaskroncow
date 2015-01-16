@@ -3,14 +3,14 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
-Packet::Packet(Resource *content__, Tag tag__, Address ad__) :
+Packet::Packet(Tag tag__, Address ad__, Resource *content__) :
     content_(content__),
     tag_(tag__),
     address_(ad__) {
     ;
 }
 
-Packet::Packet(ResourcePtr content__, Tag tag__, Address ad__) :
+Packet::Packet(Tag tag__, Address ad__, ResourcePtr content__) :
     content_(content__),
     tag_(tag__),
     address_(ad__) {
@@ -21,14 +21,6 @@ Packet::StreamBuffer Packet::get_data_streambuf() { // TODO do poprawienia, kied
     std::stringstream ofs;
     boost::archive::text_oarchive oa(ofs);
     oa << *this;
-    return ofs.str(); // ten return chyba nie ma sensu
-}
-
-const Address &Packet::get_address() const {
-    return address_;
-}
-
-Packet::Tag Packet::get_tag() {
-    return tag_;
+    return ofs.str();
 }
 

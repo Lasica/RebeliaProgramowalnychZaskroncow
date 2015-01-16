@@ -11,15 +11,23 @@ void Packet_handler::operator()() {
                 Packet *top = &inQueue_->front();
 
                 switch(top->get_tag()) {
-
                 case Packet::RESOURCE: {
                     // pokazuje na cout zawartość odebranego pakietu (tylko dla testów)
                     std::cout << top->get_tag() << " " << top->show_resource_content() << std::endl;
+
+                    switch(top->get_content()->get_tag()) {
+                    case Resource::CHAT_ENTRY:
+                        break;
+
+                    default :
+                        std::cout << "unknown resource \n";
+                        break;
+                    }
+
                     break;
                 }
 
                 //case RESOURCE:
-
                 default:
                     break; // unexpacted response, maybe inform client about error?
                 }

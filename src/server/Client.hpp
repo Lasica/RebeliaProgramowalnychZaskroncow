@@ -21,11 +21,12 @@ Każdy gracz jest opisany przez parametry charakteryzujące:
 #include "shared/typedefinitions.h"
 #include "server/ClientDataRaw.h"
 #include "shared/TcpConnection.h"
+#include "shared/Packet.hpp"
 
 class Client : public Observer, public ClientDataRaw {
   public:
     // TODO: W klasie ClientDataRaw lub tutaj dodać inicjację ClientID_ z jakiegoś licznika
-    Client( Address address, ClientState state, TcpPointer pointer=nullptr, std::string nick = "UNREGISTERED");
+    Client( Address address, TcpPointer pointer=nullptr, std::string nick = "UNREGISTERED");
     Client(const Client &c);
 
     ~Client();
@@ -40,13 +41,12 @@ class Client : public Observer, public ClientDataRaw {
     virtual void                    update(Resource *updateInfo);
 
   private:
-    const std::string               nickname_;
     const Address                   address_;
 
     static ClientID                 nextID_;
     TcpPointer                      connection_;
-    //ClientState                     state_;
-    //std::unique_ptr<ClientState>      state_;
+
+    inline void                     send(Packet &packet);
 };
 
 #endif //CLIENT_HPP

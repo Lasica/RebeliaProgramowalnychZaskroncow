@@ -1,7 +1,5 @@
 #include "typedefinitions.h"
 #include "shared/GameRoom.h"
-#include "server/Client.hpp"
-#include "server/ClientDataRaw.h"
 
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>       //makro BOOST_CLASS_EXPORT

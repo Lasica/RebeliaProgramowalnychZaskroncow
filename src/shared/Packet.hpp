@@ -16,32 +16,38 @@
 class Packet {
   public:
     // dziala, tylko konsekwencja umieszczenia go w klasie jest odnoszenie sie poprzez Packet::RESOURCE, itd.
-    enum Tag { RESOURCE, CONNECTION_END, CONNECTION_BEGIN };
-    typedef boost::shared_ptr<Resource> ResourcePtr;
-    // TODO: usunąć ten typedef - adresem będzie struktura typu Address
-    //typedef int Address;
+    /*
+     * Ten enum moze urosnac duzy, poniewaz do kazdej dodanej funkcjonalnosci,
+     * bedzie nowy tag pakietu - w przyszlosci mozna sie zastanowic jak to zautomatyzowac.
+     */
+    enum Tag {
+        RESOURCE,
+        CONNECTION_END,
+        CONNECTION_BEGIN
+    };
     typedef std::string StreamBuffer;
 
     // boost::serialization potrzebuje bezparametrowego konstruktora, można go przenieść do "private"
     Packet() { }
-    Packet(Resource *content__, Tag tag__, Address ad__);
-    Packet(ResourcePtr content__, Tag tag__, Address ad__);
+    Packet(Tag tag__, Address ad__, Resource *content__=nullptr);
+    Packet(Tag tag__, Address ad__, ResourcePtr content__=nullptr);
 
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int) {
         ar &content_;   // serializacja obiektu pokazywanego przez shared_ptr jest teraz prosta
         ar &tag_;
-        ar &address_;   //
+        ar &address_;
     }
 
-    //TODO - tego moze nie byc, poniewaz Pakiet ma metode serialize.
+    //TODO - tego moze nie byc, poniewaz Pakiet ma metode serialize, lecz poki co niech zostanie
     StreamBuffer get_data_streambuf();
-    const Address &get_address() const;
 
 
     // !!! uwaga - inna metoda o nazwie get_tag() istnieje w Resource
-    Tag get_tag();
+    const Address&  get_address() const { return address_;  }
+    Tag             get_tag()     const { return tag_;      }
+    ResourcePtr     get_content() const { return content_;  }
 
     std::string show_resource_content() {
         return content_->show_content();
@@ -50,7 +56,7 @@ class Packet {
   private:
     ResourcePtr content_;
     Tag tag_;
-    Address address_;   // czy address jest potrzebny w pakiecie?
+    Address address_;   // czy address jest potrzebny w pakiecie? - TAK!
 };
 
 #endif //PACKET_HPP

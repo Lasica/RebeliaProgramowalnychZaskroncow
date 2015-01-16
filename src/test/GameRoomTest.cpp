@@ -12,7 +12,6 @@
 #include "shared/GameRoomRaw.h"
 #include "shared/GameRoom.h"
 #include "server/Client.hpp"
-#include "server/ClientDataRaw.h"
 
 #include <fstream>
 
@@ -23,10 +22,9 @@ using namespace boost::unit_test;
 BOOST_AUTO_TEST_SUITE( GameRoom_constructor )
 
 BOOST_AUTO_TEST_CASE( essential_test ) {
-
     Address ad;
-    ClientState cs(ClientState::LOBBY, 0);
-    ClientPtr testHost(new Client(ad, cs, nullptr, "testHost"));
+    ClientState cs; // default state, (LOBBY, 0)
+    ClientPtr testHost(new Client(ad, nullptr, "testHost"));
 
     GameRoom testGR(testHost, "testGameRoom");
 
@@ -44,20 +42,17 @@ BOOST_AUTO_TEST_SUITE(  adding_and_removing_players  )
 
 BOOST_AUTO_TEST_CASE  ( add_player  ) {
     Address ad;
-    ClientState cs(ClientState::LOBBY, 0);
-    ClientPtr testHost(new Client(ad, cs, nullptr, "testHost"));
-    ClientPtr testPlayer1(new Client(ad, cs, nullptr, "testPlayer1"));
-    ClientPtr testPlayer2(new Client(ad, cs, nullptr, "testPlayer2"));
+    ClientState cs;
+    ClientPtr testHost(new Client(ad, nullptr, "testHost"));
+    ClientPtr testPlayer1(new Client(ad, nullptr, "testPlayer1"));
+    ClientPtr testPlayer2(new Client(ad, nullptr, "testPlayer2"));
 
     GameRoom testGR(testHost, "testGameRoom");
     testGR.add_player(testPlayer1);
     testGR.add_player(testPlayer2);
     BOOST_CHECK_EQUAL(  testGR.get_number_of_players(),    3  );
-
-
-
-
 }
+
 BOOST_AUTO_TEST_SUITE_END()
 
 

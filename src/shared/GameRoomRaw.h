@@ -15,20 +15,24 @@ struct GameRoomRaw;
 //BOOST_CLASS_EXPORT(GameRoomRaw)
 BOOST_CLASS_EXPORT_KEY(GameRoomRaw)
 
-
+// Powinna tez zawierac liczbe graczy.
 struct GameRoomRaw : public Resource {
 
     GameRoomRaw() { }
     GameRoomRaw(std::string name) : gameRoomName(name) { }
     virtual ~GameRoomRaw() { }
 
-    std::string gameRoomName;
-    std::list<std::string> playersNames;    // nicki wszystkich graczy w tym pokoju
+    std::string             gameRoomName;
+    std::list<std::string>  playersNames;    // nicki wszystkich graczy w tym pokoju
+
     virtual Tag get_tag() {
         return GAMEROOM;
     }
-
-    virtual std::string show_content() { return ("** GameRoomRaw **, gameRoomName==" + gameRoomName + std::string([this]()->std::string{ std::string temp(""); for(auto a: playersNames) temp+=a; return temp;}()) +"\n"); }
+    // WTF, co sie tu dzieje?
+    virtual std::string show_content() {
+        return ("** GameRoomRaw **, gameRoomName==" + gameRoomName + std::string([this]()->std::string { std::string temp(""); for(auto a : playersNames) temp += a; return temp;}())
+                + "\n");
+    }
 
     friend class boost::serialization::access;
     template<class Archive>

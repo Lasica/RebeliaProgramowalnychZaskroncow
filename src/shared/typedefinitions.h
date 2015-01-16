@@ -4,16 +4,22 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
+/* Nie nalezy includowac klas ktore sa tu uzywane do definicji typu,
+ * poniewaz nie udaloby sie rozwiazac tych wszystkich zaleznosci.
+ * Nalezy je tylko deklarowac.
+ */
 class Packet;
 class Client;
 class TcpConnection;
+class Resource;
 
-typedef std::queue<Packet>                  PacketQueue;
-typedef unsigned int                        ClientID;
 typedef std::string                         AddressIP;
-typedef unsigned short                      AddressPort;
+typedef std::queue<Packet>                  PacketQueue;
 typedef boost::shared_ptr<TcpConnection>    TcpPointer;
 typedef boost::shared_ptr<Client>           ClientPtr;
+typedef boost::shared_ptr<Resource>         ResourcePtr;
 typedef int                                 GameRoomID;
+typedef unsigned int                        ClientID;
+typedef unsigned short                      AddressPort;
 
 #endif

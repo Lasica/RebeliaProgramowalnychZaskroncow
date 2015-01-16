@@ -2,7 +2,7 @@
 #define CLIENTDATARAW_H
 #include <boost/serialization/base_object.hpp>
 //odkomentować tego includa, jeśli ClientDataRaw ma dziedziczyć po Resource
-//#include <boost/serialization/export.hpp>
+#include <boost/serialization/export.hpp>
 
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
@@ -15,37 +15,45 @@ struct ClientState {
     Location location;
     int locationIdentifier;
 
-    ClientState(Location l, int lIdentifier) : location(l), locationIdentifier(lIdentifier) { } //for the purpose of GameRoom methods
-    ClientState() { }
-private:
+    ClientState(Location l = LOBBY, int lIdentifier = 0) : location(l), locationIdentifier(lIdentifier) { }
+
+  private:
     friend class boost::serialization::access;
     template<typename Archive>
-    void serialize(Archive & ar, const unsigned int /*version*/) {
-        ar & location;
-        ar & locationIdentifier;
+    void serialize(Archive &ar, const unsigned int /*version*/) {
+        ar &location;
+        ar &locationIdentifier;
     }
 };
 
 
-//poniższe 2 linijki do odkomentowania, jeśli ClientDataRaw ma dziedziczyć po Resource
-//struct ClientDataRaw;
-//BOOST_CLASS_EXPORT(ClientDataRaw);
+struct ClientDataRaw;
+const ClientID UNINITIALISED_ID = -1;
 
-//TODO: serialization
-struct ClientDataRaw /* :  public Resource */  {
-    // TODO: W klasie Client lub tutaj dodać inicjację ClientID_ z jakiegoś licznika
-    ClientDataRaw(ClientState state, ClientID clientID) : state_(state), clientID_(clientID) { }
-    ClientState state_;
-    const ClientID clientID_;   //unique ID for every player
+struct ClientDataRaw : public Resource {
+    ClientDataRaw(ClientID clientID, std::string nickname, ClientState state) : state_(state), clientID_(clientID), nickname_(nickname) { }
+    ClientState     state_;
+    const ClientID  clientID_;   //unique ID for every player
+    std::string     nickname_;
 
+    virtual Tag get_tag() {
+        return Resource::CLIENT_DATA;
+    }
+    virtual std::string show_content() {
+        return "Client:" + std::to_string(clientID_) + ";" + nickname_ + ";(" + \
+               std::to_string(state_.location) + "," + std::to_string(state_.locationIdentifier) + ")";
+    }
     //konstruktor dla serializacji
-    ClientDataRaw() : clientID_(-1) { }
-private:
-    friend class boost::serialization::access;
+    ClientDataRaw() : clientID_(UNINITIALISED_ID) { }
+
+  private:
+    friend class boost::serialization::access; // TODO: test serialisation
     template<typename Archive>
-    void serialize(Archive & ar, const unsigned int /*version*/) {
-        ar & state_;
-        ar & const_cast<ClientID&>(clientID_);  //clientID_ jest stały, więc trzeba go serializować tak
+    void serialize(Archive &ar, const unsigned int /*version*/) {
+        ar &boost::serialization::base_object<Resource>(*this);
+        ar &const_cast<ClientID &>(clientID_);  //clientID_ jest stały, więc trzeba go serializować tak
+        ar &state_;
+        ar &nickname_;
     }
 
 };

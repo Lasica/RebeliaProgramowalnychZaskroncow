@@ -8,7 +8,6 @@
 
 
 #include "server/Address.hpp"
-#include "shared/Resource.h"
 #include "shared/ChatEntryRaw.h"
 
 #include <fstream>
@@ -44,7 +43,7 @@ BOOST_AUTO_TEST_CASE( simple_case ) {
 
 BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
 
-    Resource* pResource = new ChatEntryRaw("deleting_pointer_to_resource", "TestMSG");
+    Resource *pResource = new ChatEntryRaw("deleting_pointer_to_resource", "TestMSG");
     std::ofstream ofs("ChatEntryRawTest_deleting_pointer_to_resource"); // strumieniem jest tutaj plik
 
     boost::archive::text_oarchive oaTest(ofs);
@@ -54,7 +53,7 @@ BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
 
     delete pResource;   // deleting this pointer to check, if object can be restored from file
 
-    Resource* pDeserialized;
+    Resource *pDeserialized;
 
     std::ifstream ifs("ChatEntryRawTest_deleting_pointer_to_resource");
     boost::archive::text_iarchive ia(ifs);
