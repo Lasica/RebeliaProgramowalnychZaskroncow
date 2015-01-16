@@ -27,7 +27,6 @@
 *.out
 *.app
 *.e
-rpz
 
 # Kdevelop
 *.kdev4
@@ -45,6 +44,6 @@ rpz
 *~
 
 #work directories
-tmp
-build
+tmp/*
+build/*
 docs/*

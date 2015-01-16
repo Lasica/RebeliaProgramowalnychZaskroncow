@@ -27,7 +27,6 @@ void Packet_handler::operator()() {
                     break;
                 }
 
-                //case RESOURCE:
                 default:
                     break; // unexpacted response, maybe inform client about error?
                 }

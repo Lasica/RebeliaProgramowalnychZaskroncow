@@ -6,6 +6,7 @@ set(LIB_SOURCES
     server/ClientsRegister.cpp
 ######### server/ConnectionsIterator.cpp
 		#server/FakeServer.cpp
+		server/Logger.cpp
 		server/Packet_handler.cpp
     server/Server.cpp
 		server/ServerResources.cpp
@@ -31,6 +32,7 @@ set(LIB_HEADERS
   server/ClientsRegister.hpp
  #server/FakeServer.h
 	server/Packet_handler.h
+	server/Logger.h
 	server/Server.h
 	server/ServerResources.h
  #shared/ChatEntry.h
