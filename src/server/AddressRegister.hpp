@@ -3,6 +3,7 @@
 
 #include "server/Address.hpp"
 #include <set>
+#include <boost/thread/shared_mutex.hpp>
 
 class AddressRegister
 {
@@ -14,6 +15,7 @@ public:
 private:
     AddressRegister(AddressRegister &a) = delete;
     std::set<Address> addresses_;
+    mutable boost::shared_mutex access_;
 };
 
 #endif // ADDRESSREGISTER_H

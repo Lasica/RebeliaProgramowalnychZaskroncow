@@ -16,10 +16,11 @@ void TcpServer::startAccept() {
 void TcpServer::handleAccept(TcpPointer new_connection_catched,
                              const boost::system::error_code &error) {
     if (!error) {
+        /* TODO - update
         Address add;
         add.ip = new_connection_catched->ip_address();
         add.port = new_connection_catched->port();
-        register_client(add, new_connection_catched);
+        register_client(add, new_connection_catched);*/
         new_connection_catched->wait_data();
     }
 

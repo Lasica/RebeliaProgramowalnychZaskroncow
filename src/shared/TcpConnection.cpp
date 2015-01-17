@@ -28,7 +28,7 @@ void TcpConnection::wait_data() {
 void TcpConnection::close() {
     this->socket_.close();
 }
-std::string TcpConnection::ip_address() {
+std::string TcpConnection::ip_address() const{
     return this->socket_.remote_endpoint().address().to_string();
 }
 
@@ -67,7 +67,7 @@ void TcpConnection::handle_read(const boost::system::error_code &err,
     return tmp;
 }*/
 
-unsigned short TcpConnection::port() {
+unsigned short TcpConnection::port() const {
     return this->socket_.remote_endpoint().port();
 
 }

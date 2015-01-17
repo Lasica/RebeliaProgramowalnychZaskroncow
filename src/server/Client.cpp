@@ -5,7 +5,7 @@
 
 ClientID Client::nextID_ = 0;
 
-Client::Client( Address address, TcpPointer pointer, std::string nick) :
+Client::Client( const Address *address, TcpPointer pointer, std::string nick) :
     ClientDataRaw(Client::nextID_++, nick, ClientState()), address_(address), connection_(pointer) {
 }
 

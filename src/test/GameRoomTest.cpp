@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_SUITE( GameRoom_constructor )
 BOOST_AUTO_TEST_CASE( essential_test ) {
     Address ad;
     ClientState cs; // default state, (LOBBY, 0)
-    ClientPtr testHost(new Client(ad, nullptr, "testHost"));
+    ClientPtr testHost(new Client(&ad, nullptr, "testHost"));
 
     GameRoom testGR(testHost, "testGameRoom");
 
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_SUITE(  adding_and_removing_players  )
 BOOST_AUTO_TEST_CASE  ( add_player  ) {
     Address ad;
     ClientState cs;
-    ClientPtr testHost(new Client(ad, nullptr, "testHost"));
-    ClientPtr testPlayer1(new Client(ad, nullptr, "testPlayer1"));
-    ClientPtr testPlayer2(new Client(ad, nullptr, "testPlayer2"));
+    ClientPtr testHost(new Client(&ad, nullptr, "testHost"));
+    ClientPtr testPlayer1(new Client(&ad, nullptr, "testPlayer1"));
+    ClientPtr testPlayer2(new Client(&ad, nullptr, "testPlayer2"));
 
     GameRoom testGR(testHost, "testGameRoom");
     testGR.add_player(testPlayer1);

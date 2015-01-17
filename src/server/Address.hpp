@@ -22,7 +22,6 @@
  */
 struct Address {
     Address(AddressIP Ip="non-defined", AddressPort Port=~0) : ip(Ip), port(Port), owner(INVALID_CLIENT_ID), connection(nullptr)  { }
-
     void change_owner(ClientID newOwner) const { owner = newOwner; }
     void update_connection(const TcpPointer& x) const { connection = x; }
     AddressIP                       ip;
@@ -30,7 +29,6 @@ struct Address {
     mutable ClientID                owner;
     mutable TcpPointer              connection; // const?
     bool operator<(const Address &latter) const;
-
 };
 
 std::ostream &operator<<(std::ostream &o, const Address &a);
