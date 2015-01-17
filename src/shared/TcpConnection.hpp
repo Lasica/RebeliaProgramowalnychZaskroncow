@@ -16,10 +16,10 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
     static TcpPointer create(boost::asio::io_service &);
     tcp::socket &socket();
     void write(std::string);
-    std::string read();
-    std::string ip_address();
+    std::string read() const;
+    std::string ip_address() const;
     void wait_data();
-    unsigned short port();
+    unsigned short port() const;
     ~TcpConnection() {
         close();
     }

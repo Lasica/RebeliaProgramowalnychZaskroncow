@@ -26,7 +26,8 @@ Każdy gracz jest opisany przez parametry charakteryzujące:
 
 class Client : public Observer, public ClientDataRaw {
   public:
-    Client(Address address, TcpPointer pointer=nullptr, std::string nick = "UNREGISTERED");
+
+    Client( const Address *address, TcpPointer pointer=nullptr, std::string nick = "UNREGISTERED");
     Client(const Client &c);
 
     ~Client();
@@ -34,20 +35,19 @@ class Client : public Observer, public ClientDataRaw {
     ClientID                        get_client_id() const { return clientID_; }
     ClientState                     get_state() const { return state_; }
     std::string                     get_nickname() const { return nickname_; }
-    Address                         get_address() const { return address_; }
+    const Address*                  get_address() const { return address_; }
 
     void                            set_state(ClientState s) const { state_=s; }
     bool                            operator<(const Client &) const;
     virtual void                    update(Resource *updateInfo);
 
   private:
-    const Address                   address_;
+    const Address*                  address_;
 
     static ClientID                 nextID_;
-    TcpPointer                      connection_;
 
-    inline void                     send(Packet &packet);
 
+    inline void                     send(Packet &packet); // const?
 };
 
 #endif //CLIENT_HPP

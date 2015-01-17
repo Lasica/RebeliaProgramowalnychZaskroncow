@@ -97,6 +97,10 @@ using namespace boost::unit_test;
 //    std::ofstream ofs("HandshakeRawTest_deleting_pointer_to_resource");
 
 //    boost::archive::text_oarchive oaTest(ofs);
+//BOOST_AUTO_TEST_CASE( essential_test ) {
+//    Address ad;
+//    ClientState cs; // default state, (LOBBY, 0)
+//    ClientPtr testHost(new Client(&ad, nullptr, "testHost"));
 
 //    oaTest << pResource;
 //    ofs.close();
@@ -112,6 +116,12 @@ using namespace boost::unit_test;
 //    ifs.close();
 
 //    HandshakeRaw identicalWithSerialized(sampleAd);
+//BOOST_AUTO_TEST_CASE  ( add_player  ) {
+//    Address ad;
+//    ClientState cs;
+//    ClientPtr testHost(new Client(&ad, nullptr, "testHost"));
+//    ClientPtr testPlayer1(new Client(&ad, nullptr, "testPlayer1"));
+//    ClientPtr testPlayer2(new Client(&ad, nullptr, "testPlayer2"));
 
 //    BOOST_CHECK_EQUAL(  pDeserialized->show_content(),   identicalWithSerialized.show_content());
 //}

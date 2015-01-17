@@ -19,7 +19,8 @@ void TcpServer::handleAccept(TcpPointer new_connection_catched,
         Address add;
         add.ip = new_connection_catched->ip_address();
         add.port = new_connection_catched->port();
-        register_client(add, new_connection_catched);
+        const Address *ptr = registeredAddresses.register_address(add);
+        connectedClients.register_client(ptr, new_connection_catched);
         new_connection_catched->wait_data();
     }
 

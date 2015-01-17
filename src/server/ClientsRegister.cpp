@@ -8,9 +8,8 @@
 
 ClientsRegister::ClientsRegister() { }
 
-ClientIt ClientsRegister::register_client(Address address, TcpPointer pointer) {
+ClientIt ClientsRegister::register_client(const Address *address, TcpPointer pointer) {
     ClientIt it = clients_.insert(Client(address, pointer)).first;
-
     return it;
 }
 
@@ -25,7 +24,7 @@ void ClientsRegister::remove_client(ClientIt it) {
 
 
 
-ClientIt ClientsRegister::look_up_with_id(ClientID id) /*const*/ {
+ClientIt ClientsRegister::look_up_with_id(ClientID id) const {
    for(auto it = clients_.begin(); it != clients_.end(); ++it) {
         if(it->get_client_id() == id)
             return it;

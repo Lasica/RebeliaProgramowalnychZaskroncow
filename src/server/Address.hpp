@@ -21,19 +21,14 @@
  * TODO TODO TODO
  */
 struct Address {
-    AddressIP ip;
-    AddressPort port;
-    Address(AddressIP Ip="non-defined", AddressPort Port=~0) : ip(Ip), port(Port) { }
-
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive &ar, const unsigned int /* version */) {
-        ar & ip;
-        ar & port;
-    }
-
+    Address(AddressIP Ip="non-defined", AddressPort Port=~0) : ip(Ip), port(Port), owner(INVALID_CLIENT_ID), connection(nullptr)  { }
+    void change_owner(ClientID newOwner) const { owner = newOwner; }
+    void update_connection(const TcpPointer& x) const { connection = x; }
+    AddressIP                       ip;
+    AddressPort                     port;
+    mutable ClientID                owner;
+    mutable TcpPointer              connection; // const?
     bool operator<(const Address &latter) const;
-
 };
 
 std::ostream &operator<<(std::ostream &o, const Address &a);

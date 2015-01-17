@@ -5,8 +5,10 @@
 
 ClientID Client::nextID_ = 0;
 
-Client::Client( Address address, TcpPointer pointer, std::string nick) :
-    ClientDataRaw(Client::nextID_++, nick, ClientState()), address_(address), connection_(pointer) {
+Client::Client( const Address *address, TcpPointer pointer, std::string nick) :
+    ClientDataRaw(Client::nextID_++, nick, ClientState()), address_(address) {
+        address_->change_owner(clientID_);
+        address_->update_connection(pointer);
 }
 
 // Client::Client(std::string nick, Address address, ClientState state, std::string gameID) :
@@ -25,7 +27,7 @@ Client::Client( Address address, TcpPointer pointer, std::string nick) :
 
 // podejrzewam ze domyslny konstruktor kopiujacy nam wystarczy
 Client::Client(const Client &c) :
-    ClientDataRaw(c.clientID_, c.nickname_, c.state_), address_(c.address_), connection_(c.connection_) {
+    ClientDataRaw(c.clientID_, c.nickname_, c.state_), address_(c.address_) {
 }
 
 Client::~Client() {
@@ -47,5 +49,5 @@ void Client::update(Resource *updateInfo) {
 }
 
 inline void Client::send(Packet &packet) {
-    connection_->write(packet.get_data_streambuf()); //TODO: to be edited using streambufs
+    address_->connection->write(packet.get_data_streambuf()); //TODO: to be edited using streambufs
 }

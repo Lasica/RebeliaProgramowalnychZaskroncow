@@ -12,10 +12,11 @@ class ClientsRegister {
   public:
     ClientsRegister();
     ~ClientsRegister() { }
-    ClientIt register_client(Address address, TcpPointer pointer);
+    ClientIt register_client(const Address *address, TcpPointer pointer);
 
-    ClientIt look_up_with_id(ClientID id)   /* const */;
-    //ClientIt look_up_with_address(Address addr)      const;
+
+    ClientIt look_up_with_id(ClientID id)    const;
+    ClientIt look_up_with_address(Address addr)      const; // TODO -- zoptymalizowac, zeby nie bylo liniowe
 
     /*
      * Funkcje zmieniajace stan sa tymczasowo wykomentowane, gdyz nie sa uzywane

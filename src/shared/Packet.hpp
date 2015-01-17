@@ -40,23 +40,19 @@ class Packet {
 
     // boost::serialization potrzebuje bezparametrowego konstruktora, można go przenieść do "private"
     Packet() { }
-    Packet(Tag tag__, Address ad__, Resource *content__=nullptr);
-    Packet(Tag tag__, Address ad__, ResourcePtr content__=nullptr);
+    Packet(Tag tag__, const Address* ad__=nullptr, Resource *content__=nullptr);
+    Packet(Tag tag__, const Address* ad__, ResourcePtr content__=nullptr);
 
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int) {
-        ar &content_;   // serializacja obiektu pokazywanego przez shared_ptr jest teraz prosta
+        ar &content_;
         ar &tag_;
-        ar &address_;
     }
 
-    //TODO - tego moze nie byc, poniewaz Pakiet ma metode serialize, lecz poki co niech zostanie
     StreamBuffer get_data_streambuf();
 
-
-    // !!! uwaga - inna metoda o nazwie get_tag() istnieje w Resource
-    const Address&  get_address() const { return address_;  }
+    const Address*  get_address() const { return address_;  }
     Tag             get_tag()     const { return tag_;      }
     ResourcePtr     get_content() const { return content_;  }
 
@@ -67,7 +63,7 @@ class Packet {
   private:
     ResourcePtr content_;
     Tag tag_;
-    Address address_;   // czy address jest potrzebny w pakiecie? - TAK!
+    const Address *address_;   // czy address jest potrzebny w pakiecie? - TAK!
 };
 
 #endif //PACKET_HPP
