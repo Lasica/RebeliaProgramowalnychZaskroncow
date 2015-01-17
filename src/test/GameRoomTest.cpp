@@ -23,19 +23,14 @@ using namespace boost::unit_test;
 //BOOST_AUTO_TEST_SUITE( GameRoom_constructor )
 
 //BOOST_AUTO_TEST_CASE( essential_test ) {
-////    /std::cout << "***Checkpont***\n";
 
 //    Address ad;
 //    ClientState cs; // default state, (LOBBY, 0)
-//    std::cout << "***Checkpoint***\n";
 //    Client testHost(ad, nullptr, "host");
-//    std::cout << "***Checkpoint***\n";
 
 //    TcpServer.getInstance().register_client(ad, nullptr);
-//    std::cout << "***Checkpoint***\n";
 
 //    GameRoom testGR(testHost.get_client_id(), "testGameRoom",  TcpServer.getInstance());
-//    std::cout << "***Checkpoint***\n";
 
 //    BOOST_CHECK_EQUAL(  testGR.get_number_of_players(),    1  );
 //    BOOST_CHECK_EQUAL(  testGR.gameRoomName, "testGameRoom");

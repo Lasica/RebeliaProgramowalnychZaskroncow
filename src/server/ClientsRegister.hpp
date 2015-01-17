@@ -3,6 +3,9 @@
 
 #include <string>
 #include <set>
+
+#include <boost/thread/shared_mutex.hpp>
+
 #include "server/Client.hpp"
 #include "server/Address.hpp"
 #include "shared/Subject.hpp"
@@ -29,7 +32,7 @@ class ClientsRegister {
 
     //void change_state(ClientIt it, ClientState state);
 
-    void remove_client(ClientID id);
+    inline void remove_client(ClientID id);
     void remove_client(ClientIt it);
 
     ClientState get_state(const ClientIt &it)   const {
@@ -45,7 +48,7 @@ class ClientsRegister {
 
 
     std::set<Client> clients_;
-
+    mutable boost::shared_mutex access_;
 };
 
 #endif //CLIENTSREGISTER_HPP

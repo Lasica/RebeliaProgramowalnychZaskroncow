@@ -8,6 +8,7 @@
 
 
 #include "server/Address.hpp"
+#include "shared/Resource.hpp"
 #include "shared/ChatEntryRaw.hpp"
 
 #include <fstream>
@@ -44,12 +45,19 @@ BOOST_AUTO_TEST_CASE( simple_case ) {
 BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
 
     Resource *pResource = new ChatEntryRaw("deleting_pointer_to_resource", "TestMSG");
+    std::cout << "***Checkpoint***\n";
+
     std::ofstream ofs("ChatEntryRawTest_deleting_pointer_to_resource"); // strumieniem jest tutaj plik
+    std::cout << "***Checkpoint***\n";
 
     boost::archive::text_oarchive oaTest(ofs);
+    std::cout << "***Checkpoint***\n";
 
     oaTest << pResource;
+    std::cout << "***Checkpoint***\n";
+
     ofs.close();
+    std::cout << "***Checkpoint***\n";
 
     delete pResource;   // deleting this pointer to check, if object can be restored from file
 
