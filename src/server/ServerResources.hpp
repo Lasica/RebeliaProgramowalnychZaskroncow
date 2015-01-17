@@ -19,12 +19,11 @@ struct ServerResources {
     }
 
     void init() {
-        running_ = true;
         packetHandler = new std::thread(lobbyManager);
     }
     virtual ~ServerResources() {
         running_ = false;
-        packetHandler->join();
+//        packetHandler->join();
     }
 
   protected:

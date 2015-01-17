@@ -25,6 +25,10 @@ public:
 
     // numOfPlayers_ ustawiam na 0, bo jest potem zwiększany w add_player
     GameRoom(ClientID host, std::string gameRoomName);
+    /* :
+        GameRoomRaw(gameRoomName, host, gameRoomCounter_++), register_(cReg) {
+        add_player(host);
+    }*/
     // dla serializacji
     GameRoom();
 
@@ -34,10 +38,15 @@ public:
 
     void add_player(ClientID newPlayer);
     // TODO (w poniższej lub innej metodzie): kiedy usuwany jest host - cały GameRoom jest kasowany
+    // TODO : o skasowaniu GameRoomu powinna decydowac klasa GameRoomsRegister.
     void remove_player(ClientID player);
 
-    GameRoomID get_id();
-    unsigned int get_number_of_players();
+    GameRoomID get_id() {
+        return id;
+    }
+    unsigned int get_number_of_players() {
+        return numOfPlayers;
+    }
 
     // porównuje id GameRoomów
     //bool operator<(GameRoom &comp);

@@ -30,31 +30,27 @@ struct ClientDataRaw;
 const ClientID UNINITIALISED_ID = -1;
 
 struct ClientDataRaw : public Resource {
-    ClientDataRaw(ClientID clientID, std::string nickname, ClientState state) : state_(state), clientID_(clientID), nickname_(nickname) { }
-    mutable ClientState     state_;
-    const ClientID  clientID_;   //unique ID for every player
-    std::string     nickname_;
+    //konstruktor dla serializacji
+    ClientDataRaw() : clientID_(UNINITIALISED_ID) { }
+    ClientDataRaw(ClientID clientID, std::string nickname, ClientState state)
+        : state_(state), clientID_(clientID), nickname_(nickname) { }
 
-    virtual Tag get_tag() {
-        return Resource::CLIENT_DATA;
-    }
+    mutable ClientState     state_;
+    const ClientID          clientID_;   //unique ID for every player
+    std::string             nickname_;
+
+    virtual Tag get_tag() { return Resource::CLIENT_DATA; }
     virtual std::string show_content() {
         return "Client:" + std::to_string(clientID_) + ";" + nickname_ + ";(" + \
                std::to_string(state_.location) + "," + std::to_string(state_.locationIdentifier) + ")";
     }
-    //konstruktor dla serializacji
-    ClientDataRaw() : clientID_(UNINITIALISED_ID) { }
-
-//    bool operator<(const ClientDataRaw &comp) const {
-//        return clientID_ < comp.clientID_;
-//    }
 
   private:
-    friend class boost::serialization::access; // TODO: test serialisation
+    friend class boost::serialization::access;
     template<typename Archive>
     void serialize(Archive &ar, const unsigned int /*version*/) {
         ar &boost::serialization::base_object<Resource>(*this);
-        ar &const_cast<ClientID &>(clientID_);  //clientID_ jest stały, więc trzeba go serializować tak
+        ar &const_cast<ClientID &>(clientID_);
         ar &state_;
         ar &nickname_;
     }

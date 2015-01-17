@@ -12,20 +12,22 @@
  */
 class Packet;
 class Client;
+class ClientDataRaw;
 class TcpConnection;
 class Resource;
 class GameRoom;
 
-typedef std::set<Client>::iterator          ClientIt;
 typedef std::string                         AddressIP;
 typedef std::queue<Packet>                  PacketQueue;
 typedef boost::shared_ptr<TcpConnection>    TcpPointer;
 typedef boost::shared_ptr<Client>           ClientPtr;
-//typedef boost::shared_ptr<ClientDataRaw>    ClientDRPtr;
 typedef boost::shared_ptr<Resource>         ResourcePtr;
-typedef int                                 GameRoomID;
+typedef unsigned int                        GameRoomID;
 typedef unsigned int                        ClientID;
 typedef unsigned short                      AddressPort;
 typedef boost::shared_ptr<GameRoom>         GameRoomPtr;
+typedef std::set<ClientPtr>::iterator     ClientIt;
+
 extern const ClientID INVALID_CLIENT_ID;
+extern const AddressPort PORT;
 #endif

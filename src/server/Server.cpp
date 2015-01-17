@@ -1,5 +1,4 @@
 #include "server/Server.hpp"
-#define PORT 8001 // przeniesc do const unsigned short-a
 
 TcpServer::TcpServer(boost::asio::io_service &io_service)
     : acceptor_(io_service, tcp::endpoint(tcp::v4(), PORT)), io_(io_service) {
@@ -38,7 +37,8 @@ void TcpServer::start() {
     self_ = new std::thread(boost::bind(&boost::asio::io_service::run, &io_));
 
 }
-TcpServer &TcpServer::getInstance(boost::asio::io_service &io) {
+TcpServer &TcpServer::getInstance() {
+    static boost::asio::io_service io;
     static TcpServer serv(io);
     return serv;
 }
