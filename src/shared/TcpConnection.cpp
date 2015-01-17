@@ -50,10 +50,10 @@ void TcpConnection::handle_read(const boost::system::error_code &err,
         boost::archive::text_iarchive ia(is); //jak go zaadresować?
         try {
             ia >> packet;
-//	TcpServer::pointer->received.push(packet);
+    TcpServer::pointer->received.push(packet);
 
         }
-        catch(std::exception ex) // to nie moze tak zostac, trzeba poinformowac jesli zlapiesz wyjatek
+        catch(std::exception ex)
         {
 
             std::cerr << "Błąd serializacji pakietu";
