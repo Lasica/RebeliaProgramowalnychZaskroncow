@@ -35,7 +35,8 @@ public:
      */
 
     // numOfPlayers_ ustawiam na 0, bo jest potem zwiększany w add_player
-    GameRoom(ClientID host, std::string gameRoomName/*, ClientsRegister& cReg*/);/* :
+    GameRoom(ClientID host, std::string gameRoomName);
+    /* :
         GameRoomRaw(gameRoomName, host, gameRoomCounter_++), register_(cReg) {
         add_player(host);
     }*/
@@ -50,20 +51,17 @@ public:
 
     void add_player(ClientID newPlayer);
     // TODO (w poniższej lub innej metodzie): kiedy usuwany jest host - cały GameRoom jest kasowany
+    // TODO : o skasowaniu GameRoomu powinna decydowac klasa GameRoomsRegister.
     void remove_player(ClientID player);
 
-// czy te metody będą używane?
-    GameRoomID get_id();/* {
+    GameRoomID get_id() {
         return id;
-    }*/
-
-    unsigned int get_number_of_players();/* {
+    }
+    unsigned int get_number_of_players() {
         return numOfPlayers;
-    }*/
+    }
 
   private:
-    // problem - jeśli register_ jest referencją, to w domyślnym konstruktorze (dla serializacji) jest inicjaliowany pustym ClientsRegister
-    // można register_ zastąpić sprytnym wskaźnikiem,
     static ClientsRegister& register_; // jeśli używamy ClientID do oznaczania graczy, to musimy mieć jakieś odniesienie do rejestru, w którym się znajdują
 
     static GameRoomID gameRoomCounter_;//licznik GameRoomów, potrzebny do inicjalizacji id_

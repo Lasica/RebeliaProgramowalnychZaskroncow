@@ -19,7 +19,7 @@ using namespace boost::asio;
 class TcpServer : boost::noncopyable, public ServerResources {
   public:
     void start();
-    static TcpServer &getInstance(boost::asio::io_service &);
+    static TcpServer &getInstance();
     void stop() {
         io_.stop();
         running_ = false;

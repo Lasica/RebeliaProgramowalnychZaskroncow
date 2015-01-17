@@ -26,29 +26,33 @@ using namespace boost::unit_test;
 BOOST_AUTO_TEST_SUITE( GameRoom_constructor )
 
 BOOST_AUTO_TEST_CASE( essential_test ) {
-//    boost::asio::io_service io;
-//    TcpServer &server = TcpServer::getInstance(io);
-
+    int x=1;
+    std::cout << x++ << std::endl;
     Address ad;
+    std::cout << x++ << std::endl;
     ClientState cs; // default state, (LOBBY, 0)
+    std::cout << x++ << std::endl;
     Client testHost(&ad, nullptr, "host");
-    //ClientsRegister CR;
+    std::cout << x++ << std::endl;
 
-    //CR.register_client(&ad, nullptr);
-    boost::asio::io_service io;
-    //TcpServer &server = TcpServer::getInstance(io);
-    TcpServer::getInstance(io).connectedClients.register_client(&ad, nullptr);
+    TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+    std::cout << x++ << std::endl;
 
     // *** na tym się zawiesza -> idzie dalej po wykomentowaniu ciała konstruktora GameRoom(z parametrami)
     GameRoom testGR(testHost.get_client_id(), "testGameRoom");
-
+    std::cout << x++ << std::endl;
 
 
     BOOST_CHECK_EQUAL(  testGR.get_number_of_players(),    1  );
+    std::cout << x++ << std::endl;
     BOOST_CHECK_EQUAL(  testGR.gameRoomName, "testGameRoom");
+    std::cout << x++ << std::endl;
     std::list<std::string> testNames;
+    std::cout << x++ << std::endl;
     testNames.push_back(testHost.get_nickname());
+    std::cout << x++ << std::endl;
     BOOST_CHECK_EQUAL_COLLECTIONS( testGR.playersNames.begin(), testGR.playersNames.end(), testNames.begin(), testNames.end() );
+    std::cout << x++ << std::endl;
 
 }
 
