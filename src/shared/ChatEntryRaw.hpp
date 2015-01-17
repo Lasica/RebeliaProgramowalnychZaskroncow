@@ -10,7 +10,10 @@
 #include "shared/Resource.hpp"
 
 struct ChatEntryRaw;
-BOOST_CLASS_EXPORT_KEY(ChatEntryRaw)
+// nie ma pliku .cpp z implementacją metod, więc należy użyć tego makra, a nie BOOST_CLASS_EXPORT_KEY()
+// (po prostu zadziałało, kiedy zmieniłem to makro)
+BOOST_CLASS_EXPORT(ChatEntryRaw)
+
 
 struct ChatEntryRaw : public Resource {
     ChatEntryRaw() { }
