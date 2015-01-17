@@ -15,6 +15,7 @@ class Client;
 class TcpConnection;
 class Resource;
 
+
 typedef std::set<Client>::iterator          ClientIt;
 typedef std::string                         AddressIP;
 typedef std::queue<Packet>                  PacketQueue;
@@ -25,4 +26,5 @@ typedef int                                 GameRoomID;
 typedef unsigned int                        ClientID;
 typedef unsigned short                      AddressPort;
 
+extern const ClientID INVALID_CLIENT_ID;
 #endif

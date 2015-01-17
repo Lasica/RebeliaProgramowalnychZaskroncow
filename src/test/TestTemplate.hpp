@@ -1,15 +1,10 @@
-//Link to Boost
 #define BOOST_TEST_DYN_LINK
-
-//Define our Module name (prints at testing)
 #define BOOST_TEST_MODULE "Przykladowy test"
 
-//VERY IMPORTANT - include this last
-#include <boost/test/unit_test.hpp>
+#include <boost/test/unit_test.hpp> //VERY IMPORTANT - include this last
 
-//#include ""
+using namespace boost::unit_test;
 
-// ------------- Tests Follow --------------
 BOOST_AUTO_TEST_SUITE( JakisBlokTestow )
 BOOST_AUTO_TEST_CASE( JakisAtomowyTest ) {
     BOOST_WARN_MESSAGE(2 == 3, "Ostrzezenie: to tylko szablonowy test");

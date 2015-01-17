@@ -6,9 +6,9 @@ std::ostream &operator<<(std::ostream &o, const Address &a) {
 }
 
 bool Address::operator<(const Address &latter) const {
-    if(ip == latter.ip)
-        return port < latter.port;
-    else
+    if(port == latter.port) // short int porty szybciej sie porownuje niz stringi IP
         return ip < latter.ip;
+    else
+        return port < latter.port;
 }
 

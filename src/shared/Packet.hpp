@@ -48,7 +48,7 @@ class Packet {
     void serialize(Archive &ar, const unsigned int) {
         ar &content_;   // serializacja obiektu pokazywanego przez shared_ptr jest teraz prosta
         ar &tag_;
-        ar &address_;
+        // ar &address_; // adresu nie serialzujemy.
     }
 
     //TODO - tego moze nie byc, poniewaz Pakiet ma metode serialize, lecz poki co niech zostanie

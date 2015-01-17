@@ -1,6 +1,7 @@
 set(LIB_SOURCES
     client/client_main.cpp
 		server/Address.cpp
+		server/AddressRegister.cpp
     server/Client.cpp
     server/ClientDataRaw.cpp
     server/ClientsRegister.cpp
@@ -10,6 +11,7 @@ set(LIB_SOURCES
 		server/ServerResources.cpp
     server/server_main.cpp
     shared/ChatRegister.cpp
+		shared/constants.cpp
     shared/GameRoom.cpp
     shared/GameRoomRaw.cpp
     shared/Packet.cpp
@@ -19,6 +21,7 @@ set(LIB_SOURCES
 set(LIB_HEADERS
  #luacore/LuaInterpreter.hpp
 	server/Address.hpp
+	server/AddressRegister.hpp
 	server/Client.hpp
   server/ClientDataRaw.hpp
   server/ClientsRegister.hpp
