@@ -11,7 +11,12 @@
 #include <string>
 
 struct Resource {
-    enum Tag { CHAT_ENTRY, HANDSHAKE, GAMEROOM, CLIENT_DATA};
+    enum Tag {
+        CHAT_ENTRY,
+        CLIENT_DATA,
+        GAMEROOM,
+        HANDSHAKE
+    };
 
     virtual ~Resource() = 0;
     virtual Tag get_tag() = 0;

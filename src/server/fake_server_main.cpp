@@ -26,7 +26,7 @@ int main() {
 
     FakeServer fakeS(3, "CHtest", strIN);
     ChatEntryRaw x("dominik", "serwer znowu nie dziala!!");
-    Packet doomPacket(&x, Packet::RESOURCE, 1);
+    Packet doomPacket(&x, Packet::UPDATED_RESOURCE, 1);
     fakeS.toSend.push(doomPacket);
     fakeS.run();
 

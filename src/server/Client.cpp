@@ -61,7 +61,7 @@ bool Client::operator<(const Client &comp) const {
 
 // TODO
 void Client::update(Resource *updateInfo) {
-    Packet updatePackage(Packet::RESOURCE, address_, updateInfo);
+    Packet updatePackage(Packet::UPDATED_RESOURCE, address_, updateInfo);
     send(updatePackage);
 }   // bez definicji tej metody nie kompiluje się Client
 

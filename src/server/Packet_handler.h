@@ -15,7 +15,7 @@ class Packet_handler {
   private:
     PacketQueue *const inQueue_;
     bool *const running_;
-    std::chrono::milliseconds sleepTime_;
+    std::chrono::milliseconds sleepTime_; // przestarzala koncepcja, zamaiast sleep zrobie yield.
 };
 
 #endif // PACKET_HANDLER_H

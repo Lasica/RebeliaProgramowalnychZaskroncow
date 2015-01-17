@@ -21,9 +21,20 @@ class Packet {
      * bedzie nowy tag pakietu - w przyszlosci mozna sie zastanowic jak to zautomatyzowac.
      */
     enum Tag {
-        RESOURCE,
-        CONNECTION_END,
-        CONNECTION_BEGIN
+        UPDATED_RESOURCE,           // dane aktualizacyjne dla klienta, mozna rozpoznac zawartosc po tagu Resource
+        REGISTER_REQUEST,           // w srodku pakietu Handshake przedstawiajacy dane o kliencie.
+        CHAT_ENTRY_MESSAGE_REQUEST, // prosba o nadanie wiadomosci czatu
+        GAMEROOM_CREATE_REQUEST,    // prosba o stworzenie nowego pokoju
+        GAMEROOM_JOIN_REQUEST,      // prosba o dolaczenie do pokoju
+        GAMEROOM_LEAVE_REQUEST,     // prosba o opuszczenie pokoju
+        GAMEROOM_UPDATE_REQUEST,    // prosba o zmiane ustawien pokoju (np. ustawien gry dla hosta, a dla gracza wyrazenie gotowosci)
+        GAMEROOM_START_REQUEST,     // prosba o rozpoczecie rozgrywki
+        GAME_START_FAILURE_INFO,    // informacja dla klienta o niespelnionym rzadaniu, np. z powodu niegotowosci wszystkich graczy
+        SYNCHRONISE_REQUEST,        // prosba o wyslanie wszystkich zasobow... podejrzewam, że mozna sie bez tego obyc i zamiast tego zrobic timeouty
+        CLOCK_SYNCHRONISE,          // prosba o okreslenie czasu wzgledem serwera (sluzy tez do obliczenia round trip time)
+        GAME_STATE,                 // pakiet zawierajacy stan rozgrywki - do przekierowania dla konkretnej instancji gry
+        GAME_ACTION,                // byc moze sie przyda?
+        KEEP_ALIVE                  // ping! do ustalenia czy ktos stracil polaczenie.
     };
     typedef std::string StreamBuffer;
 
