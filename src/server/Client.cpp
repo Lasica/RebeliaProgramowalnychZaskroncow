@@ -1,5 +1,6 @@
 #include "Client.hpp"
 #include "shared/Resource.hpp"
+#include "shared/TcpConnection.hpp"
 #include <boost/asio.hpp>
 #include <string>
 

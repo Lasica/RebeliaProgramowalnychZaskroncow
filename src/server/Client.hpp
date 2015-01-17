@@ -20,7 +20,6 @@ Każdy gracz jest opisany przez parametry charakteryzujące:
 #include "shared/Observer.hpp"
 #include "shared/typedefinitions.hpp"
 #include "server/ClientDataRaw.hpp"
-#include "shared/TcpConnection.hpp"
 #include "shared/Packet.hpp"
 
 

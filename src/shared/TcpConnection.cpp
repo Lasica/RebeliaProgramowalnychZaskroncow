@@ -3,6 +3,7 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <sstream>
+#include "server/Server.hpp"
 
 TcpPointer TcpConnection::create(boost::asio::io_service &io_service) {
     return TcpPointer(new TcpConnection(io_service));

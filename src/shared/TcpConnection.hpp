@@ -9,7 +9,6 @@
 #include <boost/asio.hpp>
 #include <boost/thread/mutex.hpp>
 #include "shared/typedefinitions.hpp"
-//#include "server/Server.hpp"
 
 using boost::asio::ip::tcp;
 using namespace boost::asio;

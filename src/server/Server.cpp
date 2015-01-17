@@ -1,4 +1,5 @@
 #include "server/Server.hpp"
+#include "shared/TcpConnection.hpp"
 
 const unsigned short PORT =  8001;
 TcpServer* TcpServer::pointer;
