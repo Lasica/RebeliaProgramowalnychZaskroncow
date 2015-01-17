@@ -12,6 +12,7 @@ set(LIB_SOURCES
     shared/ChatRegister.cpp
 		shared/constants.cpp
     shared/GameRoom.cpp
+    shared/GameRoomRaw.cpp
     shared/Packet.cpp
     shared/TcpConnection.cpp
 	)

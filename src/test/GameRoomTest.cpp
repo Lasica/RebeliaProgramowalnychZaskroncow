@@ -1,18 +1,21 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE GameRoomTest
 
-#include <boost/test/detail/unit_test_parameters.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/shared_ptr.hpp>
+//#include <boost/test/detail/unit_test_parameters.hpp>
+//#include <boost/archive/text_iarchive.hpp>
+//#include <boost/archive/text_oarchive.hpp>
+//#include <boost/shared_ptr.hpp>
 
-#include "shared/typedefinitions.hpp"
-#include "server/Address.hpp"
-#include "shared/Resource.hpp"
-#include "shared/GameRoomRaw.hpp"
+
+//#include <boost/enable_shared_from_this.hpp>
+//#include <boost/asio.hpp>
+//#include "shared/typedefinitions.hpp"
+//#include "server/Address.hpp"
+//#include "shared/Resource.hpp"
+//#include "shared/GameRoomRaw.hpp"
 #include "shared/GameRoom.hpp"
-#include "server/Client.hpp"
-#include "server/ClientsRegister.hpp"
+//#include "server/Client.hpp"
+//#include "server/ClientsRegister.hpp"
 #include "server/Server.hpp"
 #include <fstream>
 
@@ -20,27 +23,36 @@
 
 using namespace boost::unit_test;
 
-//BOOST_AUTO_TEST_SUITE( GameRoom_constructor )
+BOOST_AUTO_TEST_SUITE( GameRoom_constructor )
 
-//BOOST_AUTO_TEST_CASE( essential_test ) {
+BOOST_AUTO_TEST_CASE( essential_test ) {
+//    boost::asio::io_service io;
+//    TcpServer &server = TcpServer::getInstance(io);
 
-//    Address ad;
-//    ClientState cs; // default state, (LOBBY, 0)
-//    Client testHost(ad, nullptr, "host");
+    Address ad;
+    ClientState cs; // default state, (LOBBY, 0)
+    Client testHost(&ad, nullptr, "host");
+    //ClientsRegister CR;
 
-//    TcpServer.getInstance().register_client(ad, nullptr);
+    //CR.register_client(&ad, nullptr);
+    boost::asio::io_service io;
+    //TcpServer &server = TcpServer::getInstance(io);
+    TcpServer::getInstance(io).connectedClients.register_client(&ad, nullptr);
 
-//    GameRoom testGR(testHost.get_client_id(), "testGameRoom",  TcpServer.getInstance());
+    // *** na tym się zawiesza -> idzie dalej po wykomentowaniu ciała konstruktora GameRoom(z parametrami)
+    GameRoom testGR(testHost.get_client_id(), "testGameRoom");
 
-//    BOOST_CHECK_EQUAL(  testGR.get_number_of_players(),    1  );
-//    BOOST_CHECK_EQUAL(  testGR.gameRoomName, "testGameRoom");
-//    std::list<std::string> testNames;
-//    testNames.push_back(testHost.get_nickname());
-//    BOOST_CHECK_EQUAL_COLLECTIONS( testGR.playersNames.begin(), testGR.playersNames.end(), testNames.begin(), testNames.end() );
 
-//}
 
-//BOOST_AUTO_TEST_SUITE_END()
+    BOOST_CHECK_EQUAL(  testGR.get_number_of_players(),    1  );
+    BOOST_CHECK_EQUAL(  testGR.gameRoomName, "testGameRoom");
+    std::list<std::string> testNames;
+    testNames.push_back(testHost.get_nickname());
+    BOOST_CHECK_EQUAL_COLLECTIONS( testGR.playersNames.begin(), testGR.playersNames.end(), testNames.begin(), testNames.end() );
+
+}
+
+BOOST_AUTO_TEST_SUITE_END()
 
 //BOOST_AUTO_TEST_SUITE(  adding_and_removing_players  )
 

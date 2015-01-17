@@ -1,20 +1,34 @@
-#include "typedefinitions.hpp"
+//#include "typedefinitions.hpp"
+//#include "shared/GameRoom.hpp"
+//#include "server/ClientsRegister.hpp"
+
+//#include <boost/serialization/base_object.hpp>
+//#include <boost/serialization/export.hpp>       //makro BOOST_CLASS_EXPORT
+//#include <boost/serialization/list.hpp>         // dla serializacji std::list<>
+
+//#include <boost/archive/text_iarchive.hpp>
+//#include <boost/archive/text_oarchive.hpp>
+//#include "typedefinitions.hpp"
 #include "shared/GameRoom.hpp"
-#include "server/ClientsRegister.hpp"
-
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/export.hpp>       //makro BOOST_CLASS_EXPORT
-#include <boost/serialization/list.hpp>         // dla serializacji std::list<>
-
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
-
+//#include "server/ClientsRegister.hpp"
+#include "server/Server.hpp"
 // czy to potrzebne?
 class GameRoom;
-BOOST_CLASS_EXPORT_IMPLEMENT(GameRoom)
+//BOOST_CLASS_EXPORT_IMPLEMENT(GameRoom)
 
 GameRoomID GameRoom::gameRoomCounter_ = 0;
 
+boost::asio::io_service io;
+TcpServer &server = TcpServer::getInstance(io);
+ClientsRegister& GameRoom::register_ = TcpServer::getInstance(io).connectedClients;
+
+GameRoom::GameRoom() : GameRoomRaw() { } // register_ musi być zainicjalizowany obiektem, nie można mu podać nulla
+
+
+GameRoom::GameRoom(ClientID host, std::string gameRoomName) :
+    GameRoomRaw(gameRoomName, host, gameRoomCounter_++) {
+    //add_player(host); // *** błąd! *** -> jeśli to jest odkomentowane, to test się zawiesza
+}
 
 GameRoom::~GameRoom() {
     for(auto a : players)
@@ -36,3 +50,18 @@ void GameRoom::remove_player(ClientID player) {
     numOfPlayers--;
 }
 
+GameRoomID GameRoom::get_id() {
+    return id;
+}
+
+unsigned int GameRoom::get_number_of_players() {
+    return numOfPlayers;
+}
+
+
+
+// TODO
+void GameRoom::notify() {/*
+    for(Observer *o : obs_)
+        o->update(this);*/
+}
