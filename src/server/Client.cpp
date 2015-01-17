@@ -7,8 +7,8 @@ ClientID Client::nextID_ = 0;
 
 Client::Client( const Address *address, TcpPointer pointer, std::string nick) :
     ClientDataRaw(Client::nextID_++, nick, ClientState()), address_(address) {
-        address_->change_owner(clientID_);
-        address_->update_connection(pointer);
+    address_->change_owner(clientID_);
+    address_->update_connection(pointer);
 }
 
 // Client::Client(std::string nick, Address address, ClientState state, std::string gameID) :

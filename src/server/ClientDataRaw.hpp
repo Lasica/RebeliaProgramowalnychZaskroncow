@@ -16,7 +16,7 @@ struct ClientState {
 
     ClientState(Location l = LOBBY, int lIdentifier = 0) : location(l), locationIdentifier(lIdentifier) { }
 
-  private:
+private:
     friend class boost::serialization::access;
     template<typename Archive>
     void serialize(Archive &ar, const unsigned int /*version*/) {
@@ -49,7 +49,7 @@ struct ClientDataRaw : public Resource {
 //        return clientID_ < comp.clientID_;
 //    }
 
-  private:
+private:
     friend class boost::serialization::access; // TODO: test serialisation
     template<typename Archive>
     void serialize(Archive &ar, const unsigned int /*version*/) {

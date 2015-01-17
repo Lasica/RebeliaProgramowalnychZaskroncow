@@ -24,7 +24,7 @@ BOOST_CLASS_EXPORT_KEY(GameRoom)
 //TODO: dziedziczenie public, czy protected? przy protected trzeba dopisać gettery/settery
 //FIXME: dziedziczenie raczej protected. Gameroom tez powinien dziedziczyc po Subject - skoro mamy mechanizm obserwatora, uzywajmy go jak najczesciej. Mysle tez, ze mozna wykorzystac tamtejszą listę subskrybentów zamiast tej listy tutaj. W końcu jedynym
 class GameRoom : public GameRoomRaw {
-  public:
+public:
     /*
      * obiekty: ustawienia (parsowalne na lua):
      * dla przykladu: mapa, predkosci wezy,
@@ -58,7 +58,7 @@ class GameRoom : public GameRoomRaw {
         return numOfPlayers;
     }
 
-  private:
+private:
 
     // problem - jeśli register_ jest referencją, to w domyślnym konstruktorze (dla serializacji) jest inicjaliowany pustym ClientsRegister
     // można register_ zastąpić sprytnym wskaźnikiem,

@@ -28,7 +28,7 @@ void TcpConnection::wait_data() {
 void TcpConnection::close() {
     this->socket_.close();
 }
-std::string TcpConnection::ip_address() const{
+std::string TcpConnection::ip_address() const {
     return this->socket_.remote_endpoint().address().to_string();
 }
 
@@ -47,26 +47,19 @@ void TcpConnection::handle_read(const boost::system::error_code &err,
         Packet packet;
         std::istream is(&response_);
         boost::archive::text_iarchive ia(is); //jak go zaadresować?
- 	try{
-       	ia >> packet; //gdzie mam umieścić ten pakiet, jak uzyskać dostęp do kolejki?
+        try {
+            ia >> packet;
+//	TcpServer::pointer->received.push(packet);
 
         }
-        catch(...) // to nie moze tak zostac, trzeba poinformowac jesli zlapiesz wyjatek
-	{
-         
+        catch(std::exception ex) // to nie moze tak zostac, trzeba poinformowac jesli zlapiesz wyjatek
+        {
 
-	}	     
-     	wait_data();
+            std::cerr << "Błąd serializacji pakietu";
+        }
+        wait_data();
     }
 }
-/*std::string TcpConnection::read() { //być może nie będzie już dalej potrzebne
-    mtx_.lock();
-    std::string tmp (response_);
-    std::memset(response_, ' ', sizeof(response_));
-    mtx_.unlock();
-    return tmp;
-}*/
-
 unsigned short TcpConnection::port() const {
     return this->socket_.remote_endpoint().port();
 

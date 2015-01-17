@@ -14,11 +14,11 @@ class Packet;
 class Client;
 class TcpConnection;
 class Resource;
-
+class PacketQueueAdapter;
 
 typedef std::set<Client>::iterator          ClientIt;
 typedef std::string                         AddressIP;
-typedef std::queue<Packet>                  PacketQueue;
+typedef PacketQueueAdapter                  PacketQueue;
 typedef boost::shared_ptr<TcpConnection>    TcpPointer;
 typedef boost::shared_ptr<Client>           ClientPtr;
 //typedef boost::shared_ptr<ClientDataRaw>    ClientDRPtr;

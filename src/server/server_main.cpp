@@ -16,6 +16,10 @@ int main() {
     server.start();
     //Logger::log_main() << "Serwer uruchomiony\n";
     std::cout << "Serwer uruchomiony" << std::endl;
+    char z;
+    while(z != 'q')
+        std::cin >> z;
+    server.stop();
     //Przykłady//////////////
     /*   server::TcpServer::ConIter it =
            server.getConIter(); //automatycznie wskazuje na połączenie nr 0 (w sumie ani to iterator ani wskaźnik, nie wiem)

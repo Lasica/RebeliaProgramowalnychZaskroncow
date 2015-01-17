@@ -48,9 +48,9 @@ ClientIt ClientsRegister::look_up_with_id(ClientID id) const {
 // }
 //
 // // functions to change state of Client (IN_GAME or IN_LOBBY)
- void ClientsRegister::change_state(ClientID id, ClientState st) {
-     look_up_with_id(id)->set_state(st);
- }
+void ClientsRegister::change_state(ClientID id, ClientState st) {
+    look_up_with_id(id)->set_state(st);
+}
 
 
 // void ClientsRegister::change_state(ClientIt it, ClientState st) {

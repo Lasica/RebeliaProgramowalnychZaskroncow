@@ -5,14 +5,13 @@
 #include <set>
 
 #include <boost/thread/shared_mutex.hpp>
-
 #include "server/Client.hpp"
 #include "server/Address.hpp"
 #include "shared/Subject.hpp"
 #include "shared/typedefinitions.hpp"
 
 class ClientsRegister {
-  public:
+public:
     ClientsRegister();
     ~ClientsRegister() { }
     ClientIt register_client(const Address *address, TcpPointer pointer);
@@ -42,7 +41,7 @@ class ClientsRegister {
         return clients_.size();
     }
 
-  private:
+private:
     ClientsRegister(ClientsRegister &copy) = delete;
     ClientsRegister &operator=(const ClientsRegister &) = delete;
 

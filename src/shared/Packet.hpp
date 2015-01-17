@@ -14,7 +14,7 @@
 
 
 class Packet {
-  public:
+public:
     // dziala, tylko konsekwencja umieszczenia go w klasie jest odnoszenie sie poprzez Packet::RESOURCE, itd.
     /*
      * Ten enum moze urosnac duzy, poniewaz do kazdej dodanej funkcjonalnosci,
@@ -52,15 +52,21 @@ class Packet {
 
     StreamBuffer get_data_streambuf();
 
-    const Address*  get_address() const { return address_;  }
-    Tag             get_tag()     const { return tag_;      }
-    ResourcePtr     get_content() const { return content_;  }
+    const Address*  get_address() const {
+        return address_;
+    }
+    Tag             get_tag()     const {
+        return tag_;
+    }
+    ResourcePtr     get_content() const {
+        return content_;
+    }
 
     std::string show_resource_content() {
         return content_->show_content();
     }
 
-  private:
+private:
     ResourcePtr content_;
     Tag tag_;
     const Address *address_;   // czy address jest potrzebny w pakiecie? - TAK!
