@@ -44,7 +44,6 @@ class Client : public Observer, public ClientDataRaw {
     const Address*                  address_;
 
     static ClientID                 nextID_;
-    TcpPointer                      connection_;
 
     inline void                     send(Packet &packet); // const?
 };

@@ -10,7 +10,6 @@ ClientsRegister::ClientsRegister() { }
 
 ClientIt ClientsRegister::register_client(const Address *address, TcpPointer pointer) {
     ClientIt it = clients_.insert(Client(address, pointer)).first;
-
     return it;
 }
 

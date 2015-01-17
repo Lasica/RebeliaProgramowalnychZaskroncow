@@ -8,23 +8,23 @@
 #include "server/AddressRegister.hpp"
 
 struct ServerResources {
-    std::thread packetHandler;
+//    std::thread packetHandler; // FIXME dojsc dlaczego nie dziala z serwerem. czyzby to pomieszanie boost::thread i std::thread?
     PacketQueue received;
 
     Packet_handler lobbyManager;
     ClientsRegister connectedClients;
-    AddressRegister registeredAdresses;
+    AddressRegister registeredAddresses;
 
     ServerResources() : lobbyManager(&received, &running_) {
     }
 
     void init() {
         running_ = true;
-        packetHandler = std::thread(lobbyManager);
+ //       packetHandler = std::thread(lobbyManager);
     }
     virtual ~ServerResources() {
         running_ = false;
-        packetHandler.join();
+ //       packetHandler.join();
     }
 
   protected:

@@ -5,10 +5,9 @@ set(LIB_SOURCES
     server/Client.cpp
     server/ClientDataRaw.cpp
     server/ClientsRegister.cpp
-		server/Logger.cpp
+		#server/Logger.cpp
 		server/Packet_handler.cpp
     server/Server.cpp
-		server/ServerResources.cpp
     server/server_main.cpp
     shared/ChatRegister.cpp
 		shared/constants.cpp
@@ -26,7 +25,7 @@ set(LIB_HEADERS
   server/ClientDataRaw.hpp
   server/ClientsRegister.hpp
 	server/Packet_handler.hpp
-	server/Logger.hpp
+	#server/Logger.hpp
 	server/Server.hpp
 	server/ServerResources.hpp
 	shared/ChatEntryRaw.hpp
