@@ -14,7 +14,7 @@ class ClientsRegister {
     ~ClientsRegister() { }
     ClientIt register_client(Address address, TcpPointer pointer);
 
-    ClientIt look_up_with_id(ClientID id)    const;
+    ClientIt look_up_with_id(ClientID id)   /* const */;
     //ClientIt look_up_with_address(Address addr)      const;
 
     /*
@@ -22,7 +22,10 @@ class ClientsRegister {
      * Prawdopodobnie zmieni sie kontener przechowywany z seta na unordered_map po ClientID
      * Decyzja do podjecia w momencie uzycia tych funkcji
      */
+
     //void change_state(ClientID id, ClientState state);
+    void change_state(ClientID id, ClientState state);
+
     //void change_state(ClientIt it, ClientState state);
 
     void remove_client(ClientID id);

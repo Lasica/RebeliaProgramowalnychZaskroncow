@@ -31,7 +31,7 @@ const ClientID UNINITIALISED_ID = -1;
 
 struct ClientDataRaw : public Resource {
     ClientDataRaw(ClientID clientID, std::string nickname, ClientState state) : state_(state), clientID_(clientID), nickname_(nickname) { }
-    ClientState     state_;
+    mutable ClientState     state_;
     const ClientID  clientID_;   //unique ID for every player
     std::string     nickname_;
 
@@ -44,6 +44,10 @@ struct ClientDataRaw : public Resource {
     }
     //konstruktor dla serializacji
     ClientDataRaw() : clientID_(UNINITIALISED_ID) { }
+
+//    bool operator<(const ClientDataRaw &comp) const {
+//        return clientID_ < comp.clientID_;
+//    }
 
   private:
     friend class boost::serialization::access; // TODO: test serialisation

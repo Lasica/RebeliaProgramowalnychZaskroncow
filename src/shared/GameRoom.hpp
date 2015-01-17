@@ -13,6 +13,7 @@
 #include "Observer.hpp"
 #include "GameRoomRaw.hpp"
 #include "server/Client.hpp"
+#include "server/ClientsRegister.hpp"
 #include <boost/shared_ptr.hpp>
 
 #include <list>
@@ -33,54 +34,38 @@ class GameRoom : public GameRoomRaw {
      */
 
     // numOfPlayers_ ustawiam na 0, bo jest potem zwiększany w add_player
-    GameRoom(ClientPtr host, std::string gameRoomName) :
-        GameRoomRaw(gameRoomName), id_(gameRoomCounter_++), numOfPlayers_(0), host_(host) {
+    GameRoom(ClientID host, std::string gameRoomName, ClientsRegister& cReg) :
+        GameRoomRaw(gameRoomName, host, gameRoomCounter_++), register_(cReg) {
         add_player(host);
     }
 
     // dla serializacji
-    GameRoom() : id_(-1) { }
+    GameRoom() : GameRoomRaw(), register_(*(new ClientsRegister)) { } // register_ musi być zainicjalizowany obiektem, nie można mu podać nulla
 
     virtual ~GameRoom();
 
-    // może jednak zastosować iteratory z ClientsRegister?
-    // FIXME: powinno byc uzywane ID klientow wszedzie w tej klasie (a w zasadzie w klasie RAW), poniewaz takie informacje o gameroomie
-    // beda serializowane i przesylane przez internet - sa widoczne dla klienta
-    void add_player(ClientPtr newPlayer);
+
+    void add_player(ClientID newPlayer);
     // TODO (w poniższej lub innej metodzie): kiedy usuwany jest host - cały GameRoom jest kasowany
-    void remove_player(ClientPtr player);
+    void remove_player(ClientID player);
 
+// czy te metody będą używane?
     GameRoomID      get_id() {
-        return id_;
+        return id;
     }
+
     unsigned int    get_number_of_players() {
-        return numOfPlayers_;
+        return numOfPlayers;
     }
-
-    // ****************
-    //UWAGA! Ta klasa i jej serializacja wymaga skrupulatnego przetestowania!
-    // Kod się kompiluje, ale nie gwarantuję, że używanie tej klasy, a w szczególności jej serializacja
-    // jest bezpieczna.
-    //*****************
-//    friend class boost::serialization::access;
-//    template<class Archive>
-//    void serialize(Archive &ar, const unsigned int) {
-//        ar & boost::serialization::base_object<GameRoomRaw>(*this);
-
-//        ar & const_cast<GameRoomID&>(id_);
-//        ar & numOfPlayers_;
-//    }
-
 
   private:
-    const GameRoomID id_;   //FIXME id danego GameRoomu - powinno sie znalezc w klasie RAW
-    unsigned int numOfPlayers_; //FIXME powinno sie znalezc w klasie RAW
 
-    std::list<ClientPtr> players_; //FIXME: nie powinienes trzymac listy graczy tu,
-    // jak i listy nickow w klasie GameRoomRaw. To powinno byc tylko w klasie Raw, tak jak i host.
-    ClientPtr host_;    // ten gracz ma specjalne uprawnienia
+    // problem - jeśli register_ jest referencją, to w domyślnym konstruktorze (dla serializacji) jest inicjaliowany pustym ClientsRegister
+    // można register_ zastąpić sprytnym wskaźnikiem,
+    ClientsRegister& register_; // jeśli używamy ClientID do oznaczania graczy, to musimy mieć jakieś odniesienie do rejestru, w którym się znajdują
 
-    static GameRoomID gameRoomCounter_; //licznik GameRoomów, potrzebny do inicjalizacji id_
+    static GameRoomID gameRoomCounter_;//licznik GameRoomów, potrzebny do inicjalizacji id_
+
 };
 
 #endif // GAMEROOM_H

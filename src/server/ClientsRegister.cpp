@@ -25,13 +25,14 @@ void ClientsRegister::remove_client(ClientIt it) {
 
 
 
-ClientIt ClientsRegister::look_up_with_id(ClientID id) const {
-    for(auto it = clients_.begin(); it != clients_.end(); ++it) {
+ClientIt ClientsRegister::look_up_with_id(ClientID id) /*const*/ {
+   for(auto it = clients_.begin(); it != clients_.end(); ++it) {
         if(it->get_client_id() == id)
             return it;
     }
 
     return clients_.end();
+
 }
 //
 // ClientIt ClientsRegister::look_up_with_address(Address addr) const {
@@ -45,11 +46,11 @@ ClientIt ClientsRegister::look_up_with_id(ClientID id) const {
 // }
 //
 // // functions to change state of Client (IN_GAME or IN_LOBBY)
-// void ClientsRegister::change_state(ClientID id, ClientState st) {
-//     look_up_with_id(id)->set_state(st);
-// }
-//
-//
+ void ClientsRegister::change_state(ClientID id, ClientState st) {
+     look_up_with_id(id)->set_state(st);
+ }
+
+
 // void ClientsRegister::change_state(ClientIt it, ClientState st) {
 //     it->set_state(st);
 // }

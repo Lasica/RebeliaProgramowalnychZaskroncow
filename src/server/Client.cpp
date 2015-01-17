@@ -33,8 +33,11 @@ Client::~Client() {
 
 
 //operator for std::set
+//bool Client::operator<(const Client &comp) const {
+//    return address_ < comp.address_;
+//}
 bool Client::operator<(const Client &comp) const {
-    return address_ < comp.address_;
+    return clientID_ < comp.clientID_;
 }
 
 // TODO

@@ -2,7 +2,7 @@ set(LIB_SOURCES
     client/client_main.cpp
 		server/Address.cpp
     server/Client.cpp
-    server/ClientDataRaw.cpp
+    #server/ClientDataRaw.cpp
     server/ClientsRegister.cpp
 		server/Logger.cpp
 		server/Packet_handler.cpp
@@ -11,7 +11,6 @@ set(LIB_SOURCES
     server/server_main.cpp
     shared/ChatRegister.cpp
     shared/GameRoom.cpp
-    shared/GameRoomRaw.cpp
     shared/Packet.cpp
     shared/TcpConnection.cpp
 	)
@@ -20,17 +19,17 @@ set(LIB_HEADERS
  #luacore/LuaInterpreter.hpp
 	server/Address.hpp
 	server/Client.hpp
-  server/ClientDataRaw.hpp
-  server/ClientsRegister.hpp
+        server/ClientDataRaw.hpp
+        server/ClientsRegister.hpp
 	server/Packet_handler.hpp
 	server/Logger.hpp
 	server/Server.hpp
 	server/ServerResources.hpp
 	shared/ChatEntryRaw.hpp
 	shared/ChatRegister.hpp
-  shared/GameRoom.hpp
-  shared/GameRoomRaw.hpp
-  shared/HandshakeRaw.hpp
+        shared/GameRoom.hpp
+        shared/GameRoomRaw.hpp
+        shared/HandshakeRaw.hpp
 	shared/Observer.hpp
 	shared/Packet.hpp
 	shared/Resource.hpp
