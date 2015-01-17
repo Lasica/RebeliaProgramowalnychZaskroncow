@@ -22,6 +22,7 @@ class TcpServer : boost::noncopyable, public ServerResources {
     static TcpServer &getInstance(boost::asio::io_service &);
     void stop() {
         io_.stop();
+        running_ = false;
     }
     unsigned connections();
   private:
@@ -31,5 +32,6 @@ class TcpServer : boost::noncopyable, public ServerResources {
                       const boost::system::error_code &);
     tcp::acceptor acceptor_;
     boost::asio::io_service &io_;
+    std::thread *self_;
 };
 

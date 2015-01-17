@@ -32,8 +32,10 @@ void TcpServer::handleAccept(TcpPointer new_connection_catched,
 }
 
 void TcpServer::start() {
+    running_ = true;
     startAccept();
-    boost::thread bt(boost::bind(&boost::asio::io_service::run, &io_));
+    init();
+    self_ = new std::thread(boost::bind(&boost::asio::io_service::run, &io_));
 
 }
 TcpServer &TcpServer::getInstance(boost::asio::io_service &io) {
