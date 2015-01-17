@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <string>
+#include <thread>
+#include <chrono>
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -15,7 +17,7 @@ int main() {
     TcpServer &server = TcpServer::getInstance(io);
     server.start();
     //Logger::log_main() << "Serwer uruchomiony\n";
-    std::cout << "Serwer uruchomiony" << std::endl;
+    std::cout << "Serwer uruchomiony\n";
     //Przykłady//////////////
     /*   server::TcpServer::ConIter it =
            server.getConIter(); //automatycznie wskazuje na połączenie nr 0 (w sumie ani to iterator ani wskaźnik, nie wiem)
@@ -49,5 +51,10 @@ int main() {
        }
     */
 //Przykłady///////////////////////
+    char input=-1;
+    do {
+        std::cin >> input;
+        
+    } while(input != 'q');
     return 0;
 }
