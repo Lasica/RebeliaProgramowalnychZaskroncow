@@ -4,14 +4,12 @@
 #include "ClientsRegister.hpp"
 #include "Client.hpp"
 #include "Address.hpp"
-#include "shared/typedefinitions.h"
+#include "shared/typedefinitions.hpp"
 
-ClientsRegister::ClientsRegister() {
-    ;
-}
+ClientsRegister::ClientsRegister() { }
 
-ClientsRegister::ClientIt ClientsRegister::register_client(Address address, TcpPointer pointer) {
-    ClientsRegister::ClientIt it = clients_.insert(Client(address, pointer)).first; // insert returns pair<ClientIt, bool>
+ClientIt ClientsRegister::register_client(Address address, TcpPointer pointer) {
+    ClientIt it = clients_.insert(Client(address, pointer)).first;
 
     return it;
 }
@@ -19,27 +17,13 @@ ClientsRegister::ClientIt ClientsRegister::register_client(Address address, TcpP
 void ClientsRegister::remove_client(unsigned int id) {
     clients_.erase(look_up_with_id(id));
 }
-/*
-void ClientsRegister::remove_client(std::string nick) {
-    clients_.erase(look_up_with_nickname(nick));
-}*/
 
 void ClientsRegister::remove_client(ClientIt it) {
     clients_.erase(it);
 }
 
 
-typedef std::set<Client>::iterator ClientIt;
 
-// look_up  functions find object with given nick or id
-/*ClientIt ClientsRegister::look_up_with_nickname(std::string nick) const {
-    for(auto it = clients_.begin(); it != clients_.end(); ++it) {
-        if(it->address.nickname == nick)
-            return it;
-    }
-
-    return clients_.end();
-}*/
 
 ClientIt ClientsRegister::look_up_with_id(ClientID id) const {
     for(auto it = clients_.begin(); it != clients_.end(); ++it) {
@@ -65,10 +49,6 @@ ClientIt ClientsRegister::look_up_with_id(ClientID id) const {
 //     look_up_with_id(id)->set_state(st);
 // }
 //
-//
-// void ClientsRegister::change_state(std::string nick, ClientState st) {
-//     look_up_with_nickname(nick)->set_state(st);
-// }
 //
 // void ClientsRegister::change_state(ClientIt it, ClientState st) {
 //     it->set_state(st);

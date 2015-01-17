@@ -1,9 +1,8 @@
 #include "Client.hpp"
-#include "shared/Resource.h"
+#include "shared/Resource.hpp"
 #include <boost/asio.hpp>
 #include <string>
 
-// constructors & destructor
 ClientID Client::nextID_ = 0;
 
 Client::Client( Address address, TcpPointer pointer, std::string nick) :
@@ -24,7 +23,7 @@ Client::Client( Address address, TcpPointer pointer, std::string nick) :
 //    ;
 //}
 
-// copy c-tor copy also the unique id of every client
+// podejrzewam ze domyslny konstruktor kopiujacy nam wystarczy
 Client::Client(const Client &c) :
     ClientDataRaw(c.clientID_, c.nickname_, c.state_), address_(c.address_), connection_(c.connection_) {
 }
@@ -32,27 +31,6 @@ Client::Client(const Client &c) :
 Client::~Client() {
 }
 
-
-// get methods
-ClientID Client::get_client_id() const {
-    return clientID_;
-}
-
-ClientState Client::get_state() const {
-    return state_;
-}
-
-//set methods
-void Client::set_state(ClientState s) {
-    state_ = s;
-}
-
-// bool Client::is_in_game() {
-//     if(*state_ == IN_GAME)
-//         return true;
-//     else
-//         return false;
-// }
 
 //operator for std::set
 bool Client::operator<(const Client &comp) const {
@@ -63,7 +41,7 @@ bool Client::operator<(const Client &comp) const {
 void Client::update(Resource *updateInfo) {
     Packet updatePackage(Packet::UPDATED_RESOURCE, address_, updateInfo);
     send(updatePackage);
-}   // bez definicji tej metody nie kompiluje się Client
+}
 
 inline void Client::send(Packet &packet) {
     connection_->write(packet.get_data_streambuf()); //TODO: to be edited using streambufs

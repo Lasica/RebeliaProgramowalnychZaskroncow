@@ -1,4 +1,4 @@
-#include "server/Server.h"
+#include "server/Server.hpp"
 
 #include <iostream>
 #include <string>
@@ -7,7 +7,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 
-#include "Logger.h"
+#include "Logger.hpp"
 using boost::asio::ip::tcp;
 using namespace boost::asio;
 int main() {

@@ -6,9 +6,9 @@
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "shared/typedefinitions.h"
-#include "server/ClientDataRaw.h"
-#include "shared/Resource.h"
+#include "shared/typedefinitions.hpp"
+#include "server/ClientDataRaw.hpp"
+#include "shared/Resource.hpp"
 #include <fstream>
 
 #include <boost/test/unit_test.hpp>
@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE( simple_case ) {
     ifs.close();
 
     //odkomentować, jeśli ClientDataRaw odziedziczy po Resource
-    //BOOST_CHECK_EQUAL(  sampleCDR.show_content(),   restoredCDR.show_content()  );
+    BOOST_CHECK_EQUAL(  sampleCDR.show_content(),               restoredCDR.show_content()  );
     BOOST_CHECK_EQUAL(  sampleCDR.clientID_,                    restoredCDR.clientID_  );
     BOOST_CHECK_EQUAL(  sampleCDR.state_.location,              restoredCDR.state_.location );
     BOOST_CHECK_EQUAL(  sampleCDR.state_.locationIdentifier,    restoredCDR.state_.locationIdentifier  );

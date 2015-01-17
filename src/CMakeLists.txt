@@ -4,55 +4,39 @@ set(LIB_SOURCES
     server/Client.cpp
     server/ClientDataRaw.cpp
     server/ClientsRegister.cpp
-######### server/ConnectionsIterator.cpp
-		#server/FakeServer.cpp
 		server/Logger.cpp
 		server/Packet_handler.cpp
     server/Server.cpp
 		server/ServerResources.cpp
     server/server_main.cpp
-	# shared/ChatEntry.cpp
     shared/ChatRegister.cpp
-  # shared/ClientList.cpp
     shared/GameRoom.cpp
-  #  shared/GameRoomRaw.cpp
-  # shared/GameRoomList.cpp
-    shared/Handshake.cpp
+    shared/GameRoomRaw.cpp
     shared/Packet.cpp
-    shared/Resource.cpp
-    shared/Subject.cpp
     shared/TcpConnection.cpp
 	)
 
 set(LIB_HEADERS
- #luacore/LuaInterpreter.h
+ #luacore/LuaInterpreter.hpp
 	server/Address.hpp
 	server/Client.hpp
-  server/ClientDataRaw.h
+  server/ClientDataRaw.hpp
   server/ClientsRegister.hpp
- #server/FakeServer.h
-	server/Packet_handler.h
-	server/Logger.h
-	server/Server.h
-	server/ServerResources.h
- #shared/ChatEntry.h
-	shared/ChatEntryRaw.h
-	shared/ChatRegister.h
- #shared/ChatHistoryRaw.h
- #shared/ClientList.h
- #shared/ClientListRaw.h
-  shared/GameRoom.h
- #shared/GameRoomList.h
- #shared/GameRoomListRaw.h
-  shared/GameRoomRaw.h
-  shared/Handshake.hpp
+	server/Packet_handler.hpp
+	server/Logger.hpp
+	server/Server.hpp
+	server/ServerResources.hpp
+	shared/ChatEntryRaw.hpp
+	shared/ChatRegister.hpp
+  shared/GameRoom.hpp
+  shared/GameRoomRaw.hpp
   shared/HandshakeRaw.hpp
-	shared/Observer.h
+	shared/Observer.hpp
 	shared/Packet.hpp
-	shared/Resource.h
-	shared/Subject.h
-	shared/TcpConnection.h
-  shared/typedefinitions.h # czy to jest tu potrzebne?
+	shared/Resource.hpp
+	shared/Subject.hpp
+	shared/TcpConnection.hpp
+  shared/typedefinitions.hpp
 	)
 
 add_library( PROJECT_LIBRARY ${LIB_SOURCES} ${LIB_HEADERS} )

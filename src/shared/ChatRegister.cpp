@@ -1,8 +1,4 @@
-#include "shared/ChatRegister.h"
-
-/*ChatRegister::~ChatRegister() {
-
-}*/
+#include "shared/ChatRegister.hpp"
 
 void ChatRegister::notify() {
     for(Observer *o : obs_)

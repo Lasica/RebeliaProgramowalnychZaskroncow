@@ -3,7 +3,7 @@
  * Copyright 2014
  */
 
-#include "luacore/LuaInterpreter.h"
+#include "luacore/LuaInterpreter.hpp"
 
 LuaInterpreter::LuaInterpreter() {
     // create new Lua state

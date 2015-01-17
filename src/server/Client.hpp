@@ -17,26 +17,26 @@ Każdy gracz jest opisany przez parametry charakteryzujące:
 #include <memory>
 #include <boost/asio.hpp>
 #include "server/Address.hpp"
-#include "shared/Observer.h"
-#include "shared/typedefinitions.h"
-#include "server/ClientDataRaw.h"
-#include "shared/TcpConnection.h"
+#include "shared/Observer.hpp"
+#include "shared/typedefinitions.hpp"
+#include "server/ClientDataRaw.hpp"
+#include "shared/TcpConnection.hpp"
 #include "shared/Packet.hpp"
+
 
 class Client : public Observer, public ClientDataRaw {
   public:
-    // TODO: W klasie ClientDataRaw lub tutaj dodać inicjację ClientID_ z jakiegoś licznika
     Client( Address address, TcpPointer pointer=nullptr, std::string nick = "UNREGISTERED");
     Client(const Client &c);
 
     ~Client();
 
-    ClientID                        get_client_id() const;
-    ClientState                     get_state() const;
+    ClientID                        get_client_id() const { return clientID_; }
+    ClientState                     get_state() const { return state_; }
     std::string                     get_nickname() const { return nickname_; }
     Address                         get_address() const { return address_; }
 
-    void                            set_state(ClientState s);
+    void                            set_state(ClientState s) { state_=s; }
     bool                            operator<(const Client &) const;
     virtual void                    update(Resource *updateInfo);
 

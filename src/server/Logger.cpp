@@ -1,4 +1,4 @@
-#include "Logger.h"
+#include "Logger.hpp"
 
 Logger::Logger() : main(log4cpp::Category::getRoot()), debug(log4cpp::Category::getInstance(std::string("dbg")))
 {

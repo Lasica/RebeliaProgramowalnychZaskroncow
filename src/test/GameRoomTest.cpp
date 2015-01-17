@@ -6,11 +6,11 @@
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "shared/typedefinitions.h"
+#include "shared/typedefinitions.hpp"
 #include "server/Address.hpp"
-#include "shared/Resource.h"
-#include "shared/GameRoomRaw.h"
-#include "shared/GameRoom.h"
+#include "shared/Resource.hpp"
+#include "shared/GameRoomRaw.hpp"
+#include "shared/GameRoom.hpp"
 #include "server/Client.hpp"
 
 #include <fstream>

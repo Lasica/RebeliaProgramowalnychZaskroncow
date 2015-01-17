@@ -1,4 +1,4 @@
-#include "TcpConnection.h"
+#include "TcpConnection.hpp"
 #include "Packet.hpp"
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
@@ -51,7 +51,7 @@ void TcpConnection::handle_read(const boost::system::error_code &err,
        	ia >> packet; //gdzie mam umieścić ten pakiet, jak uzyskać dostęp do kolejki?
 
         }
-        catch(...)
+        catch(...) // to nie moze tak zostac, trzeba poinformowac jesli zlapiesz wyjatek
 	{
          
 

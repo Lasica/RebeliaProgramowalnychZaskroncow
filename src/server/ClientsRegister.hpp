@@ -5,13 +5,11 @@
 #include <set>
 #include "server/Client.hpp"
 #include "server/Address.hpp"
-#include "shared/Subject.h"
-/*
- *
- */
+#include "shared/Subject.hpp"
+#include "shared/typedefinitions.hpp"
+
 class ClientsRegister {
   public:
-    typedef std::set<Client>::iterator ClientIt;
     ClientsRegister();
     ~ClientsRegister() { }
     ClientIt register_client(Address address, TcpPointer pointer);

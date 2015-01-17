@@ -1,5 +1,5 @@
-#include "typedefinitions.h"
-#include "shared/GameRoom.h"
+#include "typedefinitions.hpp"
+#include "shared/GameRoom.hpp"
 
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>       //makro BOOST_CLASS_EXPORT

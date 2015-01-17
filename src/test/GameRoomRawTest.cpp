@@ -8,8 +8,8 @@
 
 
 #include "server/Address.hpp"
-#include "shared/Resource.h"
-#include "shared/GameRoomRaw.h"
+#include "shared/Resource.hpp"
+#include "shared/GameRoomRaw.hpp"
 #include <fstream>
 
 #include <boost/test/unit_test.hpp>

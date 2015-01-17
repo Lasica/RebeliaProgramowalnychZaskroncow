@@ -13,7 +13,7 @@
 #include <boost/archive/text_oarchive.hpp>
 
 #include <string>
-#include "shared/Resource.h"
+#include "shared/Resource.hpp"
 #include "server/Address.hpp"
 
 struct HandshakeRaw;

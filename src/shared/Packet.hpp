@@ -8,8 +8,8 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/shared_ptr.hpp>   //implementacja serializacji boost::shared_ptr
-#include <shared/Resource.h>
 
+#include "shared/Resource.hpp"
 #include "server/Address.hpp"
 
 

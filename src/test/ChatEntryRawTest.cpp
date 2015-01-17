@@ -8,7 +8,7 @@
 
 
 #include "server/Address.hpp"
-#include "shared/ChatEntryRaw.h"
+#include "shared/ChatEntryRaw.hpp"
 
 #include <fstream>
 

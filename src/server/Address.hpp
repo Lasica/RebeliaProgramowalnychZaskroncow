@@ -3,7 +3,7 @@
 
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
-#include "shared/typedefinitions.h"
+#include "shared/typedefinitions.hpp"
 
 #include <string>
 #include <iostream>
@@ -16,7 +16,7 @@
  * Alternatywą dla mapy jest set z operatorem porownania z adresu, a wyszukiwanie z tego seta byloby metodami
  * lower/upper_bound(Adres(o_zadanym_ip)).
  * Do klasy Adres wyemigruje wskaznik na TCPConnection z Klienta, jak i kopia id Clienta ktory obecnie go posiada.
- * Wowczas klient posiadalby jedynie wskaznik (najlepiej nie iterator, wskaznik! iterator umozliwialby dostep do "sasiednich" adresow) na swoj adres.
+ * Wowczas klient tak jak i Packet posiadaliby jedynie (stały) wskaznik (najlepiej nie iterator, wskaznik! iterator umozliwialby dostep do "sasiednich" adresow) na swoj adres.
  * Natomiast w rejestrze klientow byloby sortowanie klientow po id.
  * TODO TODO TODO
  */
