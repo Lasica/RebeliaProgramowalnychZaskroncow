@@ -1,19 +1,8 @@
 #ifndef GAMEROOM_H
 #define GAMEROOM_H
 
-//#include <boost/serialization/base_object.hpp>
-//#include <boost/serialization/export.hpp>       //makro BOOST_CLASS_EXPORT
-//#include <boost/serialization/list.hpp>         // dla serializacji std::list<>
-
-//#include <boost/archive/text_iarchive.hpp>
-//#include <boost/archive/text_oarchive.hpp>
-
-//#include "shared/typedefinitions.hpp"
-//#include "Resource.hpp"
-//#include "Observer.hpp"
 #include "GameRoomRaw.hpp"
 #include "shared/Subject.hpp"
-//#include "server/Client.hpp"
 #include "server/ClientsRegister.hpp"
 #include <boost/shared_ptr.hpp>
 
@@ -35,39 +24,27 @@ public:
      */
 
     // numOfPlayers_ ustawiam na 0, bo jest potem zwiększany w add_player
-    GameRoom(ClientID host, std::string gameRoomName/*, ClientsRegister& cReg*/);/* :
-        GameRoomRaw(gameRoomName, host, gameRoomCounter_++), register_(cReg) {
-        add_player(host);
-    }*/
-
+    GameRoom(ClientID host, std::string gameRoomName);
     // dla serializacji
-    GameRoom();// : GameRoomRaw(), register_(*(new ClientsRegister)) { } // register_ musi być zainicjalizowany obiektem, nie można mu podać nulla
+    GameRoom();
 
     virtual ~GameRoom();
 
     virtual void notify();
 
-
     void add_player(ClientID newPlayer);
     // TODO (w poniższej lub innej metodzie): kiedy usuwany jest host - cały GameRoom jest kasowany
     void remove_player(ClientID player);
 
-// czy te metody będą używane?
-    GameRoomID get_id();/* {
-        return id;
-    }*/
+    GameRoomID get_id();
+    unsigned int get_number_of_players();
 
-    unsigned int get_number_of_players();/* {
-        return numOfPlayers;
-    }*/
-
+    // porównuje id GameRoomów
+    //bool operator<(GameRoom &comp);
   private:
-    // problem - jeśli register_ jest referencją, to w domyślnym konstruktorze (dla serializacji) jest inicjaliowany pustym ClientsRegister
-    // można register_ zastąpić sprytnym wskaźnikiem,
     static ClientsRegister& register_; // jeśli używamy ClientID do oznaczania graczy, to musimy mieć jakieś odniesienie do rejestru, w którym się znajdują
 
     static GameRoomID gameRoomCounter_;//licznik GameRoomów, potrzebny do inicjalizacji id_
-
 };
 
 #endif // GAMEROOM_H

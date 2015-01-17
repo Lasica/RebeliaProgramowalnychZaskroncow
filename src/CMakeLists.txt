@@ -13,6 +13,7 @@ set(LIB_SOURCES
 		shared/constants.cpp
     shared/GameRoom.cpp
     shared/GameRoomRaw.cpp
+    shared/GameRoomsRegister.cpp
     shared/Packet.cpp
     shared/TcpConnection.cpp
 	)
@@ -32,6 +33,7 @@ set(LIB_HEADERS
 	shared/ChatRegister.hpp
         shared/GameRoom.hpp
         shared/GameRoomRaw.hpp
+        shared/GameRoomsRegister.hpp
         shared/HandshakeRaw.hpp
 	shared/Observer.hpp
 	shared/Packet.hpp

@@ -58,6 +58,9 @@ unsigned int GameRoom::get_number_of_players() {
     return numOfPlayers;
 }
 
+//bool GameRoom::operator<(const GameRoom &comp){
+//    return id<comp.id;
+//}
 
 
 // TODO
