@@ -26,24 +26,16 @@ struct GameRoomRaw : public Resource {
 
     const ClientID          host;
     std::list<ClientID>     players;
-    std::list<std::string>  playersNames;    // nicki wszystkich graczy w tym pokoju
 
     unsigned int            numOfPlayers;
     unsigned int            maxNumOfPlayers;
 
     const GameRoomID        id;   //id danego GameRoomu
 
-    virtual Tag get_tag();/* {
+    virtual Tag get_tag() {
         return GAMEROOM;
-    }*/
-    // WTF, co sie tu dzieje?
-    // dla testów
-    virtual std::string show_content(); /*{
-        return ("** GameRoomRaw **, gameRoomName==" + gameRoomName +
-                std::string([this]()->std::string { std::string temp(""); for(auto a : playersNames) temp += a; return temp;}())
-                + ", numOfPlayers==" + std::to_string(numOfPlayers) + ", maxNumOfPlayers==" + std::to_string(maxNumOfPlayers)
-                + ", id==" + std::to_string(id) + "\n");
-    }*/
+    }
+    virtual std::string show_content();
 
     friend class boost::serialization::access;
     template<class Archive>
@@ -54,7 +46,6 @@ struct GameRoomRaw : public Resource {
         ar &numOfPlayers;
         ar &maxNumOfPlayers;
         ar &gameRoomName;
-        ar &playersNames;
         ar &const_cast<GameRoomID&>(id);
     }
 };

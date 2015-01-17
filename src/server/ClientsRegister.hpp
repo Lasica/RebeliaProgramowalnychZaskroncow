@@ -11,44 +11,41 @@
 #include "shared/Subject.hpp"
 #include "shared/typedefinitions.hpp"
 
+struct client_comparator {
+    bool operator()(const ClientPtr &a, const ClientPtr &b) const {
+        return a->clientID_ < b->clientID_;
+    }
+};
+
 class ClientsRegister {
-  public:
+public:
     ClientsRegister();
     ~ClientsRegister() { }
     ClientIt register_client(const Address *address, TcpPointer pointer);
 
 
-    ClientIt look_up_with_id(ClientID id)    const;
-    ClientIt look_up_with_address(Address addr)      const; // TODO -- zoptymalizowac, zeby nie bylo liniowe
+    ClientIt look_up_with_id(ClientID id)           const;
+    //ClientIt look_up_with_address(Address addr)     const; // nie ma i nie bedzie. mozna to ustalic na podstawie addressRegister.
 
-    /*
-     * Funkcje zmieniajace stan sa tymczasowo wykomentowane, gdyz nie sa uzywane
-     * Prawdopodobnie zmieni sie kontener przechowywany z seta na unordered_map po ClientID
-     * Decyzja do podjecia w momencie uzycia tych funkcji
-     */
-
-    //void change_state(ClientID id, ClientState state);
     void change_state(ClientID id, ClientState state);
 
-    //void change_state(ClientIt it, ClientState state);
-
     inline void remove_client(ClientID id);
-    void remove_client(ClientIt it);
+    void        remove_client(ClientIt it);
 
-    ClientState get_state(const ClientIt &it)   const {
-        return it->get_state();
+    ClientState get_state(const ClientIt &it) const {
+        return (*it)->state_;
     }
-    int         get_size()                      const {
+    int get_size() const {
         return clients_.size();
     }
 
-  private:
+private:
     ClientsRegister(ClientsRegister &copy) = delete;
     ClientsRegister &operator=(const ClientsRegister &) = delete;
 
-
-    std::set<Client> clients_;
-    mutable boost::shared_mutex access_;
+    std::set<ClientPtr, client_comparator> clients_;
+    ClientPtr                              lookUpper_;
+    mutable boost::shared_mutex            access_;
 };
 
 #endif //CLIENTSREGISTER_HPP

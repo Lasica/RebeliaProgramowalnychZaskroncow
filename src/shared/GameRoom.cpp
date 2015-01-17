@@ -33,13 +33,11 @@ GameRoom::~GameRoom() {
 void GameRoom::add_player(ClientID newPlayer) {
     players.push_back(newPlayer);
     //register_.change_state(newPlayer, ClientState(ClientState::GAMEROOM, this->get_id())); // FIXME jeszcze nie sprawne
-    playersNames.push_back((register_.look_up_with_id(newPlayer))->get_nickname());
     ++numOfPlayers;
 }
 
 void GameRoom::remove_player(ClientID player) {
     register_.change_state(player, ClientState(ClientState::LOBBY, 0));
-    playersNames.remove(((register_.look_up_with_id(player))->get_nickname()));
     players.remove(player);
     --numOfPlayers;
 }

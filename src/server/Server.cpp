@@ -1,5 +1,4 @@
 #include "server/Server.hpp"
-#define PORT 8001 // przeniesc do const unsigned short-a
 
 TcpServer::TcpServer(boost::asio::io_service &io_service)
     : acceptor_(io_service, tcp::endpoint(tcp::v4(), PORT)), io_(io_service) {
