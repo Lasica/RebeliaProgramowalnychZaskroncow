@@ -1,10 +1,11 @@
 set(LIB_SOURCES
     client/client_main.cpp
+		luacore/LuaInterpreter.cpp
 		server/Address.cpp
-	server/PacketQueueAdapter.cpp
+	  server/PacketQueueAdapter.cpp
 		server/AddressRegister.cpp
     server/Client.cpp
-    #server/ClientDataRaw.cpp
+    server/ClientDataRaw.cpp
     server/ClientsRegister.cpp
 		#server/Logger.cpp
 		server/Packet_handler.cpp
@@ -20,7 +21,7 @@ set(LIB_SOURCES
 	)
 
 set(LIB_HEADERS
- #luacore/LuaInterpreter.hpp
+  luacore/LuaInterpreter.hpp
 	server/Address.hpp
 	server/AddressRegister.hpp
 	server/Client.hpp
@@ -36,7 +37,9 @@ set(LIB_HEADERS
         shared/GameRoom.hpp
         shared/GameRoomRaw.hpp
         shared/GameRoomsRegister.hpp
+				shared/GameSettings.hpp
         shared/HandshakeRaw.hpp
+				shared/Map.hpp
 	shared/Observer.hpp
 	shared/Packet.hpp
 	shared/Resource.hpp
