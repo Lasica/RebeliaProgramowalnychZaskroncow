@@ -38,6 +38,8 @@ class Packet {
     };
     typedef std::string StreamBuffer;
 
+    //! boost::serialization potrzebuje bezparametrowego konstruktora, można go przenieść do "private"
+    Packet() { }
     Packet(Tag tag__, const Address* ad__=nullptr, Resource *content__=nullptr);
     Packet(Tag tag__, const Address* ad__, ResourcePtr content__=nullptr);
 
@@ -66,8 +68,6 @@ class Packet {
     }
 
   private:
-    //! boost::serialization potrzebuje bezparametrowego konstruktora, można go przenieść do "private"
-    Packet() { }
     ResourcePtr content_;
     Tag tag_;
     const Address *address_;   // czy address jest potrzebny w pakiecie? - TAK!
