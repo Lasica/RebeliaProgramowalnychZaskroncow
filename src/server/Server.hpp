@@ -18,9 +18,10 @@ using namespace boost::asio;
 class TcpServer : boost::noncopyable, public ServerResources {
 public:
     void start();
-    static TcpServer &getInstance(boost::asio::io_service &);
+    static TcpServer &getInstance();
     void stop() {
         io_.stop();
+        running_ = false;
     }
     ~TcpServer() {
         if(th_->joinable())
@@ -37,5 +38,6 @@ private:
     tcp::acceptor acceptor_;
     boost::asio::io_service &io_;
 
+    std::thread *self_;
 };
 

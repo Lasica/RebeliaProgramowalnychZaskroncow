@@ -1,8 +1,5 @@
 #include "server/Server.hpp"
-#include "shared/TcpConnection.hpp"
-#include <assert.h>
-const unsigned short PORT =  8001;
-TcpServer* TcpServer::pointer;
+
 
 TcpServer::TcpServer(boost::asio::io_service &io_service)
     : acceptor_(io_service, tcp::endpoint(tcp::v4(), PORT)), io_(io_service) {
@@ -35,11 +32,18 @@ void TcpServer::handleAccept(TcpPointer new_connection_catched,
 }
 
 void TcpServer::start() {
+    running_ = true;
     startAccept();
+<<<<<<< HEAD
     th_ = new boost::thread (boost::bind(&boost::asio::io_service::run, &io_));
+=======
+    init();
+    self_ = new std::thread(boost::bind(&boost::asio::io_service::run, &io_));
+>>>>>>> master
 
 }
-TcpServer &TcpServer::getInstance(boost::asio::io_service &io) {
+TcpServer &TcpServer::getInstance() {
+    static boost::asio::io_service io;
     static TcpServer serv(io);
     TcpServer::pointer = &serv;
     return serv;

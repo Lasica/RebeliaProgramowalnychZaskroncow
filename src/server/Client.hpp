@@ -22,7 +22,7 @@ Każdy gracz jest opisany przez parametry charakteryzujące:
 #include "server/ClientDataRaw.hpp"
 #include "shared/Packet.hpp"
 
-
+class ClientsRegister;
 class Client : public Observer, public ClientDataRaw {
 public:
 
@@ -53,10 +53,9 @@ public:
 private:
     const Address*                  address_;
 
-    static ClientID                 nextID_;
-
-
     inline void                     send(Packet &packet); // const?
+    static ClientID                 nextID_;
+    //friend class ClientsRegister;
 };
 
 #endif //CLIENT_HPP
