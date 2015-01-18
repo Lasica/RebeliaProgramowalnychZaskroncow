@@ -20,20 +20,13 @@ struct ServerResources {
     }
 
     void init() {
-<<<<<<< HEAD
-        running_ = true;
-        packetHandler = std::thread(lobbyManager);
-    }
-    virtual ~ServerResources() {
-        running_ = false;
-        packetHandler.join();
-=======
+
         packetHandler = new std::thread(lobbyManager);
     }
     virtual ~ServerResources() {
         running_ = false;
 //        packetHandler->join();
->>>>>>> master
+
     }
 
 protected:
