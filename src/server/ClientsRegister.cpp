@@ -36,3 +36,4 @@ ClientIt ClientsRegister::look_up_with_id(ClientID id) const {
 void ClientsRegister::change_state(ClientID id, ClientState st) {
     (*look_up_with_id(id))->set_state(st);
 }
+

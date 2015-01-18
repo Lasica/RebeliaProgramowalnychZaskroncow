@@ -1,7 +1,11 @@
 #include "server/Server.hpp"
+
+
+
 #include "shared/TcpConnection.hpp"
-#include <assert.h>
+
 TcpServer* TcpServer::pointer;
+
 
 TcpServer::TcpServer(boost::asio::io_service &io_service)
     : acceptor_(io_service, tcp::endpoint(tcp::v4(), PORT)), io_(io_service) {
@@ -37,8 +41,10 @@ void TcpServer::start() {
     running_ = true;
     startAccept();
 
+
     init();
     self_ = new std::thread(boost::bind(&boost::asio::io_service::run, &io_));
+
 
 }
 TcpServer &TcpServer::getInstance() {

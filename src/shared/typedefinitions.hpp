@@ -17,7 +17,9 @@ class TcpConnection;
 class Resource;
 class PacketQueueAdapter;
 
+
 class GameRoom;
+
 
 typedef std::string                         AddressIP;
 typedef PacketQueueAdapter                  PacketQueue;

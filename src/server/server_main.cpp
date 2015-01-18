@@ -15,6 +15,7 @@ using namespace boost::asio;
 int main() {
     TcpServer &server = TcpServer::getInstance();
     server.start();
+
     std::cout << "Serwer uruchomiony\n";
     
     char input=-1;

@@ -50,10 +50,12 @@ public:
     }
 
 
+
     // porównuje id GameRoomów
     //bool operator<(GameRoom &comp);
   private:
     static ClientsRegister& register_; // jeśli używamy ClientID do oznaczania graczy, to musimy mieć jakieś odniesienie do rejestru, w którym się znajdują
+
 
     static GameRoomID gameRoomCounter_;//licznik GameRoomów, potrzebny do inicjalizacji id_
 };

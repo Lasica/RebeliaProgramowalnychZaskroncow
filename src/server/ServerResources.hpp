@@ -26,6 +26,7 @@ struct ServerResources {
     virtual ~ServerResources() {
         running_ = false;
 //        packetHandler->join();
+
     }
 
 protected:
