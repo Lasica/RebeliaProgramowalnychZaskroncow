@@ -3,7 +3,7 @@
 #include "shared/TcpConnection.hpp"
 #include <boost/asio.hpp>
 #include <string>
-
+#include "server/Server.hpp"
 ClientID Client::nextID_ = 0;
 
 Client::Client( const Address *address, TcpPointer pointer, std::string nick) :
@@ -54,4 +54,15 @@ void Client::update(Resource *updateInfo) {
 
 inline void Client::send(Packet &packet) {
     address_->connection->write(packet.get_data_streambuf()); //TODO: to be edited using streambufs
+}
+
+void Client::subscribe(){
+	std::vector<Subject*>::iterator it = TcpServer::pointer->SubscriptionList.begin();
+	for(; it < TcpServer::pointer->SubscriptionList.end(); ++it)
+		(*it)->addObserver(this);
+}
+void Client::unsubscribe(){
+	std::vector<Subject*>::iterator it = TcpServer::pointer->SubscriptionList.begin();
+	for(; it < TcpServer::pointer->SubscriptionList.end(); ++it)
+		(*it)->eraseObserver(this);
 }

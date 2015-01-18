@@ -7,16 +7,15 @@
 #include <boost/thread/shared_mutex.hpp>
 #include "server/Client.hpp"
 #include "server/Address.hpp"
-#include "shared/Subject.hpp"
 #include "shared/typedefinitions.hpp"
-
+#include "shared/Subject.hpp"
 struct client_comparator {
     bool operator()(const ClientPtr &a, const ClientPtr &b) const {
         return a->clientID_ < b->clientID_;
     }
 };
 
-class ClientsRegister {
+class ClientsRegister: public Subject {
 public:
     ClientsRegister();
     ~ClientsRegister() { }
@@ -45,6 +44,8 @@ private:
     std::set<ClientPtr, client_comparator> clients_;
     ClientPtr                              lookUpper_;
     mutable boost::shared_mutex            access_;
+
+    void notify();
 };
 
 #endif //CLIENTSREGISTER_HPP

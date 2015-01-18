@@ -24,13 +24,12 @@ public:
         running_ = false;
     }
     ~TcpServer() {
-        if(th_->joinable())
-            th_->join();
-        delete th_;
+        if(self_->joinable())
+            self_->join();
+        delete self_;
     }
     static TcpServer* pointer;
 private:
-    boost::thread* th_;
     TcpServer(boost::asio::io_service &);
     void startAccept();
     void handleAccept(TcpPointer,

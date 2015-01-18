@@ -44,17 +44,24 @@ public:
         return address_;
     }
 
-    void                            set_state(ClientState s) const {
+    void                            set_state(ClientState s) {
         state_=s;
+	if(state_.location == ClientState::LOBBY) 
+		subscribe();
+	else if (state_.location == ClientState::GAME) 
+		unsubscribe();
     }
     bool                            operator<(const Client &) const;
     virtual void                    update(Resource *updateInfo);
 
 private:
     const Address*                  address_;
-
+    
     inline void                     send(Packet &packet); // const?
     static ClientID                 nextID_;
+
+    void subscribe();
+    void unsubscribe();
     //friend class ClientsRegister;
 };
 
