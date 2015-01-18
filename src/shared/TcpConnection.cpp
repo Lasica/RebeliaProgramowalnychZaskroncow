@@ -4,7 +4,7 @@
 #include <boost/archive/text_oarchive.hpp>
 #include <sstream>
 #include "server/Server.hpp"
-
+#include <assert.h>
 TcpPointer TcpConnection::create(boost::asio::io_service &io_service) {
     return TcpPointer(new TcpConnection(io_service));
 }
@@ -42,15 +42,17 @@ void TcpConnection::handle_write(const boost::system::error_code & /*err*/,
 
 }
 
-void TcpConnection::handle_read(const boost::system::error_code &err,
-                                size_t /*size*/) {
-    if(!err) {
-        Packet packet;
+void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
+                                size_t size) {
+    if(size > 1) {
+	    Packet packet;
+     
+        try {
         std::istream is(&response_);
         boost::archive::text_iarchive ia(is); //jak go zaadresować?
-        try {
+
             ia >> packet;
-    TcpServer::pointer->received.push(packet);
+   TcpServer::pointer->received.push(packet);
 
         }
         catch(std::exception ex)

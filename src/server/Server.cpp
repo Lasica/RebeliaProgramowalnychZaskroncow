@@ -1,6 +1,6 @@
 #include "server/Server.hpp"
 #include "shared/TcpConnection.hpp"
-
+#include <assert.h>
 const unsigned short PORT =  8001;
 TcpServer* TcpServer::pointer;
 
@@ -11,7 +11,6 @@ TcpServer::TcpServer(boost::asio::io_service &io_service)
 
 void TcpServer::startAccept() {
     TcpPointer new_connection = TcpConnection::create(acceptor_.get_io_service());
-
     acceptor_.async_accept(new_connection->socket(),
                            boost::bind(&TcpServer::handleAccept, this, new_connection,
                                        boost::asio::placeholders::error));
