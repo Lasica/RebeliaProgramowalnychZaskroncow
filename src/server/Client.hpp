@@ -20,28 +20,37 @@ Każdy gracz jest opisany przez parametry charakteryzujące:
 #include "shared/Observer.hpp"
 #include "shared/typedefinitions.hpp"
 #include "server/ClientDataRaw.hpp"
-#include "shared/TcpConnection.hpp"
 #include "shared/Packet.hpp"
 
 class ClientsRegister;
 class Client : public Observer, public ClientDataRaw {
-  public:
+public:
 
     Client( const Address *address, TcpPointer pointer=nullptr, std::string nick = "UNREGISTERED");
     Client(const Client &c);
 
     ~Client();
 
-    ClientID                        get_client_id() const { return clientID_; }
-    ClientState                     get_state() const { return state_; }
-    std::string                     get_nickname() const { return nickname_; }
-    const Address*                  get_address() const { return address_; }
+    ClientID                        get_client_id() const {
+        return clientID_;
+    }
+    ClientState                     get_state() const {
+        return state_;
+    }
+    std::string                     get_nickname() const {
+        return nickname_;
+    }
+    const Address*                  get_address() const {
+        return address_;
+    }
 
-    void                            set_state(ClientState s) const { state_=s; }
+    void                            set_state(ClientState s) const {
+        state_=s;
+    }
     bool                            operator<(const Client &) const;
     virtual void                    update(Resource *updateInfo);
 
-  private:
+private:
     const Address*                  address_;
 
     inline void                     send(Packet &packet); // const?

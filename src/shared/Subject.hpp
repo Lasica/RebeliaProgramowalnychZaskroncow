@@ -7,13 +7,13 @@
 
 
 class Subject {
-  public:
+public:
     virtual ~Subject() {};
     void addObserver(Observer *o) {
         obs_.push_back(o);
     }
     virtual void notify() = 0;
-  protected:
+protected:
     std::vector<Observer *> obs_;
 };
 

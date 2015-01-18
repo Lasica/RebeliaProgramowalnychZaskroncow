@@ -1,9 +1,10 @@
 #include "server/Packet_handler.hpp"
 #include <iostream>
+#include <assert.h>
 
 void Packet_handler::operator()() {
-    std::cout << "Packet handler has started\n"; //TODO remove debug
 
+    std::cout << "Packet handler has started\n";
     try {
         while(*running_) {
             while(!inQueue_->empty()) {
@@ -15,7 +16,6 @@ void Packet_handler::operator()() {
 
                 case Packet::CHAT_ENTRY_MESSAGE_REQUEST:   // prosba o nadanie wiadomosci czatu
                     break;
-
                 //case Packet::GAMEROOM_CREATE_REQUEST:    // prosba o stworzenie nowego pokoju
                 //case Packet::GAMEROOM_JOIN_REQUEST:      // prosba o dolaczenie do pokoju
                 //case Packet::GAMEROOM_LEAVE_REQUEST:     // prosba o opuszczenie pokoju

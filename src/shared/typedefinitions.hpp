@@ -15,10 +15,14 @@ class Client;
 class ClientDataRaw;
 class TcpConnection;
 class Resource;
+class PacketQueueAdapter;
+
+
 class GameRoom;
 
+
 typedef std::string                         AddressIP;
-typedef std::queue<Packet>                  PacketQueue;
+typedef PacketQueueAdapter                  PacketQueue;
 typedef boost::shared_ptr<TcpConnection>    TcpPointer;
 typedef boost::shared_ptr<Client>           ClientPtr;
 typedef boost::shared_ptr<Resource>         ResourcePtr;

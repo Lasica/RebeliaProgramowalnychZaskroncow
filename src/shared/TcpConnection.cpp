@@ -3,7 +3,8 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <sstream>
-
+#include "server/Server.hpp"
+#include <assert.h>
 TcpPointer TcpConnection::create(boost::asio::io_service &io_service) {
     return TcpPointer(new TcpConnection(io_service));
 }
@@ -41,32 +42,26 @@ void TcpConnection::handle_write(const boost::system::error_code & /*err*/,
 
 }
 
-void TcpConnection::handle_read(const boost::system::error_code &err,
-                                size_t /*size*/) {
-    if(!err) {
-        Packet packet;
+void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
+                                size_t size) {
+    if(size > 1) {
+	    Packet packet;
+     
+        try {
         std::istream is(&response_);
         boost::archive::text_iarchive ia(is); //jak go zaadresować?
-
-        try {
-            ia >> packet; //gdzie mam umieścić ten pakiet, jak uzyskać dostęp do kolejki?
-
-        } catch(...) { // to nie moze tak zostac, trzeba poinformowac jesli zlapiesz wyjatek
-
+            ia >> packet;
+   TcpServer::pointer->received.push(packet);
 
         }
+        catch(std::exception ex)
+        {
 
+            std::cerr << "Błąd serializacji pakietu";
+        }
         wait_data();
     }
 }
-/*std::string TcpConnection::read() { //być może nie będzie już dalej potrzebne
-    mtx_.lock();
-    std::string tmp (response_);
-    std::memset(response_, ' ', sizeof(response_));
-    mtx_.unlock();
-    return tmp;
-}*/
-
 unsigned short TcpConnection::port() const {
     return this->socket_.remote_endpoint().port();
 

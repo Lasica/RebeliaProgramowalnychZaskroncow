@@ -1,6 +1,7 @@
 set(LIB_SOURCES
     client/client_main.cpp
 		server/Address.cpp
+	server/PacketQueueAdapter.cpp
 		server/AddressRegister.cpp
     server/Client.cpp
     #server/ClientDataRaw.cpp
@@ -26,6 +27,7 @@ set(LIB_HEADERS
         server/ClientDataRaw.hpp
         server/ClientsRegister.hpp
 	server/Packet_handler.hpp
+	server/PacketQueueAdapter.hpp
 	#server/Logger.hpp
 	server/Server.hpp
 	server/ServerResources.hpp
@@ -47,7 +49,6 @@ add_library( PROJECT_LIBRARY ${LIB_SOURCES} ${LIB_HEADERS} )
 
 set(LIBRARIES
 	  ${LUA_LIBRARY} ${LUA_CORE_SRC} 
-  	-llog4cpp 
   	-pthread 
 		${Boost_LIBRARIES}
 		${Boost_FILESYSTEM_LIBRARY} 

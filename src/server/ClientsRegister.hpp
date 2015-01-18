@@ -5,7 +5,6 @@
 #include <map>
 
 #include <boost/thread/shared_mutex.hpp>
-
 #include "server/Client.hpp"
 #include "server/Address.hpp"
 #include "shared/Subject.hpp"

@@ -3,16 +3,16 @@
 
 #include <chrono>
 #include <thread>
-#include <queue>
+#include "server/PacketQueueAdapter.hpp"
 #include "shared/Packet.hpp"
 #include "shared/typedefinitions.hpp"
 
 class Packet_handler {
-  public:
-    Packet_handler(std::queue<Packet> *inQueue, bool *running) :
+public:
+    Packet_handler(PacketQueue *inQueue, bool *running) :
         inQueue_(inQueue), running_(running) { }
     void operator()();
-  private:
+private:
     PacketQueue *const inQueue_;
     bool *const running_;
 };

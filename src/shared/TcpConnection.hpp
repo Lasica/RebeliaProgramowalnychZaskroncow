@@ -1,4 +1,7 @@
+#define TCP_CONNNECTION
+
 #include <iostream>
+
 #include <string>
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
@@ -11,7 +14,7 @@ using boost::asio::ip::tcp;
 using namespace boost::asio;
 
 class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
-  public:
+public:
 
     static TcpPointer create(boost::asio::io_service &);
     tcp::socket &socket();
@@ -23,7 +26,7 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
     ~TcpConnection() {
         close();
     }
-  private:
+private:
     void close();
     boost::mutex mtx_;
     streambuf response_;

@@ -1,5 +1,6 @@
 #include "Client.hpp"
 #include "shared/Resource.hpp"
+#include "shared/TcpConnection.hpp"
 #include <boost/asio.hpp>
 #include <string>
 
@@ -7,6 +8,7 @@ ClientID Client::nextID_ = 0;
 
 Client::Client( const Address *address, TcpPointer pointer, std::string nick) :
     ClientDataRaw(Client::nextID_++, nick, ClientState()), address_(address) {
+
     if(address_ != nullptr) { // zalozenie jest, ze w zadnym innym miejscu poza ClientsRegister address_ == nullptr.
         address_->change_owner(clientID_);
         address_->update_connection(pointer);

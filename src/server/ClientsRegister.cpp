@@ -39,3 +39,4 @@ void ClientsRegister::change_state(ClientID id, ClientState st) {
     boost::unique_lock< boost::shared_mutex > lock(access_);
     clients_.at(id)->set_state(st);
 }
+
