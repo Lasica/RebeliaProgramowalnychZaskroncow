@@ -16,11 +16,13 @@ int main() {
     TcpServer &server = TcpServer::getInstance();
     server.start();
     std::cout << "Serwer uruchomiony\n";
-    
-    char input=-1;
+
+    char input = -1;
+
     do {
         std::cin >> input;
-        
+
     } while(input != 'q');
+
     return 0;
 }

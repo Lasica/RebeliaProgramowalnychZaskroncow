@@ -26,7 +26,7 @@ using namespace boost::unit_test;
 BOOST_AUTO_TEST_SUITE( GameRoom_constructor )
 
 BOOST_AUTO_TEST_CASE( essential_test ) {
-    int x=1;
+    int x = 1;
     std::cout << x++ << std::endl;
     Address ad;
     std::cout << x++ << std::endl;

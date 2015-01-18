@@ -28,7 +28,7 @@ void TcpConnection::wait_data() {
 void TcpConnection::close() {
     this->socket_.close();
 }
-std::string TcpConnection::ip_address() const{
+std::string TcpConnection::ip_address() const {
     return this->socket_.remote_endpoint().address().to_string();
 }
 
@@ -47,16 +47,16 @@ void TcpConnection::handle_read(const boost::system::error_code &err,
         Packet packet;
         std::istream is(&response_);
         boost::archive::text_iarchive ia(is); //jak go zaadresować?
- 	try{
-       	ia >> packet; //gdzie mam umieścić ten pakiet, jak uzyskać dostęp do kolejki?
+
+        try {
+            ia >> packet; //gdzie mam umieścić ten pakiet, jak uzyskać dostęp do kolejki?
+
+        } catch(...) { // to nie moze tak zostac, trzeba poinformowac jesli zlapiesz wyjatek
+
 
         }
-        catch(...) // to nie moze tak zostac, trzeba poinformowac jesli zlapiesz wyjatek
-	{
-         
 
-	}	     
-     	wait_data();
+        wait_data();
     }
 }
 /*std::string TcpConnection::read() { //być może nie będzie już dalej potrzebne

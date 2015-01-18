@@ -1,7 +1,6 @@
 #include "Logger.hpp"
 
-Logger::Logger() : main(log4cpp::Category::getRoot()), debug(log4cpp::Category::getInstance(std::string("dbg")))
-{
+Logger::Logger() : main(log4cpp::Category::getRoot()), debug(log4cpp::Category::getInstance(std::string("dbg"))) {
     console_appender = new log4cpp::OstreamAppender("console", &std::cout);
     console_appender->setLayout(simple_layout);
     log_appender = new log4cpp::FileAppender("logged", LOGFILE);

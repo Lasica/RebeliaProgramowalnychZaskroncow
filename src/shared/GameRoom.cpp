@@ -41,10 +41,3 @@ void GameRoom::remove_player(ClientID player) {
     players.remove(player);
     --numOfPlayers;
 }
-
-
-// TODO
-void GameRoom::notify() {
-    for(Observer *o : obs_)
-        o->update(this);
-}
