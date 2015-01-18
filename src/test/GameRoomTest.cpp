@@ -1,18 +1,21 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE GameRoomTest
 
-#include <boost/test/detail/unit_test_parameters.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/shared_ptr.hpp>
+//#include <boost/test/detail/unit_test_parameters.hpp>
+//#include <boost/archive/text_iarchive.hpp>
+//#include <boost/archive/text_oarchive.hpp>
+//#include <boost/shared_ptr.hpp>
 
-#include "shared/typedefinitions.hpp"
-#include "server/Address.hpp"
-#include "shared/Resource.hpp"
-#include "shared/GameRoomRaw.hpp"
+
+//#include <boost/enable_shared_from_this.hpp>
+//#include <boost/asio.hpp>
+//#include "shared/typedefinitions.hpp"
+//#include "server/Address.hpp"
+//#include "shared/Resource.hpp"
+//#include "shared/GameRoomRaw.hpp"
 #include "shared/GameRoom.hpp"
-#include "server/Client.hpp"
-#include "server/ClientsRegister.hpp"
+//#include "server/Client.hpp"
+//#include "server/ClientsRegister.hpp"
 #include "server/Server.hpp"
 #include <fstream>
 
@@ -20,27 +23,40 @@
 
 using namespace boost::unit_test;
 
-//BOOST_AUTO_TEST_SUITE( GameRoom_constructor )
+BOOST_AUTO_TEST_SUITE( GameRoom_constructor )
 
-//BOOST_AUTO_TEST_CASE( essential_test ) {
+BOOST_AUTO_TEST_CASE( essential_test ) {
+    int x=1;
+    std::cout << x++ << std::endl;
+    Address ad;
+    std::cout << x++ << std::endl;
+    ClientState cs; // default state, (LOBBY, 0)
+    std::cout << x++ << std::endl;
+    Client testHost(&ad, nullptr, "host");
+    std::cout << x++ << std::endl;
 
-//    Address ad;
-//    ClientState cs; // default state, (LOBBY, 0)
-//    Client testHost(ad, nullptr, "host");
+    TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+    std::cout << x++ << std::endl;
 
-//    TcpServer.getInstance().register_client(ad, nullptr);
+    // *** na tym się zawiesza -> idzie dalej po wykomentowaniu ciała konstruktora GameRoom(z parametrami)
+    GameRoom testGR(testHost.get_client_id(), "testGameRoom");
+    std::cout << x++ << std::endl;
 
-//    GameRoom testGR(testHost.get_client_id(), "testGameRoom",  TcpServer.getInstance());
 
-//    BOOST_CHECK_EQUAL(  testGR.get_number_of_players(),    1  );
-//    BOOST_CHECK_EQUAL(  testGR.gameRoomName, "testGameRoom");
-//    std::list<std::string> testNames;
-//    testNames.push_back(testHost.get_nickname());
-//    BOOST_CHECK_EQUAL_COLLECTIONS( testGR.playersNames.begin(), testGR.playersNames.end(), testNames.begin(), testNames.end() );
+    BOOST_CHECK_EQUAL(  testGR.get_number_of_players(),    1  );
+    std::cout << x++ << std::endl;
+    BOOST_CHECK_EQUAL(  testGR.gameRoomName, "testGameRoom");
+    std::cout << x++ << std::endl;
+    std::list<std::string> testNames;
+    std::cout << x++ << std::endl;
+//     testNames.push_back(testHost.get_nickname());
+//     std::cout << x++ << std::endl;
+//     BOOST_CHECK_EQUAL_COLLECTIONS( testGR.playersNames.begin(), testGR.playersNames.end(), testNames.begin(), testNames.end() );
+//     std::cout << x++ << std::endl;
 
-//}
+}
 
-//BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_SUITE_END()
 
 //BOOST_AUTO_TEST_SUITE(  adding_and_removing_players  )
 

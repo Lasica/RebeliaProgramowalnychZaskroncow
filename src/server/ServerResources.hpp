@@ -8,7 +8,8 @@
 #include "server/AddressRegister.hpp"
 
 struct ServerResources {
-    std::thread packetHandler;
+
+    std::thread *packetHandler;
     PacketQueue received;
 
     Packet_handler lobbyManager;
@@ -19,12 +20,12 @@ struct ServerResources {
     }
 
     void init() {
-        running_ = true;
-        packetHandler = std::thread(lobbyManager);
+
+        packetHandler = new std::thread(lobbyManager);
     }
     virtual ~ServerResources() {
         running_ = false;
-        packetHandler.join();
+//        packetHandler->join();
     }
 
 protected:

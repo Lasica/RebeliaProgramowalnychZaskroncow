@@ -4,8 +4,9 @@
 #include "shared/Resource.hpp"
 
 class Observer {
-public:
-    virtual void update(Resource *) {};
+
+  public:
+    virtual void update(Resource *) { };
     virtual ~Observer() {};
 };
 

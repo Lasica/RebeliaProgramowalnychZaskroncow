@@ -13,7 +13,7 @@ struct Resource {
         HANDSHAKE
     };
 
-    virtual ~Resource() {};
+    virtual ~Resource() {}
     virtual Tag get_tag() = 0;
 
     friend class boost::serialization::access;
