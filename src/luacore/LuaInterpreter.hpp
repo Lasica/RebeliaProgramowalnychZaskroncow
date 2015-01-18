@@ -4,14 +4,16 @@
 #include <thread>
 #include <lua.hpp>
 #include "shared/GameSettings.hpp"
-class LuaInterpreter : protected GameSettings {
+class LuaInterpreter : public GameSettings {
 public:
-    void set_settings(lua_State *L);
-    int load_settings(std::string);
+    void set_settings();
+    void load_settings(const char *);
     LuaInterpreter();
     ~LuaInterpreter();
     void registerFunctions();
 private:
+    LuaInterpreter(const LuaInterpreter &) = delete;
+    LuaInterpreter& operator=(const LuaInterpreter &a) = delete;
     lua_State *state_;
     const luaL_Reg *libs;
 };

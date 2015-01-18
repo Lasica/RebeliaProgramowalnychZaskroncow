@@ -50,9 +50,12 @@ set(LIB_HEADERS
 
 add_library( PROJECT_LIBRARY ${LIB_SOURCES} ${LIB_HEADERS} )
 
+#MESSAGE( STATUS	  ${LUA_LIBRARY}	 	${LUA_CORE_SRC} )
 set(LIBRARIES
-	  ${LUA_LIBRARY} ${LUA_CORE_SRC} 
+	#	  ${LUA_LIBRARY} # dla mnie to wskazuje na stara wersje lui 5.1
+	# 	${LUA_CORE_SRC} 
   	-pthread 
+		-llua
 		${Boost_LIBRARIES}
 		${Boost_FILESYSTEM_LIBRARY} 
 		${Boost_SYSTEM_LIBRARY} 
