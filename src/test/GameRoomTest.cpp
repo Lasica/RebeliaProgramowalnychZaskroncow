@@ -179,9 +179,4 @@ BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
     BOOST_CHECK_EQUAL(pDeserialized->show_content(), identicalWithSerialized.show_content());
 }
 
-BOOST_AUTO_TEST_CASE( cease_segfault ) {
-    TcpServer::getInstance().start();
-    TcpServer::getInstance().stop();
-}
-
 BOOST_AUTO_TEST_SUITE_END()

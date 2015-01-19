@@ -8,7 +8,7 @@ TcpServer* TcpServer::pointer;
 
 
 TcpServer::TcpServer(boost::asio::io_service &io_service)
-    : acceptor_(io_service, tcp::endpoint(tcp::v4(), PORT)), io_(io_service) {
+    : acceptor_(io_service, tcp::endpoint(tcp::v4(), PORT)), io_(io_service), self_(nullptr) {
     //init();
 }
 
