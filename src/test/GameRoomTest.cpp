@@ -148,84 +148,6 @@ BOOST_AUTO_TEST_CASE( simple_case ) {
 //    BOOST_CHECK_EQUAL(  sampleGR.get_tag(),   restoredGRR.get_tag()  );
 }
 
-
-//BOOST_AUTO_TEST_CASE( wrong_way ) {
-
-//    Address ad;
-//    ClientState cs; //default ClientState
-//    ClientID testHost = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
-//    ClientID testPlayer1 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
-//    ClientID testPlayer2 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
-
-//    GameRoom sampleGR(testHost, "testGameRoom");
-//    sampleGR.add_player(testPlayer1);
-//    sampleGR.add_player(testPlayer2);
-
-//    //sprawdzenie, czy GameRoom serializuje się do GameRoomRaw
-//    std::ofstream ofs("GameRoom_wrong_way");
-//    boost::archive::text_oarchive oa(ofs);
-//    BOOST_CHECK_NO_THROW(  oa << sampleGR  );
-//    ofs.close();
-
-//    GameRoom restoredGR;
-//    std::ifstream ifs("GameRoom_simple_case");
-//    boost::archive::text_iarchive ia(ifs);
-//    BOOST_CHECK_NO_THROW(  ia >> restoredGR  );
-//    ifs.close();
-
-//    BOOST_CHECK(  typeid(restoredGR) == typeid(GameRoom) );
-//    //BOOST_CHECK_EQUAL(  sampleGR.show_content(),   restoredGR.show_content()  );
-//    BOOST_CHECK_EQUAL(  sampleGR.get_id(),   restoredGR.get_id() );
-//    BOOST_CHECK_EQUAL(  sampleGR.get_host_id(),   restoredGR.get_host_id()  );
-//    BOOST_CHECK_EQUAL(  sampleGR.get_name(),   restoredGR.get_name()  );
-//    //BOOST_CHECK_EQUAL_COLLECTIONS(  sampleGR.players.begin(), sampleGR.players.end(),   restoredGR.players.begin(), restoredGR.players.end()  );
-//    BOOST_CHECK_EQUAL(  sampleGR.get_max_number_of_players(),   restoredGR.get_max_number_of_players()  );
-//    //BOOST_CHECK_EQUAL(  sampleGR.get_tag(),   restoredGR.get_tag()  );
-//}
-
-
-//BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
-
-//    std::cout << "***CHECKPOINT***\n";
-//    Address ad;
-//    ClientState cs; //default ClientState
-//    ClientID testHost = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
-//    ClientID testPlayer1 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
-//    ClientID testPlayer2 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
-
-//    GameRoom sampleGR(testHost, "testGameRoom");
-//    GameRoomID sampleID = sampleGR.get_id();
-//    sampleGR.add_player(testPlayer1);
-//    sampleGR.add_player(testPlayer2);
-//    std::cout << "***CHECKPOINT***\n";
-//    Resource* pResource = &sampleGR;
-//    std::cout << "***CHECKPOINT***\n";
-//    std::ofstream ofs("GameRoomTest_deleting_pointer_to_resource");
-//    std::cout << "***CHECKPOINT***\n";
-//    boost::archive::text_oarchive oaTest(ofs);
-//    std::cout << "***CHECKPOINT***\n";
-//    oaTest.template register_type<GameRoomRaw>();
-
-//    oaTest.template register_type<GameRoom>();
-
-//    std::cout << "***CHECKPOINT***\n";
-//    oaTest << pResource;                    //błąd
-//    std::cout << "***CHECKPOINT***\n";
-//    ofs.close();
-//    std::cout << "***CHECKPOINT***\n";
-//    delete pResource;   // deleting this pointer to check, if object can be restored from file
-//    std::cout << "***CHECKPOINT***\n";
-//    Resource *pDeserialized;
-//    std::ifstream ifs("ameRoomTest_deleting_pointer_to_resource");
-//    boost::archive::text_iarchive ia(ifs);
-
-//    ia >> pDeserialized;
-//    ifs.close();
-
-//    GameRoomRaw identicalWithSerialized("testGameRoom", testHost, sampleID);
-//    BOOST_CHECK_EQUAL(pDeserialized->show_content(), identicalWithSerialized.show_content());
-//}
-//BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
 
     Address ad;
@@ -235,28 +157,31 @@ BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
     ClientID testPlayer2 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
 
     GameRoom* sampleGR = new GameRoom(testHost, "testGameRoom");
-    GameRoomID sampleID = sampleGR->get_id();
     sampleGR->add_player(testPlayer1);
     sampleGR->add_player(testPlayer2);
-std::cout << "***CHECKPOINT***\n";
-    //Resource* pResource = sampleGR;
+    //GameRoomRaw* x = new GameRoomRaw(*sampleGR);
+    GameRoomRaw* x = new GameRoomRaw(sampleGR->get_raw_data());
+    GameRoomRaw identicalWithSerialized = sampleGR->get_raw_data();
+    Resource* pResource = x;
+
     std::ofstream ofs("GameRoomTest_deleting_pointer_to_resource");
     boost::archive::text_oarchive oaTest(ofs);
-std::cout << "***CHECKPOINT***\n";
 
-    //oaTest << pResource;                    //błąd
-    oaTest << sampleGR;
-std::cout << "***CHECKPOINT***\n";
+    oaTest << pResource;
     ofs.close();
-    //delete pResource;   // deleting this pointer to check, if object can be restored from file
+    delete pResource;   // deleting this pointer to check, if object can be restored from file
     Resource *pDeserialized;
     std::ifstream ifs("GameRoomTest_deleting_pointer_to_resource");
     boost::archive::text_iarchive ia(ifs);
-std::cout << "***CHECKPOINT***\n";
     ia >> pDeserialized;
     ifs.close();
 
-    GameRoomRaw identicalWithSerialized("testGameRoom", testHost, sampleID);
     BOOST_CHECK_EQUAL(pDeserialized->show_content(), identicalWithSerialized.show_content());
 }
+
+BOOST_AUTO_TEST_CASE( cease_segfault ) {
+    TcpServer::getInstance().start();
+    TcpServer::getInstance().stop();
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -55,6 +55,7 @@ public:
 
     ClientID get_host_id() const { return host; }
 
+    GameRoomRaw get_raw_data();
   private:
     // dla serializacji
     GameRoom();

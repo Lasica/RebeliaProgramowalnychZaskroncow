@@ -76,3 +76,14 @@ void GameRoom::remove_player(ClientID player) {
         const_cast<ClientID&>(host) = std::numeric_limits<ClientID>::max();
     }
 }
+
+GameRoomRaw GameRoom::get_raw_data(){
+    GameRoomRaw GRR;
+    const_cast<ClientID&>(GRR.host)=host;
+    const_cast<GameRoomID&>(GRR.id)=id;
+
+    GRR.players = players;
+    GRR.numOfPlayers = numOfPlayers;
+    GRR.maxNumOfPlayers = maxNumOfPlayers;
+    return GRR;
+}
