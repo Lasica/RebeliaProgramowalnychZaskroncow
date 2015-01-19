@@ -1,3 +1,6 @@
+#ifndef _SERVER_HPP_
+#define _SERVER_HPP_
+
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -39,4 +42,4 @@ private:
 
     std::thread *self_;
 };
-
+#endif

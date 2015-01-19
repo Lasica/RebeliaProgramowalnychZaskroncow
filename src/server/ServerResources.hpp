@@ -3,13 +3,13 @@
 
 #include <vector>
 #include <chrono>
-#include "server/ClientsRegister.hpp"
 #include "shared/typedefinitions.hpp"
 #include "server/Packet_handler.hpp"
+#include "server/ClientsRegister.hpp"
 #include "server/AddressRegister.hpp"
-//TODO #include "shared/GameRoomsRegister.hpp"
-//TODO #include "shared/ChatRegister.hpp"
-#include "shared/Subject.hpp"
+#include "shared/GameRoomsRegister.hpp"
+#include "shared/ChatRegister.hpp"
+//#include "shared/Subject.hpp"
 struct ServerResources {
 
     std::thread *packetHandler;
@@ -19,8 +19,8 @@ struct ServerResources {
     AddressRegister registeredAddresses;
 
    ClientsRegister connectedClients;
- //TODO   ChatRegister registeredChat; 
-   //TODO GameRoomsRegister registeredRooms;
+   ChatRegister registeredChat;
+   GameRoomsRegister registeredRooms;
     std::vector<Subject*> SubscriptionList;
 
     std::vector<Subject*> get_subscrible_list(){
@@ -32,8 +32,8 @@ struct ServerResources {
 
     void init() {
        SubscriptionList.push_back(&connectedClients); 
-    //TODO  SubscriptionList.push_back(&registeredChat); 
-      //TODO SubscriptionList.push_back(&registeredRooms); 
+       SubscriptionList.push_back(&registeredChat);
+       SubscriptionList.push_back(&registeredRooms);
         packetHandler = new std::thread(lobbyManager);
     }
     virtual ~ServerResources() {

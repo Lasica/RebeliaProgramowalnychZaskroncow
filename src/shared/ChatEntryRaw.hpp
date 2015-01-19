@@ -4,15 +4,13 @@
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>       //makro BOOST_CLASS_EXPORT
 
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
 #include <string>
 #include "shared/Resource.hpp"
 
 struct ChatEntryRaw;
 // nie ma pliku .cpp z implementacją metod, więc należy użyć tego makra, a nie BOOST_CLASS_EXPORT_KEY()
 // (po prostu zadziałało, kiedy zmieniłem to makro)
-BOOST_CLASS_EXPORT(ChatEntryRaw)
+BOOST_CLASS_EXPORT_KEY(ChatEntryRaw)
 
 
 struct ChatEntryRaw : public Resource {
