@@ -1,5 +1,11 @@
 #ifndef GAMEROOM_H
 #define GAMEROOM_H
+//#include <boost/serialization/export.hpp>       //makro BOOST_CLASS_EXPORT
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>
 
 #include "GameRoomRaw.hpp"
 #include "server/ClientsRegister.hpp"
@@ -10,8 +16,7 @@
 class GameRoom;
 BOOST_CLASS_EXPORT_KEY(GameRoom)
 
-//TODO: dziedziczenie public, czy protected? przy protected trzeba dopisać gettery/settery
-//FIXME: dziedziczenie raczej protected. Gameroom tez powinien dziedziczyc po Subject - skoro mamy mechanizm obserwatora, uzywajmy go jak najczesciej. Mysle tez, ze mozna wykorzystac tamtejszą listę subskrybentów zamiast tej listy tutaj. W końcu jedynym
+//FIXME: dziedziczenie raczej protected.  tamtejszą listę subskrybentów zamiast tej listy tutaj. W końcu jedynym
 
 class GameRoom : public GameRoomRaw {
 
@@ -27,8 +32,7 @@ public:
     // numOfPlayers_ ustawiam na 0, bo jest potem zwiększany w add_player
     GameRoom(ClientID host, std::string gameRoomName);
 
-    // dla serializacji
-    GameRoom();
+
 
     virtual ~GameRoom();
 
@@ -40,12 +44,28 @@ public:
     GameRoomID get_id() {
         return id;
     }
+
+    std::string get_name() { return gameRoomName; }
+
     unsigned int get_number_of_players() {
         return numOfPlayers;
     }
 
+    unsigned int get_max_number_of_players() { return maxNumOfPlayers; }
+
+    ClientID get_host_id() const { return host; }
 
   private:
+    // dla serializacji
+    GameRoom();
+    friend class boost::serialization::access;
+//    template<class Archive>
+//    void serialize(Archive &ar, const unsigned int) {
+//        ar.template register_type<GameRoom>();   //// może pomoże na: std::exception: unregistered void cast
+//        ar &boost::serialization::base_object<GameRoomRaw>(*this);
+
+//    }
+    void deregister_player(ClientID player);
     static ClientsRegister& register_; // jeśli używamy ClientID do oznaczania graczy, to musimy mieć jakieś odniesienie do rejestru, w którym się znajdują
 
 

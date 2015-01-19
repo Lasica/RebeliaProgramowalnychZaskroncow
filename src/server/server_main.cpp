@@ -24,6 +24,7 @@ int main() {
         std::cin >> input;
 
     } while(input != 'q');
+    TcpServer::getInstance().stop();
 
     return 0;
 }

@@ -15,10 +15,7 @@
 struct GameRoomRaw;
 //BOOST_CLASS_EXPORT(GameRoomRaw)
 BOOST_CLASS_EXPORT_KEY(GameRoomRaw)
-//?
 
-
-// TODO: usunąć playersNames
 struct GameRoomRaw : public Resource {
 
     GameRoomRaw();// : host(-1), id(-1) { }    // host i id są const, więc muszą być inicjalizowane; domyślny konstruktor uzywany jest przy serializacji; podczas deserializacji oba pola dostają prawidłowe wartości
@@ -43,6 +40,7 @@ struct GameRoomRaw : public Resource {
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int) {
+        ar.template register_type<GameRoomRaw>();   //// może pomoże na: std::exception: unregistered void cast
         ar &boost::serialization::base_object<Resource>(*this);
         ar &const_cast<ClientID&>(host);
         ar &players;

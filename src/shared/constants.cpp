@@ -1,3 +1,3 @@
 #include "shared/typedefinitions.hpp"
-const ClientID INVALID_CLIENT_ID = ~0;
 const AddressPort PORT = 8001;
+const ClientID INVALID_CLIENT_ID = std::numeric_limits<ClientID>::max();

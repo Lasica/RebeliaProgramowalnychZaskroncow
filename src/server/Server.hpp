@@ -1,6 +1,6 @@
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
+//#include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/noncopyable.hpp>
@@ -23,14 +23,17 @@ public:
         io_.stop();
         running_ = false;
     }
-    ~TcpServer() {
+    ~TcpServer() {/*
         if(th_->joinable())
             th_->join();
-        delete th_;
+        delete th_;*/
+        if(self_->joinable())
+            self_->join();
+        delete self_;
     }
     static TcpServer* pointer;
 private:
-    boost::thread* th_;
+    //boost::thread* th_;
     TcpServer(boost::asio::io_service &);
     void startAccept();
     void handleAccept(TcpPointer,

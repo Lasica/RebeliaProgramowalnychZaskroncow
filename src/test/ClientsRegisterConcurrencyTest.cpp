@@ -18,10 +18,11 @@ BOOST_AUTO_TEST_SUITE( ClientsRegister_concurrency_tests )
 ClientsRegister concurrencyTestCR;
 
 const unsigned int iterations = 100000;
+const unsigned int firstID = 0;
 void registerThread() {
     Address ad;
 
-    for(unsigned int i = 0; i < iterations; ++i)
+    for(unsigned int i = firstID; i < iterations; ++i)
         concurrencyTestCR.register_client(&ad, nullptr);
 }
 
@@ -42,7 +43,7 @@ unsigned int correctLookUps1 = 0, correctLookUps2 = 0;
 void lookUpThread1() {
     ClientPtr pt;
 
-    for(unsigned int i = 0; i < 2 * iterations; ++i) {
+    for(unsigned int i = firstID; i < 2 * iterations; ++i) {
         pt = concurrencyTestCR.look_up_with_id(i);
 
         if(pt->get_client_id() == i)
@@ -53,7 +54,7 @@ void lookUpThread1() {
 void lookUpThread2() {
     ClientPtr pt;
 
-    for(unsigned int i = 0; i < 2 * iterations; ++i) {
+    for(unsigned int i = firstID; i < 2 * iterations; ++i) {
         pt = concurrencyTestCR.look_up_with_id(i);
 
         if(pt->get_client_id() == i)
@@ -79,17 +80,17 @@ BOOST_AUTO_TEST_CASE( look_up_with_id_method ) {
 
 
 void changeStateThread1() {
-    for(unsigned int i = 0; i < iterations; ++i)
+    for(unsigned int i = firstID; i < iterations; ++i)
         concurrencyTestCR.change_state(i, ClientState(ClientState::GAME, i));
 }
 
 void changeStateThread2() {
-    for(unsigned int i = 0; i < iterations; ++i)
+    for(unsigned int i = firstID; i < iterations; ++i)
         concurrencyTestCR.change_state(i + iterations, ClientState(ClientState::GAMEROOM, i + iterations));
 }
 
 void changeStateThread3() {
-    for(unsigned int i = 0; i < iterations; ++i)
+    for(unsigned int i = firstID; i < iterations; ++i)
         concurrencyTestCR.change_state(i, ClientState(ClientState::LOBBY, i + iterations));
 }
 
@@ -103,7 +104,7 @@ BOOST_AUTO_TEST_CASE( change_state_method ) {
 
     int lobbys = 0, gamerooms = 0, games = 0;
 
-    for (unsigned int i = 0; i < 2 * iterations; ++i) {
+    for (unsigned int i = firstID; i < 2 * iterations; ++i) {
         ClientState::Location l = concurrencyTestCR.look_up_with_id(i)->get_state().location;
 
         if(l == ClientState::GAME)
@@ -128,7 +129,7 @@ BOOST_AUTO_TEST_CASE( change_state_method ) {
     gamerooms = 0;
     games = 0;
 
-    for (unsigned int i = 0; i < iterations; ++i) {
+    for (unsigned int i = firstID; i < iterations; ++i) {
         ClientState::Location l = concurrencyTestCR.look_up_with_id(i)->get_state().location;
 
         if(l == ClientState::GAME)
@@ -145,14 +146,14 @@ BOOST_AUTO_TEST_CASE( change_state_method ) {
 unsigned int correctGetStates1 = 0, correctGetStates2 = 0;
 
 void getStateThread1() {
-    for(unsigned int i = 0; i < 2 * iterations; ++i) {
+    for(unsigned int i = firstID; i < 2 * iterations; ++i) {
         if(concurrencyTestCR.get_state(i).location == ClientState::GAMEROOM)
             ++correctGetStates1;
     }
 }
 
 void getStateThread2() {
-    for(unsigned int i = 0; i < 2 * iterations; ++i) {
+    for(unsigned int i = firstID; i < 2 * iterations; ++i) {
         if(concurrencyTestCR.get_state(i).location == ClientState::GAMEROOM)
             ++correctGetStates2;
     }
@@ -160,7 +161,7 @@ void getStateThread2() {
 
 BOOST_AUTO_TEST_CASE( get_state_method ) {
     // najpierw ustawiam wszystkie ClientState::location na GAMEROOM
-    for(unsigned int i = 0; i < 2 * iterations; ++i)
+    for(unsigned int i = firstID; i < 2 * iterations; ++i)
         concurrencyTestCR.change_state(i, ClientState(ClientState::GAMEROOM, i + iterations));
 
 
@@ -182,12 +183,12 @@ BOOST_AUTO_TEST_CASE( get_state_method ) {
 }
 
 void removeThread1() {
-    for(unsigned int i = 0; i < iterations; ++i)
+    for(unsigned int i = firstID; i < iterations; ++i)
         concurrencyTestCR.remove_client(i);
 }
 
 void removeThread2() {
-    for(unsigned int i = 0; i < iterations; ++i)
+    for(unsigned int i = firstID; i < iterations; ++i)
         concurrencyTestCR.remove_client(i + iterations);
 }
 
