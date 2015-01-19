@@ -24,7 +24,7 @@ struct GameRoomRaw : public Resource {
 
     std::string             gameRoomName;
 
-    const ClientID          host;
+    ClientID                host;
     std::list<ClientID>     players;
 
     unsigned int            numOfPlayers;
@@ -42,7 +42,7 @@ struct GameRoomRaw : public Resource {
     void serialize(Archive &ar, const unsigned int) {
         ar.template register_type<GameRoomRaw>();   //// może pomoże na: std::exception: unregistered void cast
         ar &boost::serialization::base_object<Resource>(*this);
-        ar &const_cast<ClientID&>(host);
+        ar &host;
         ar &players;
         ar &numOfPlayers;
         ar &maxNumOfPlayers;

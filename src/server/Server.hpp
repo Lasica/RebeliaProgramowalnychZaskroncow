@@ -27,9 +27,11 @@ public:
         if(th_->joinable())
             th_->join();
         delete th_;*/
-        if(self_->joinable())
-            self_->join();
-        delete self_;
+        if(self_ != nullptr) {
+            if(self_->joinable())
+                self_->join();
+            delete self_;
+        }
     }
     static TcpServer* pointer;
 private:
