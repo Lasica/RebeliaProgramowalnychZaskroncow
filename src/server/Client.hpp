@@ -52,7 +52,7 @@ public:
 		unsubscribe();
     }
     bool                            operator<(const Client &) const;
-    virtual void                    update(Resource *updateInfo);
+    virtual void                    update(Resource *updateInfo, Packet::Tag* tag);
 
 private:
     const Address*                  address_;

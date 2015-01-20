@@ -7,7 +7,7 @@
 ClientID Client::nextID_ = 0;
 
 Client::Client( const Address *address, TcpPointer pointer, std::string nick) :
-    ClientDataRaw(Client::nextID_++, nick, ClientState()), address_(address) {
+     Observer(Observer::observerNextID++), ClientDataRaw(Client::nextID_++, nick, ClientState()), address_(address) {
 
     if(address_ != nullptr) { // zalozenie jest, ze w zadnym innym miejscu poza ClientsRegister address_ == nullptr.
         address_->change_owner(clientID_);
@@ -31,7 +31,7 @@ Client::Client( const Address *address, TcpPointer pointer, std::string nick) :
 
 // podejrzewam ze domyslny konstruktor kopiujacy nam wystarczy
 Client::Client(const Client &c) :
-    ClientDataRaw(c.clientID_, c.nickname_, c.state_), address_(c.address_) {
+   Observer(c.observerID), ClientDataRaw(c.clientID_, c.nickname_, c.state_), address_(c.address_){
 }
 
 Client::~Client() {
@@ -47,8 +47,8 @@ bool Client::operator<(const Client &comp) const {
 }
 
 // TODO
-void Client::update(Resource *updateInfo) {
-    Packet updatePackage(Packet::UPDATED_RESOURCE, address_, updateInfo);
+void Client::update(Resource *updateInfo, Packet::Tag* tag) {
+    Packet updatePackage(*tag, address_, updateInfo);
     send(updatePackage);
 }
 

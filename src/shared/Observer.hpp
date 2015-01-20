@@ -2,13 +2,14 @@
 #define OBSERVER_H
 
 #include "shared/Resource.hpp"
-
+#include "shared/Packet.hpp"
 class Observer {
 
   public:
-    unsigned observerID = 0;
-    virtual void update(Resource *) { };
+    Observer(unsigned id): observerID(id) {}
+    unsigned observerID;
+    static unsigned observerNextID;
+    virtual void update(Resource *, const Packet::Tag*) { };
     virtual ~Observer() {};
 };
-
 #endif // OBSERVER_H

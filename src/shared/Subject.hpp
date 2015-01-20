@@ -9,7 +9,7 @@
 class Subject {
 public:
     virtual ~Subject() {};
-    void addObserver(Observer *o) {
+    void addObserver(Observer *o) const {
         obs_.push_back(o);
     }
     void eraseObserver(Observer *o) {
@@ -24,9 +24,9 @@ public:
 
 
     }
-    virtual void notify() = 0;
+   virtual void notify(Resource*,const Packet::Tag*) = 0;
 protected:
-    std::vector<Observer *> obs_;
+   mutable std::vector<Observer *> obs_;
 };
 
 #endif // SUBJECT_H

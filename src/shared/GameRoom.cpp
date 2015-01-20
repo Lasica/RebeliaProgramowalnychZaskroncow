@@ -44,7 +44,7 @@ void GameRoom::remove_player(ClientID player) {
 
 
 // TODO
-void GameRoom::notify() {
+void GameRoom::notify(Resource* resource,const Packet::Tag* tag) {
     for(Observer *o : obs_)
-        o->update(this);
+        o->update(resource, tag);
 }

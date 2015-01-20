@@ -17,6 +17,7 @@ set(LIB_SOURCES
     shared/GameRoomsRegister.cpp
     shared/Packet.cpp
     shared/TcpConnection.cpp
+    shared/Observer.cpp
 	)
 
 set(LIB_HEADERS

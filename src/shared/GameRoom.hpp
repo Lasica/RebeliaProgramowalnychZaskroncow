@@ -35,7 +35,7 @@ public:
 
     virtual ~GameRoom();
 
-    virtual void notify();
+    virtual void notify(Resource*,const Packet::Tag*);
 
     void add_player(ClientID newPlayer);
     // TODO (w poniższej lub innej metodzie): kiedy usuwany jest host - cały GameRoom jest kasowany
