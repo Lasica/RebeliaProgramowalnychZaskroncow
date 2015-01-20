@@ -35,6 +35,7 @@ public:
 
     //virtual void notify(Resource*,const Packet::Tag*);
 
+
     virtual ~GameRoom();
 
     void add_player(ClientID newPlayer);
