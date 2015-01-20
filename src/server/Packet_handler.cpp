@@ -3,6 +3,7 @@
 #include <assert.h>
 
 void Packet_handler::operator()() {
+
     std::cout << "Packet handler has started\n";
     try {
         while(*running_) {
@@ -12,6 +13,7 @@ void Packet_handler::operator()() {
                 switch(top->get_tag()) {
                 case Packet::REGISTER_REQUEST:             // Handshake
                     break;
+
                 case Packet::CHAT_ENTRY_MESSAGE_REQUEST:   // prosba o nadanie wiadomosci czatu
                     break;
                 //case Packet::GAMEROOM_CREATE_REQUEST:    // prosba o stworzenie nowego pokoju
@@ -28,6 +30,7 @@ void Packet_handler::operator()() {
                 case Packet::UPDATED_RESOURCE:             // dane aktualizacyjne przeznaczone dla klienta
                     // pokazuje na cout zawartość odebranego pakietu (tylko dla testów)
                     std::cout << top->get_tag() << " " << top->show_resource_content() << std::endl;
+
                 default:
                     std::cout << "Unexpected packet received.\n";
                     break;
@@ -41,6 +44,7 @@ void Packet_handler::operator()() {
     } catch(std::exception &e) {
         std::cout << "Exception at Packet_handler." << e.what() << std::endl;
     }
+
     std::cout << "Packet handler has finished\n";
 }
 

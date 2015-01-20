@@ -1,6 +1,7 @@
 #ifndef GAMEROOMSREGISTER_HPP
 #define GAMEROOMSREGISTER_HPP
 
+#include <boost/thread/shared_mutex.hpp>
 #include "shared/typedefinitions.hpp"
 #include "shared/GameRoom.hpp"
 #include <boost/shared_ptr.hpp>
@@ -24,6 +25,8 @@ private:
     GameRoomsRegister &operator=(GameRoomsRegister &grr) = delete;
 
     std::map<GameRoomID, GameRoomPtr> game_rooms_;
+    mutable boost::shared_mutex            access_;
+
 };
 
 #endif // GAMEROOMSREGISTER_HPP

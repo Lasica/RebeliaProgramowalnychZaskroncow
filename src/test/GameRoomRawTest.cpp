@@ -43,13 +43,14 @@ BOOST_AUTO_TEST_CASE( simple_case ) {
     BOOST_CHECK_EQUAL(  sampleGRR.host,  restoredGRR.host );
     BOOST_CHECK_EQUAL(  sampleGRR.get_tag(),    restoredGRR.get_tag()  );
 //     BOOST_CHECK_EQUAL_COLLECTIONS( sampleGRR.playersNames.begin(),  sampleGRR.playersNames.end(), restoredGRR.playersNames.begin(), restoredGRR.playersNames.end() );
-    BOOST_CHECK_EQUAL_COLLECTIONS(  sampleGRR.players.begin(),  sampleGRR.players.end(), restoredGRR.players.begin(), restoredGRR.players.end() );
+    BOOST_CHECK_EQUAL_COLLECTIONS(  sampleGRR.players.begin(),  sampleGRR.players.end(), restoredGRR.players.begin(),
+                                    restoredGRR.players.end() );
 }
 
 
 BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
 
-    Resource* pResource = new GameRoomRaw("deleting_pointer_to_resource", 12, 6);
+    Resource *pResource = new GameRoomRaw("deleting_pointer_to_resource", 12, 6);
     std::ofstream ofs("GameRoomRawTest_deleting_pointer_to_resource");
     boost::archive::text_oarchive oaTest(ofs);
 
@@ -58,7 +59,7 @@ BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
 
     delete pResource;   // deleting this pointer to check, if object can be restored from file
 
-    Resource* pDeserialized;
+    Resource *pDeserialized;
 
     std::ifstream ifs("GameRoomRawTest_deleting_pointer_to_resource");
     boost::archive::text_iarchive ia(ifs);
