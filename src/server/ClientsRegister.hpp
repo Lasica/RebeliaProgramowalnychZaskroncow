@@ -38,7 +38,7 @@ private:
     //ClientPtr                              lookUpper_;
     mutable boost::shared_mutex            access_;
 
-    void notify();
-};
+     void notify(Resource*,const Packet::Tag*);
+    };
 
 #endif //CLIENTSREGISTER_HPP

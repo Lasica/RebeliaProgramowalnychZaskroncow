@@ -1,7 +1,7 @@
 #include "server/GameRoomsRegister.hpp"
 #include <utility>
 
-GameRoomsRegister::GameRoomsRegister() { }
+GameRoomsRegister::GameRoomsRegister(): Observer(Observer::observerNextID++) { }
 
 GameRoomsRegister::~GameRoomsRegister() { }
 
@@ -26,8 +26,8 @@ unsigned int GameRoomsRegister::get_size() {
     return game_rooms_.size();
 }
 
-void GameRoomsRegister::notify() {
-    for(Observer *o : obs_);
-        //o->update(&(chatLog_.back())); Co przesyłać dla obserwatora?
+void GameRoomsRegister::notify(Resource* resources, const Packet::Tag* tag) {
+    for(Observer *o : obs_)
+        o->update(resources, tag); 
 }
-
+//&(chatLog_.back())

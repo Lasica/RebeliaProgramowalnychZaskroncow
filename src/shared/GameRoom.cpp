@@ -15,7 +15,7 @@
 
 //#include <boost/archive/text_iarchive.hpp>
 //#include <boost/archive/text_oarchive.hpp>
-//#include "typedefinitions.hpp"
+#include "typedefinitions.hpp"
 #include "shared/GameRoom.hpp"
 //#include "server/ClientsRegister.hpp"
 #include "server/Server.hpp"
@@ -81,7 +81,6 @@ GameRoomRaw GameRoom::get_raw_data(){
     GameRoomRaw GRR;
     GRR.host=host;
     const_cast<GameRoomID&>(GRR.id)=id;
-
     GRR.players = players;
     GRR.numOfPlayers = numOfPlayers;
     GRR.maxNumOfPlayers = maxNumOfPlayers;

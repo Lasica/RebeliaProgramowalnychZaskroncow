@@ -18,6 +18,7 @@ set(LIB_SOURCES
     shared/GameRoomRaw.cpp
     shared/Packet.cpp
     shared/TcpConnection.cpp
+    shared/Observer.cpp
 	)
 
 set(LIB_HEADERS

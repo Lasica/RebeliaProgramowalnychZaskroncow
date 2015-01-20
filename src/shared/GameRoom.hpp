@@ -33,6 +33,7 @@ public:
     GameRoom(ClientID host, std::string gameRoomName);
 
 
+    //virtual void notify(Resource*,const Packet::Tag*);
 
     virtual ~GameRoom();
 

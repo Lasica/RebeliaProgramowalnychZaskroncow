@@ -24,7 +24,7 @@ struct ServerResources {
    GameRoomsRegister registeredRooms;
     std::vector<Subject*> SubscriptionList;
 
-    std::vector<Subject*> get_subscrible_list(){
+ const  std::vector<Subject*>& get_subscrible_list(){
 	    return SubscriptionList;
     }
 

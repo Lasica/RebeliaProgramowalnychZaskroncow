@@ -40,8 +40,8 @@ void ClientsRegister::change_state(ClientID id, ClientState st) {
     clients_.at(id)->set_state(st);
 }
 
-void ClientsRegister::notify() {
-    for(Observer *o : obs_);
-      //!!  o->update(&(chatLog_.back())); Co przekazywać obserwtorowi?
+void ClientsRegister::notify(Resource* resource, const Packet::Tag* tag){
+    for(Observer *o : obs_)
+       o->update(resource, tag); 
 }
 
