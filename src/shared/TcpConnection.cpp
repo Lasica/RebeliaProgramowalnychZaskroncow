@@ -50,7 +50,6 @@ void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
         try {
         std::istream is(&response_);
         boost::archive::text_iarchive ia(is); //jak go zaadresować?
-
             ia >> packet;
    TcpServer::pointer->received.push(packet);
 

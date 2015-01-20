@@ -1,6 +1,9 @@
+#ifndef _SERVER_HPP_
+#define _SERVER_HPP_
+
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
+//#include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/noncopyable.hpp>
@@ -24,9 +27,11 @@ public:
         running_ = false;
     }
     ~TcpServer() {
-        if(self_->joinable())
-            self_->join();
-        delete self_;
+        if(self_ != nullptr) {
+            if(self_->joinable())
+                self_->join();
+            delete self_;
+        }
     }
     static TcpServer* pointer;
 private:
@@ -39,4 +44,4 @@ private:
 
     std::thread *self_;
 };
-
+#endif

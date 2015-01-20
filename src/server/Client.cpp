@@ -4,7 +4,8 @@
 #include <boost/asio.hpp>
 #include <string>
 #include "server/Server.hpp"
-ClientID Client::nextID_ = 0;
+
+ClientID Client::nextID_ = 0;   //wartość 0 - gracz, który nie istnieje
 
 Client::Client( const Address *address, TcpPointer pointer, std::string nick) :
      Observer(Observer::observerNextID++), ClientDataRaw(Client::nextID_++, nick, ClientState()), address_(address) {

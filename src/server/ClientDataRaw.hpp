@@ -3,8 +3,6 @@
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>
 
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
 #include "shared/typedefinitions.hpp"
 #include "shared/Resource.hpp"
 
@@ -27,7 +25,7 @@ private:
 
 
 struct ClientDataRaw;
-const ClientID UNINITIALISED_ID = -1;
+const ClientID UNINITIALISED_ID = std::numeric_limits<ClientID>::max();
 
 struct ClientDataRaw : public Resource {
     //konstruktor dla serializacji

@@ -1,4 +1,4 @@
-#include <set>
+#include <map>
 #include <utility>
 
 #include <boost/thread/locks.hpp>
@@ -8,33 +8,36 @@
 #include "Address.hpp"
 #include "shared/typedefinitions.hpp"
 
-ClientsRegister::ClientsRegister() : lookUpper_(new Client(nullptr)) { }
+ClientsRegister::ClientsRegister() { /*std::cout << "***ClientsRegister c-tor***\n";  */}
 
-ClientIt ClientsRegister::register_client(const Address *address, TcpPointer pointer) {
+ClientID ClientsRegister::register_client(const Address *address, TcpPointer pointer) {
     boost::unique_lock< boost::shared_mutex > lock(access_);
-    ClientIt it = clients_.insert(ClientPtr(new Client(address, pointer))).first;
-    return it;
+    clients_.insert(std::pair<ClientID, ClientPtr>(address->owner, ClientPtr(new Client(address, pointer))));
+    return address->owner;
 }
 
-inline void ClientsRegister::remove_client(unsigned int id) {
-    remove_client(look_up_with_id(id));
-}
-
-void ClientsRegister::remove_client(ClientIt it) {
+void ClientsRegister::remove_client(ClientID id) {
     boost::unique_lock< boost::shared_mutex > lock(access_);
-    clients_.erase(it);
+    clients_.erase(id);
 }
 
-ClientIt ClientsRegister::look_up_with_id(ClientID id) const {
-    static ClientID &lookUpID=const_cast<ClientID&>(lookUpper_->clientID_);
+const ClientPtr ClientsRegister::look_up_with_id(ClientID id) const {
+    boost::unique_lock< boost::shared_mutex > lock(access_);
 
-    boost::shared_lock< boost::shared_mutex > lock(access_);
-    lookUpID = id;
-    return clients_.find(lookUpper_);
+    if (clients_.find(id) != clients_.end())
+        return clients_.at(id);
+    else
+        return ClientPtr(nullptr);
 }
 
+ClientState ClientsRegister::get_state(ClientID id) const {
+    return look_up_with_id(id)->get_state();
+}
+
+// uwaga! funkcja std::map<>::at() rzuca wyjątkiem, jeśli nie ma w mapie szukanego obiektu
 void ClientsRegister::change_state(ClientID id, ClientState st) {
-    (*look_up_with_id(id))->set_state(st);
+    boost::unique_lock< boost::shared_mutex > lock(access_);
+    clients_.at(id)->set_state(st);
 }
 
 void ClientsRegister::notify(Resource* resource, const Packet::Tag* tag){

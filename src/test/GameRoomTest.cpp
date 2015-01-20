@@ -26,118 +26,157 @@ using namespace boost::unit_test;
 BOOST_AUTO_TEST_SUITE( GameRoom_constructor )
 
 BOOST_AUTO_TEST_CASE( essential_test ) {
-    int x=1;
-    std::cout << x++ << std::endl;
     Address ad;
-    std::cout << x++ << std::endl;
     ClientState cs; // default state, (LOBBY, 0)
-    std::cout << x++ << std::endl;
-    Client testHost(&ad, nullptr, "host");
-    std::cout << x++ << std::endl;
 
-    TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
-    std::cout << x++ << std::endl;
+    ClientID host = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
 
-    // *** na tym się zawiesza -> idzie dalej po wykomentowaniu ciała konstruktora GameRoom(z parametrami)
-    GameRoom testGR(testHost.get_client_id(), "testGameRoom");
-    std::cout << x++ << std::endl;
+    GameRoom testGR(host, "testGameRoom");
 
 
     BOOST_CHECK_EQUAL(  testGR.get_number_of_players(),    1  );
-    std::cout << x++ << std::endl;
-    BOOST_CHECK_EQUAL(  testGR.gameRoomName, "testGameRoom");
-    std::cout << x++ << std::endl;
+    BOOST_CHECK_EQUAL(  testGR.get_name(), "testGameRoom");
     std::list<std::string> testNames;
-    std::cout << x++ << std::endl;
-//     testNames.push_back(testHost.get_nickname());
-//     std::cout << x++ << std::endl;
-//     BOOST_CHECK_EQUAL_COLLECTIONS( testGR.playersNames.begin(), testGR.playersNames.end(), testNames.begin(), testNames.end() );
-//     std::cout << x++ << std::endl;
-
+    testNames.push_back(TcpServer::getInstance().connectedClients.look_up_with_id(host)->get_nickname());
 }
 
 BOOST_AUTO_TEST_SUITE_END()
 
-//BOOST_AUTO_TEST_SUITE(  adding_and_removing_players  )
+BOOST_AUTO_TEST_SUITE(  essential_functionalities )
 
-//BOOST_AUTO_TEST_CASE  ( add_player  ) {
-//    Address ad;
-//    ClientState cs;
-//    ClientPtr testHost(new Client(ad, nullptr, "testHost"));
-//    ClientPtr testPlayer1(new Client(ad, nullptr, "testPlayer1"));
-//    ClientPtr testPlayer2(new Client(ad, nullptr, "testPlayer2"));
+BOOST_AUTO_TEST_CASE  ( add_player ) {
+    Address ad;
+    ClientState cs; //default ClientState
+    ClientID testHost = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+    ClientID testPlayer1 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+    ClientID testPlayer2 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+    BOOST_REQUIRE_EQUAL( TcpServer::getInstance().connectedClients.get_state(testHost).location, cs.location);
+    BOOST_REQUIRE_EQUAL( TcpServer::getInstance().connectedClients.get_state(testHost).locationIdentifier, cs.locationIdentifier);
+    BOOST_REQUIRE_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer1).location, cs.location);
+    BOOST_REQUIRE_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer1).locationIdentifier, cs.locationIdentifier);
+    BOOST_REQUIRE_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer2).location, cs.location);
+    BOOST_REQUIRE_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer2).locationIdentifier, cs.locationIdentifier);
 
-//    GameRoom testGR(testHost, "testGameRoom");
-//    testGR.add_player(testPlayer1);
-//    testGR.add_player(testPlayer2);
-//    BOOST_CHECK_EQUAL(  testGR.get_number_of_players(),    3  );
-//}
+    GameRoom testGR(testHost, "testGameRoom");
+    testGR.add_player(testPlayer1);
+    testGR.add_player(testPlayer2);
+    ClientState gameroomCs(ClientState::GAMEROOM, testGR.get_id());
+    std::cout << "**cs == " << cs.location << ", " << cs.locationIdentifier <<  std::endl;
 
-//BOOST_AUTO_TEST_SUITE_END()
-
-
-//// serializacja
-//BOOST_AUTO_TEST_SUITE( GameRoom_serialization )
-
-//BOOST_AUTO_TEST_CASE( simple_case ) {
-
-//    GameRoom sampleGR = GameRoom();
-
-//    std::ofstream ofs("HandshakeRawTest_simple_case");
-//    boost::archive::text_oarchive oa(ofs);
-//    BOOST_CHECK_NO_THROW(  oa << sampleHR  );
-//    ofs.close();
-
-//    HandshakeRaw restoredHR;
-//    std::ifstream ifs("HandshakeRawTest_simple_case");
-//    boost::archive::text_iarchive ia(ifs);
-//    BOOST_CHECK_NO_THROW(  ia >> restoredHR  );
-//    ifs.close();
-
-//    BOOST_CHECK_EQUAL(  sampleHR.show_content(),   restoredHR.show_content()  );
-//    BOOST_CHECK_EQUAL(  sampleHR.address_.ip,      restoredHR.address_.ip  );
-//    BOOST_CHECK_EQUAL(  sampleHR.address_.port,    restoredHR.address_.port );
-//    BOOST_CHECK_EQUAL(  sampleHR.get_tag(),        restoredHR.get_tag()  );
-//}
+    std::cout << "**gameroomCs == " << gameroomCs.location << ", " << gameroomCs.locationIdentifier <<  std::endl;
+    BOOST_CHECK_EQUAL( TcpServer::getInstance().connectedClients.get_state(testHost).location, gameroomCs.location);
+    BOOST_CHECK_EQUAL( TcpServer::getInstance().connectedClients.get_state(testHost).locationIdentifier, gameroomCs.locationIdentifier);
+    BOOST_CHECK_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer1).location, gameroomCs.location);
+    BOOST_CHECK_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer1).locationIdentifier, gameroomCs.locationIdentifier);
+    BOOST_CHECK_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer2).location, gameroomCs.location);
+    BOOST_CHECK_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer2).locationIdentifier, gameroomCs.locationIdentifier);
+    BOOST_CHECK_EQUAL(  testGR.get_number_of_players(), 3  );
+}
 
 
-//BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
+BOOST_AUTO_TEST_CASE  ( remove_player ) {
+    Address ad;
+    ClientState cs; //default ClientState
+    ClientID testHost = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+    ClientID testPlayer1 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+    ClientID testPlayer2 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
 
-//    Address sampleAd(1,2);
-//    Resource* pResource = new HandshakeRaw(sampleAd);
-//    std::ofstream ofs("HandshakeRawTest_deleting_pointer_to_resource");
+    GameRoom testGR(testHost, "testGameRoom");
+    testGR.add_player(testPlayer1);
+    testGR.add_player(testPlayer2);
+    ClientState gameroomCs(ClientState::GAMEROOM, testGR.get_id());
+    // aby ten test miał sens gracze musza być poprawnie dodani do GameRoomu
+    BOOST_REQUIRE_EQUAL( TcpServer::getInstance().connectedClients.get_state(testHost).location, gameroomCs.location);
+    BOOST_REQUIRE_EQUAL( TcpServer::getInstance().connectedClients.get_state(testHost).locationIdentifier, gameroomCs.locationIdentifier);
+    BOOST_REQUIRE_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer1).location, gameroomCs.location);
+    BOOST_REQUIRE_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer1).locationIdentifier, gameroomCs.locationIdentifier);
+    BOOST_REQUIRE_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer2).location, gameroomCs.location);
+    BOOST_REQUIRE_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer2).locationIdentifier, gameroomCs.locationIdentifier);
+    BOOST_REQUIRE_EQUAL(  testGR.get_number_of_players(), 3  );
 
-//    boost::archive::text_oarchive oaTest(ofs);
-//BOOST_AUTO_TEST_CASE( essential_test ) {
-//    Address ad;
-//    ClientState cs; // default state, (LOBBY, 0)
-//    ClientPtr testHost(new Client(&ad, nullptr, "testHost"));
+    //usuwanie zwykłego gracza
+    testGR.remove_player(testPlayer1);
+    BOOST_CHECK_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer1).location, cs.location);
+    BOOST_CHECK_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer1).locationIdentifier, cs.locationIdentifier);
+    BOOST_CHECK_EQUAL(  testGR.get_number_of_players(), 2  );
 
-//    oaTest << pResource;
-//    ofs.close();
-
-//    delete pResource;   // deleting this pointer to check, if object can be restored from file
-
-//    Resource* pDeserialized;
-
-//    std::ifstream ifs("HandshakeRawTest_deleting_pointer_to_resource");
-//    boost::archive::text_iarchive ia(ifs);
-
-//    ia >> pDeserialized;
-//    ifs.close();
-
-//    HandshakeRaw identicalWithSerialized(sampleAd);
-//BOOST_AUTO_TEST_CASE  ( add_player  ) {
-//    Address ad;
-//    ClientState cs;
-//    ClientPtr testHost(new Client(&ad, nullptr, "testHost"));
-//    ClientPtr testPlayer1(new Client(&ad, nullptr, "testPlayer1"));
-//    ClientPtr testPlayer2(new Client(&ad, nullptr, "testPlayer2"));
-
-//    BOOST_CHECK_EQUAL(  pDeserialized->show_content(),   identicalWithSerialized.show_content());
-//}
-
-//BOOST_AUTO_TEST_SUITE_END()
+    //usuwanie hosta (usuwanie GameRoomu)
+    testGR.remove_player(testHost);
+    BOOST_CHECK_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer1).location, cs.location);
+    BOOST_CHECK_EQUAL( TcpServer::getInstance().connectedClients.get_state(testPlayer1).locationIdentifier, cs.locationIdentifier);
+    BOOST_CHECK_EQUAL(  testGR.get_number_of_players(), 0  );
+}
+BOOST_AUTO_TEST_SUITE_END()
 
 
+// serializacja
+BOOST_AUTO_TEST_SUITE( GameRoom_serialization )
 
+BOOST_AUTO_TEST_CASE( simple_case ) {
+
+    Address ad;
+    ClientState cs; //default ClientState
+    ClientID testHost = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+    ClientID testPlayer1 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+    ClientID testPlayer2 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+
+    GameRoom sampleGR(testHost, "testGameRoom");
+    sampleGR.add_player(testPlayer1);
+    sampleGR.add_player(testPlayer2);
+
+    //sprawdzenie, czy GameRoom serializuje się do GameRoomRaw
+    std::ofstream ofs("GameRoom_simple_case");
+    boost::archive::text_oarchive oa(ofs);
+    BOOST_CHECK_NO_THROW(  oa << sampleGR  );
+    ofs.close();
+
+    GameRoomRaw restoredGRR;
+    std::ifstream ifs("GameRoom_simple_case");
+    boost::archive::text_iarchive ia(ifs);
+    BOOST_CHECK_NO_THROW(  ia >> restoredGRR  );
+    ifs.close();
+    std::cout << "***CHECK ID***\n";
+    BOOST_CHECK(  typeid(restoredGRR) == typeid(GameRoomRaw) );
+    std::cout << "***CHECK ID***\n";
+
+//    BOOST_CHECK_EQUAL(  sampleGR.show_content(),   restoredGRR.show_content()  );
+    BOOST_CHECK_EQUAL(  sampleGR.get_id(),   restoredGRR.id );
+    BOOST_CHECK_EQUAL(  sampleGR.get_host_id(),   restoredGRR.host  );
+    BOOST_CHECK_EQUAL(  sampleGR.get_name(),   restoredGRR.gameRoomName  );
+//    BOOST_CHECK_EQUAL_COLLECTIONS(  sampleGR.players.begin(), sampleGR.players.end(),   restoredGRR.players.begin(), restoredGRR.players.end()  );
+    BOOST_CHECK_EQUAL(  sampleGR.get_max_number_of_players(),   restoredGRR.maxNumOfPlayers  );
+//    BOOST_CHECK_EQUAL(  sampleGR.get_tag(),   restoredGRR.get_tag()  );
+}
+
+BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
+
+    Address ad;
+    ClientState cs; //default ClientState
+    ClientID testHost = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+    ClientID testPlayer1 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+    ClientID testPlayer2 = TcpServer::getInstance().connectedClients.register_client(&ad, nullptr);
+
+    GameRoom* sampleGR = new GameRoom(testHost, "testGameRoom");
+    sampleGR->add_player(testPlayer1);
+    sampleGR->add_player(testPlayer2);
+    //GameRoomRaw* x = new GameRoomRaw(*sampleGR);
+    GameRoomRaw* x = new GameRoomRaw(sampleGR->get_raw_data());
+    GameRoomRaw identicalWithSerialized = sampleGR->get_raw_data();
+    Resource* pResource = x;
+
+    std::ofstream ofs("GameRoomTest_deleting_pointer_to_resource");
+    boost::archive::text_oarchive oaTest(ofs);
+
+    oaTest << pResource;
+    ofs.close();
+    delete pResource;   // deleting this pointer to check, if object can be restored from file
+    Resource *pDeserialized;
+    std::ifstream ifs("GameRoomTest_deleting_pointer_to_resource");
+    boost::archive::text_iarchive ia(ifs);
+    ia >> pDeserialized;
+    ifs.close();
+
+    BOOST_CHECK_EQUAL(pDeserialized->show_content(), identicalWithSerialized.show_content());
+}
+
+BOOST_AUTO_TEST_SUITE_END()

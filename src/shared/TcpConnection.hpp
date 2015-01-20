@@ -1,4 +1,5 @@
-#define TCP_CONNNECTION
+#ifndef TCP_CONNECTION
+#define TCP_CONNECTION
 
 #include <iostream>
 
@@ -37,3 +38,5 @@ private:
     void handle_read(const boost::system::error_code & /*error*/,
                      size_t /*bytes_transferred*/) ;
 };
+
+#endif
