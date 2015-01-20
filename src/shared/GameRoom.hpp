@@ -16,6 +16,10 @@ class GameRoom;
 BOOST_CLASS_EXPORT_KEY(GameRoom)
 
 
+/*!
+ *  Klasa reprezentująca pokój gry na serwerze.
+ */
+
 class GameRoom : public GameRoomRaw {
 
 public:
@@ -32,7 +36,7 @@ public:
 
     virtual ~GameRoom();
 
-    void add_player(ClientID newPlayer);
+    void add_player(ClientID newPlayer);    //! dodawanie gracza
     void remove_player(ClientID player);
 
     GameRoomID get_id() {

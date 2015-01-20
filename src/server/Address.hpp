@@ -18,8 +18,12 @@
  * Do klasy Adres wyemigruje wskaznik na TCPConnection z Klienta, jak i kopia id Clienta ktory obecnie go posiada.
  * Wowczas klient tak jak i Packet posiadaliby jedynie (stały) wskaznik (najlepiej nie iterator, wskaznik! iterator umozliwialby dostep do "sasiednich" adresow) na swoj adres.
  * Natomiast w rejestrze klientow byloby sortowanie klientow po id.
- * TODO TODO TODO
  */
+
+/*!
+ * Obiekty tej klasy reprezenują w serwerze adresy, z których łączą się klienci.
+ */
+
 struct Address {
     Address(AddressIP Ip="non-defined", AddressPort Port=~0) : ip(Ip), port(Port), owner(INVALID_CLIENT_ID), connection(nullptr)  { }
     void change_owner(ClientID newOwner) const {
@@ -30,7 +34,7 @@ struct Address {
     }
     AddressIP                       ip;
     AddressPort                     port;
-    mutable ClientID                owner;
+    mutable ClientID                owner;      //! przechowuje identyfikator klienta, który łączy się z tego adresu; pole jest inicjowane dopiero po dodaniu klienta do rejestru klientów
     mutable TcpPointer              connection; // const?
     bool operator<(const Address &latter) const;
 };

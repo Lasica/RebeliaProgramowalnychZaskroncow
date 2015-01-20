@@ -1,21 +1,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE GameRoomTest
 
-//#include <boost/test/detail/unit_test_parameters.hpp>
-//#include <boost/archive/text_iarchive.hpp>
-//#include <boost/archive/text_oarchive.hpp>
-//#include <boost/shared_ptr.hpp>
-
-
-//#include <boost/enable_shared_from_this.hpp>
-//#include <boost/asio.hpp>
-//#include "shared/typedefinitions.hpp"
-//#include "server/Address.hpp"
-//#include "shared/Resource.hpp"
-//#include "shared/GameRoomRaw.hpp"
 #include "shared/GameRoom.hpp"
-//#include "server/Client.hpp"
-//#include "server/ClientsRegister.hpp"
 #include "server/Server.hpp"
 #include <fstream>
 
@@ -139,13 +125,10 @@ BOOST_AUTO_TEST_CASE( simple_case ) {
     BOOST_CHECK(  typeid(restoredGRR) == typeid(GameRoomRaw) );
     std::cout << "***CHECK ID***\n";
 
-//    BOOST_CHECK_EQUAL(  sampleGR.show_content(),   restoredGRR.show_content()  );
     BOOST_CHECK_EQUAL(  sampleGR.get_id(),   restoredGRR.id );
     BOOST_CHECK_EQUAL(  sampleGR.get_host_id(),   restoredGRR.host  );
     BOOST_CHECK_EQUAL(  sampleGR.get_name(),   restoredGRR.gameRoomName  );
-//    BOOST_CHECK_EQUAL_COLLECTIONS(  sampleGR.players.begin(), sampleGR.players.end(),   restoredGRR.players.begin(), restoredGRR.players.end()  );
     BOOST_CHECK_EQUAL(  sampleGR.get_max_number_of_players(),   restoredGRR.maxNumOfPlayers  );
-//    BOOST_CHECK_EQUAL(  sampleGR.get_tag(),   restoredGRR.get_tag()  );
 }
 
 BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
