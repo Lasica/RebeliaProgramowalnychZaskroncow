@@ -62,7 +62,6 @@ private:
 
     void subscribe();
     void unsubscribe();
-    //friend class ClientsRegister;
 };
 
 #endif //CLIENT_HPP

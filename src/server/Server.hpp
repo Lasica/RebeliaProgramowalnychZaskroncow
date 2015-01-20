@@ -10,9 +10,7 @@
 #include <deque>
 #include <iostream>
 #include <string>
-//#include "server/ClientsRegister.hpp"
-//#include "server/ClientDataRaw.hpp"
-//#include "shared/typedefinitions.hpp"
+
 #include "server/Address.hpp"
 #include "server/ServerResources.hpp"
 using boost::asio::ip::tcp;

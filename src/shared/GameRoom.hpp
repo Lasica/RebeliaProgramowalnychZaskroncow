@@ -1,6 +1,5 @@
 #ifndef GAMEROOM_H
 #define GAMEROOM_H
-//#include <boost/serialization/export.hpp>       //makro BOOST_CLASS_EXPORT
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/serialization.hpp>
@@ -16,7 +15,6 @@
 class GameRoom;
 BOOST_CLASS_EXPORT_KEY(GameRoom)
 
-//FIXME: dziedziczenie raczej protected.  tamtejszą listę subskrybentów zamiast tej listy tutaj. W końcu jedynym
 
 class GameRoom : public GameRoomRaw {
 
@@ -32,15 +30,9 @@ public:
     // numOfPlayers_ ustawiam na 0, bo jest potem zwiększany w add_player
     GameRoom(ClientID host, std::string gameRoomName);
 
-
-    //virtual void notify(Resource*,const Packet::Tag*);
-
-
     virtual ~GameRoom();
 
     void add_player(ClientID newPlayer);
-    // TODO (w poniższej lub innej metodzie): kiedy usuwany jest host - cały GameRoom jest kasowany
-    // TODO : o skasowaniu GameRoomu powinna decydowac klasa GameRoomsRegister.
     void remove_player(ClientID player);
 
     GameRoomID get_id() {
@@ -59,15 +51,8 @@ public:
 
     GameRoomRaw get_raw_data();
   private:
-    // dla serializacji
     GameRoom();
     friend class boost::serialization::access;
-//    template<class Archive>
-//    void serialize(Archive &ar, const unsigned int) {
-//        ar.template register_type<GameRoom>();   //// może pomoże na: std::exception: unregistered void cast
-//        ar &boost::serialization::base_object<GameRoomRaw>(*this);
-
-//    }
     void deregister_player(ClientID player);
     static ClientsRegister& register_; // jeśli używamy ClientID do oznaczania graczy, to musimy mieć jakieś odniesienie do rejestru, w którym się znajdują
 

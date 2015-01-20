@@ -21,10 +21,6 @@ BOOST_AUTO_TEST_SUITE( GameRoomRaw_serialization )
 BOOST_AUTO_TEST_CASE( simple_case ) {
 
     GameRoomRaw sampleGRR = GameRoomRaw("GameRoomRawTest", 5, 1);
-//     sampleGRR.playersNames.push_back("player1");
-//     sampleGRR.playersNames.push_back("player2");
-//     sampleGRR.playersNames.push_back("player3");
-
 
     std::ofstream ofs("GameRoomRawTest_simple_case");
     boost::archive::text_oarchive oa(ofs);
@@ -42,7 +38,6 @@ BOOST_AUTO_TEST_CASE( simple_case ) {
     BOOST_CHECK_EQUAL(  sampleGRR.id ,  restoredGRR.id );
     BOOST_CHECK_EQUAL(  sampleGRR.host,  restoredGRR.host );
     BOOST_CHECK_EQUAL(  sampleGRR.get_tag(),    restoredGRR.get_tag()  );
-//     BOOST_CHECK_EQUAL_COLLECTIONS( sampleGRR.playersNames.begin(),  sampleGRR.playersNames.end(), restoredGRR.playersNames.begin(), restoredGRR.playersNames.end() );
     BOOST_CHECK_EQUAL_COLLECTIONS(  sampleGRR.players.begin(),  sampleGRR.players.end(), restoredGRR.players.begin(),
                                     restoredGRR.players.end() );
 }

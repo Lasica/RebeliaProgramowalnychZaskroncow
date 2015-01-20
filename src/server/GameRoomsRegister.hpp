@@ -14,7 +14,6 @@ public:
     virtual ~GameRoomsRegister();
     GameRoomPtr add_game_room(ClientID host, std::string name);
     void remove_game_room(GameRoomID id);
-    //interfejs dla gracza: join(id),
 
     GameRoomPtr look_up_with_id(GameRoomID id);
 

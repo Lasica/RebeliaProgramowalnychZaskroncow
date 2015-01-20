@@ -20,9 +20,6 @@ using namespace boost::unit_test;
 BOOST_AUTO_TEST_SUITE( ChatEntryRaw_serialization )
 
 BOOST_AUTO_TEST_CASE( simple_case ) {
-//    if( runtime_config::log_level() <= boost::unit_test::log_warnings )
-//        unit_test_log.set_threshold_level( boost::unit_test::log_messages );
-
     ChatEntryRaw sampleCER = ChatEntryRaw("CERptr", "serializationTest");
 
     std::ofstream ofs("ChatEntryRawTest_simple_case");

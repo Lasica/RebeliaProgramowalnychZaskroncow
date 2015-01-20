@@ -21,8 +21,6 @@ public:
                 	obs_.erase(it);
 	          break; 
 		  }
-
-
     }
    virtual void notify(Resource*,const Packet::Tag*) = 0;
 protected:

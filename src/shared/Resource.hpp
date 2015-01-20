@@ -20,9 +20,8 @@ struct Resource {
     template<typename Archive>
     void serialize(Archive &/*ar*/, const unsigned int /*version*/) { }
 
-
     // tylko dla testów serializacji (dla porównywania oryginału i odtworzonego obiektu)
-    virtual std::string show_content() = 0; // dobry pomysl!
+    virtual std::string show_content() = 0;
 
 };
 

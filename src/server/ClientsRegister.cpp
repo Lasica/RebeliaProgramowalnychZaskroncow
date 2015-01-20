@@ -8,7 +8,7 @@
 #include "Address.hpp"
 #include "shared/typedefinitions.hpp"
 
-ClientsRegister::ClientsRegister() { /*std::cout << "***ClientsRegister c-tor***\n";  */}
+ClientsRegister::ClientsRegister() { }
 
 ClientID ClientsRegister::register_client(const Address *address, TcpPointer pointer, std::string nickname) {
     boost::unique_lock< boost::shared_mutex > lock(access_);
