@@ -1,4 +1,4 @@
-#include "shared/GameRoomsRegister.hpp"
+#include "server/GameRoomsRegister.hpp"
 #include <utility>
 
 GameRoomsRegister::GameRoomsRegister() { }

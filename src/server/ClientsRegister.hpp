@@ -15,7 +15,7 @@ class ClientsRegister {
 public:
     ClientsRegister();
     ~ClientsRegister() { }
-    ClientID register_client(const Address *address, TcpPointer pointer);
+    ClientID register_client(const Address *address, TcpPointer pointer=nullptr, std::string nickname="UNREGISTERED");
 
 
     //ClientIt look_up_with_address(Address addr)     const; // nie ma i nie bedzie. mozna to ustalic na podstawie addressRegister.

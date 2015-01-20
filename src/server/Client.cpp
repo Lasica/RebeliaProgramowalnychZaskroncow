@@ -6,12 +6,12 @@
 
 ClientID Client::nextID_ = 0;   //wartość 0 - gracz, który nie istnieje
 
-Client::Client( const Address *address, TcpPointer pointer, std::string nick) :
+Client::Client( const Address *address, TcpPointer /*pointer*/, std::string nick) :
     ClientDataRaw(Client::nextID_++, nick, ClientState()), address_(address) {
 
     if(address_ != nullptr) { // zalozenie jest, ze w zadnym innym miejscu poza ClientsRegister address_ == nullptr.
         address_->change_owner(clientID_);
-        address_->update_connection(pointer);
+//        address_->update_connection(pointer);
     }
 }
 

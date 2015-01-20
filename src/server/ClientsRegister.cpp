@@ -10,9 +10,9 @@
 
 ClientsRegister::ClientsRegister() { /*std::cout << "***ClientsRegister c-tor***\n";  */}
 
-ClientID ClientsRegister::register_client(const Address *address, TcpPointer pointer) {
+ClientID ClientsRegister::register_client(const Address *address, TcpPointer pointer, std::string nickname) {
     boost::unique_lock< boost::shared_mutex > lock(access_);
-    clients_.insert(std::pair<ClientID, ClientPtr>(address->owner, ClientPtr(new Client(address, pointer))));
+    clients_.insert(std::pair<ClientID, ClientPtr>(address->owner, ClientPtr(new Client(address, pointer, nickname))));
     return address->owner;
 }
 

@@ -22,7 +22,7 @@ BOOST_CLASS_EXPORT_KEY(HandshakeRaw)
 struct HandshakeRaw : public Resource {
 
 
-    HandshakeRaw(Address ad = Address(0, 0)) : address_(ad) {
+    HandshakeRaw(std::string nick) : nick_(nick) {
         ;
     }
     virtual ~HandshakeRaw() {
@@ -39,15 +39,15 @@ struct HandshakeRaw : public Resource {
         //serializacja klasy bazowej
         ar &boost::serialization::base_object<Resource>(*this);
 
-        ar &address_;
+        ar &nick_;
     }
 
-    Address address_;
+    std::string nick_;
 
 
     // tylko dla testów
     virtual std::string show_content() {
-        return ("** HandshakeRaw **, address.ip==" + address_.ip + ", address.port==" + std::to_string(address_.port) + "\n");
+        return ("** HandshakeRaw **, nick_==" + nick_ + "\n");
     }
 };
 

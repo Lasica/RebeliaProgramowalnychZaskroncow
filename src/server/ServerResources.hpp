@@ -6,6 +6,7 @@
 #include "shared/typedefinitions.hpp"
 #include "server/Packet_handler.hpp"
 #include "server/AddressRegister.hpp"
+#include "server/GameRoomsRegister.hpp"
 
 struct ServerResources {
 
@@ -15,6 +16,8 @@ struct ServerResources {
     Packet_handler lobbyManager;
     ClientsRegister connectedClients;
     AddressRegister registeredAddresses;
+
+    GameRoomsRegister gamerooms;
 
     ServerResources() : lobbyManager(&received, &running_) {
     }

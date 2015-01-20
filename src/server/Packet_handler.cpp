@@ -1,4 +1,8 @@
 #include "server/Packet_handler.hpp"
+#include "shared/HandshakeRaw.hpp"
+#include "shared/ChatEntryRaw.hpp"
+#include "server/Server.hpp"
+
 #include <iostream>
 #include <assert.h>
 
@@ -11,11 +15,16 @@ void Packet_handler::operator()() {
                 Packet *top = &inQueue_->front();
 
                 switch(top->get_tag()) {
-                case Packet::REGISTER_REQUEST:             // Handshake
-                    break;
+                case Packet::REGISTER_REQUEST: {            // Handshake
+                    boost::scoped_ptr<HandshakeRaw> hr(dynamic_cast<HandshakeRaw*>((top->get_content()).get()));
+                    TcpServer::getInstance().connectedClients.register_client(top->get_address(), top->get_address()->connection, hr->nick_);
+                        } break;
 
-                case Packet::CHAT_ENTRY_MESSAGE_REQUEST:   // prosba o nadanie wiadomosci czatu
-                    break;
+                case Packet::CHAT_ENTRY_MESSAGE_REQUEST: {   // prosba o nadanie wiadomosci czatu
+                    boost::scoped_ptr<ChatEntryRaw> cer(dynamic_cast<ChatEntryRaw*>((top->get_content()).get()));
+//                    TcpServer::getInstance().(...).register_message(*cer);
+
+                } break;
                 //case Packet::GAMEROOM_CREATE_REQUEST:    // prosba o stworzenie nowego pokoju
                 //case Packet::GAMEROOM_JOIN_REQUEST:      // prosba o dolaczenie do pokoju
                 //case Packet::GAMEROOM_LEAVE_REQUEST:     // prosba o opuszczenie pokoju
@@ -27,9 +36,9 @@ void Packet_handler::operator()() {
                 //case Packet::GAME_STATE:                 // pakiet zawierajacy stan rozgrywki
                 //case Packet::GAME_ACTION:                // byc moze sie przyda?
                 //case Packet::KEEP_ALIVE:                 // ping! do ustalenia czy ktos stracil polaczenie.
-                case Packet::UPDATED_RESOURCE:             // dane aktualizacyjne przeznaczone dla klienta
+//                case Packet::UPDATED_RESOURCE:             // dane aktualizacyjne przeznaczone dla klienta
                     // pokazuje na cout zawartość odebranego pakietu (tylko dla testów)
-                    std::cout << top->get_tag() << " " << top->show_resource_content() << std::endl;
+//                    std::cout << top->get_tag() << " " << top->show_resource_content() << std::endl;
 
                 default:
                     std::cout << "Unexpected packet received.\n";
