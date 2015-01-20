@@ -23,7 +23,6 @@ set(LIB_SOURCES
 	)
 
 set(LIB_HEADERS
-<<<<<<< HEAD
   luacore/LuaInterpreter.hpp
         #luacore/LuaInterpreter.hpp
 	server/Address.hpp
