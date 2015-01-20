@@ -17,21 +17,6 @@ Client::Client( const Address *address, TcpPointer pointer, std::string nick) :
     }
 }
 
-// Client::Client(std::string nick, Address address, ClientState state, std::string gameID) :
-//     clientID_(Client::nextID_++), state_(new ClientState(state)) {
-//     address.nickname = nick;
-//     address.port = port;
-//     address.ip = ip;
-// }
-//
-// dopóki nie znamy dokładnie typu Address::IP, nie można wybrać metody konwertującej std::string na Address::IP
-//Client::Client(std::string nick, short unsigned int port, std::string ip, statename state, std::string gameID):
-//    address.nickname(nick), clientID_(Client::nextID_++), address.port(port), ip_(boost::asio::ip::address::from_string(ip)), state_(new statename(state)),
-//    gameID_(gameID) {
-//    ;
-//}
-
-// podejrzewam ze domyslny konstruktor kopiujacy nam wystarczy
 Client::Client(const Client &c) :
    Observer(c.observerID), ClientDataRaw(c.clientID_, c.nickname_, c.state_), address_(c.address_){
 }
@@ -40,10 +25,6 @@ Client::~Client() {
 }
 
 
-//operator for std::set
-//bool Client::operator<(const Client &comp) const {
-//    return address_ < comp.address_;
-//}
 bool Client::operator<(const Client &comp) const {
     return clientID_ < comp.clientID_;
 }

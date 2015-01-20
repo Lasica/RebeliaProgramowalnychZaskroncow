@@ -10,19 +10,24 @@
 #include <deque>
 #include <iostream>
 #include <string>
-//#include "server/ClientsRegister.hpp"
-//#include "server/ClientDataRaw.hpp"
-//#include "shared/typedefinitions.hpp"
+
 #include "server/Address.hpp"
 #include "server/ServerResources.hpp"
 using boost::asio::ip::tcp;
 using namespace boost::asio;
 
+/*!
+ *  Ta klasa pośredniczy w wymianie informacji pomiędzy tym, co znajduje się w ServerResources, a graczami podłączonymi przez internet.
+ *  Jest singletonem i to jej instancja jest uruchamiana przy włączeniu programu.
+ */
+
+
 class TcpServer : boost::noncopyable, public ServerResources {
 public:
-    void start();
+    void start();           //! serwer zaczyna pracować po wywołaniu tej metody
     static TcpServer &getInstance();
-    void stop() {
+    void stop()             //! metoda kończąca pracę serwera
+    {
         io_.stop();
         running_ = false;
     }

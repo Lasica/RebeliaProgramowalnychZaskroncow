@@ -5,11 +5,15 @@
 #include <set>
 #include <boost/thread/shared_mutex.hpp>
 
+/*!
+ * Rejestr adresów, z których nawiązano połączenie z serwerem.
+ */
+
 class AddressRegister
 {
 public:
-    const Address*  register_address(const Address &x);
-    ClientID        get_address_owner(const Address &x) const;
+    const Address*  register_address(const Address &x);             //! rejestracja adresu, z którego połączono się z serwerem
+    ClientID        get_address_owner(const Address &x) const;      //! ta metoda "tłumaczy" id klienta na jego adres
     const Address*  get_address_pointer(const Address &x) const;
     AddressRegister() { }
 private:

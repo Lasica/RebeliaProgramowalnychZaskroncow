@@ -42,10 +42,8 @@ void TcpServer::start() {
     running_ = true;
     startAccept();
 
-
     init();
     self_ = new std::thread(boost::bind(&boost::asio::io_service::run, &io_));
-
 
 }
 TcpServer &TcpServer::getInstance() {

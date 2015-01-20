@@ -8,15 +8,20 @@
 #include <map>
 #include "shared/Subject.hpp"
 
+/*!
+ *  Rejestr pokojów gry - służy do zarządzania pokojami gry na serwerze.
+ *  Pozwala na dodawanie, usuwanie pokojów.
+ */
+
+
 class GameRoomsRegister : public Observer, public Subject {
 public:
     GameRoomsRegister();
     virtual ~GameRoomsRegister();
-    GameRoomPtr add_game_room(ClientID host, std::string name);
-    void remove_game_room(GameRoomID id);
-    //interfejs dla gracza: join(id),
+    GameRoomPtr add_game_room(ClientID host, std::string name); //! dodawanie nowego pokoju do rejestru
+    void remove_game_room(GameRoomID id);                       //! usuwanie z serwera pokoju o zadanym id
 
-    GameRoomPtr look_up_with_id(GameRoomID id);
+    GameRoomPtr look_up_with_id(GameRoomID id);                 //! wyszukiwanie pokoju o zadanym id
 
     unsigned int get_size();
     

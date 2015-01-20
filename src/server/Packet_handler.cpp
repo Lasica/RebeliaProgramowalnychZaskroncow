@@ -35,9 +35,9 @@ void Packet_handler::operator()() {
                 //case Packet::GAME_STATE:                 // pakiet zawierajacy stan rozgrywki
                 //case Packet::GAME_ACTION:                // byc moze sie przyda?
                 //case Packet::KEEP_ALIVE:                 // ping! do ustalenia czy ktos stracil polaczenie.
-//                case Packet::UPDATED_RESOURCE:             // dane aktualizacyjne przeznaczone dla klienta
-                    // pokazuje na cout zawartość odebranego pakietu (tylko dla testów)
-//                    std::cout << top->get_tag() << " " << top->show_resource_content() << std::endl;
+                case Packet::UPDATED_RESOURCE:             // dane aktualizacyjne przeznaczone dla klienta
+//                     pokazuje na cout zawartość odebranego pakietu (tylko dla testów)
+                    std::cout << top->get_tag() << " " << top->show_resource_content() << std::endl;
 
                 default:
                     std::cout << "Unexpected packet received.\n";

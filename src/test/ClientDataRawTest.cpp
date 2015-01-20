@@ -33,7 +33,6 @@ BOOST_AUTO_TEST_CASE( simple_case ) {
     BOOST_CHECK_NO_THROW(  ia >> restoredCDR  );
     ifs.close();
 
-    //odkomentować, jeśli ClientDataRaw odziedziczy po Resource
     BOOST_CHECK_EQUAL(  sampleCDR.show_content(),               restoredCDR.show_content()  );
     BOOST_CHECK_EQUAL(  sampleCDR.clientID_,                    restoredCDR.clientID_  );
     BOOST_CHECK_EQUAL(  sampleCDR.state_.location,              restoredCDR.state_.location );

@@ -8,13 +8,13 @@ set(LIB_SOURCES
     server/ClientDataRaw.cpp
     server/ClientsRegister.cpp
     server/GameRoomsRegister.cpp
-		#server/Logger.cpp
-		server/Packet_handler.cpp
+    #server/Logger.cpp
+    server/Packet_handler.cpp
     server/Server.cpp
     server/server_main.cpp
-		shared/ChatEntryRaw.cpp
+    shared/ChatEntryRaw.cpp
     shared/ChatRegister.cpp
-		shared/constants.cpp
+    shared/constants.cpp
     shared/GameRoom.cpp
     shared/GameRoomRaw.cpp
     shared/Packet.cpp
@@ -23,7 +23,9 @@ set(LIB_SOURCES
 	)
 
 set(LIB_HEADERS
+<<<<<<< HEAD
   luacore/LuaInterpreter.hpp
+        #luacore/LuaInterpreter.hpp
 	server/Address.hpp
 	server/AddressRegister.hpp
 	server/Client.hpp
@@ -47,7 +49,7 @@ set(LIB_HEADERS
 	shared/Resource.hpp
 	shared/Subject.hpp
 	shared/TcpConnection.hpp
-  shared/typedefinitions.hpp
+        shared/typedefinitions.hpp
 	)
 
 add_library( PROJECT_LIBRARY ${LIB_SOURCES} ${LIB_HEADERS} )

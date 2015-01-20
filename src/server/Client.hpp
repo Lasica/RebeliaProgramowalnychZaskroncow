@@ -1,14 +1,3 @@
-/*******************************************
-***Klasa Client***
-
-Ta klasa reprezentuje klientów (graczy), łączących się z serwerem.
-Każdy gracz jest opisany przez parametry charakteryzujące:
-# połączenie z serwerem (ip i port)
-# aktualny stan gracza (w grze/lobby)
-# nazwę gracza, jego unikalne ID i (ewentualnie) gry.
-
-********************************************/
-
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
@@ -21,6 +10,11 @@ Każdy gracz jest opisany przez parametry charakteryzujące:
 #include "shared/typedefinitions.hpp"
 #include "server/ClientDataRaw.hpp"
 #include "shared/Packet.hpp"
+
+/*!
+*   Ta klasa reprezentuje klientów (graczy), łączących się z serwerem.
+*   Klienci są powiadamiani o zmianach w grze przez tematy obserwacji (metodą update).
+*/
 
 class ClientsRegister;
 class Client : public Observer, public ClientDataRaw {
@@ -52,7 +46,7 @@ public:
 		unsubscribe();
     }
     bool                            operator<(const Client &) const;
-    virtual void                    update(Resource *updateInfo, Packet::Tag* tag);
+    virtual void                    update(Resource *updateInfo, Packet::Tag* tag); //!< metoda wywoływana przez temat obserwacji, gdy nastąpi zmiana w środowisku gracza
 
 private:
     const Address*                  address_;
@@ -62,7 +56,6 @@ private:
 
     void subscribe();
     void unsubscribe();
-    //friend class ClientsRegister;
 };
 
 #endif //CLIENT_HPP

@@ -30,4 +30,3 @@ void GameRoomsRegister::notify(Resource* resources, const Packet::Tag* tag) {
     for(Observer *o : obs_)
         o->update(resources, tag); 
 }
-//&(chatLog_.back())
