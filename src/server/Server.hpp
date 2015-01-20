@@ -1,3 +1,6 @@
+#ifndef _SERVER_HPP_
+#define _SERVER_HPP_
+
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 //#include <boost/enable_shared_from_this.hpp>
@@ -23,10 +26,7 @@ public:
         io_.stop();
         running_ = false;
     }
-    ~TcpServer() {/*
-        if(th_->joinable())
-            th_->join();
-        delete th_;*/
+    ~TcpServer() {
         if(self_ != nullptr) {
             if(self_->joinable())
                 self_->join();
@@ -35,7 +35,6 @@ public:
     }
     static TcpServer* pointer;
 private:
-    //boost::thread* th_;
     TcpServer(boost::asio::io_service &);
     void startAccept();
     void handleAccept(TcpPointer,
@@ -45,4 +44,4 @@ private:
 
     std::thread *self_;
 };
-
+#endif

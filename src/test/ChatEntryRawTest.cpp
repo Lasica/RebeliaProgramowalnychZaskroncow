@@ -9,6 +9,7 @@
 #include "server/Address.hpp"
 #include "shared/Resource.hpp"
 #include "shared/ChatEntryRaw.hpp"
+BOOST_CLASS_EXPORT(ChatEntryRaw)
 
 #include <fstream>
 

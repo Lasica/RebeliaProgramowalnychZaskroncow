@@ -6,6 +6,7 @@
 class Observer {
 
   public:
+    unsigned observerID = 0;
     virtual void update(Resource *) { };
     virtual ~Observer() {};
 };

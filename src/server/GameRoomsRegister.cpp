@@ -25,3 +25,9 @@ GameRoomPtr GameRoomsRegister::look_up_with_id(GameRoomID id) {
 unsigned int GameRoomsRegister::get_size() {
     return game_rooms_.size();
 }
+
+void GameRoomsRegister::notify() {
+    for(Observer *o : obs_);
+        //o->update(&(chatLog_.back())); Co przesyłać dla obserwatora?
+}
+

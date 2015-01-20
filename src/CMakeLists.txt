@@ -11,6 +11,7 @@ set(LIB_SOURCES
 		server/Packet_handler.cpp
     server/Server.cpp
     server/server_main.cpp
+		shared/ChatEntryRaw.cpp
     shared/ChatRegister.cpp
 		shared/constants.cpp
     shared/GameRoom.cpp

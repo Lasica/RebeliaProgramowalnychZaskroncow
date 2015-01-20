@@ -7,11 +7,11 @@
 #include <boost/thread/shared_mutex.hpp>
 #include "server/Client.hpp"
 #include "server/Address.hpp"
-#include "shared/Subject.hpp"
 #include "shared/typedefinitions.hpp"
+#include "shared/Subject.hpp"
 
 
-class ClientsRegister {
+class ClientsRegister: public Subject {
 public:
     ClientsRegister();
     ~ClientsRegister() { }
@@ -37,6 +37,8 @@ private:
     std::map<ClientID, ClientPtr>          clients_;
     //ClientPtr                              lookUpper_;
     mutable boost::shared_mutex            access_;
+
+    void notify();
 };
 
 #endif //CLIENTSREGISTER_HPP

@@ -22,8 +22,7 @@ void Packet_handler::operator()() {
 
                 case Packet::CHAT_ENTRY_MESSAGE_REQUEST: {   // prosba o nadanie wiadomosci czatu
                     boost::scoped_ptr<ChatEntryRaw> cer(dynamic_cast<ChatEntryRaw*>((top->get_content()).get()));
-//                    TcpServer::getInstance().(...).register_message(*cer);
-
+                    TcpServer::getInstance().registeredChat.register_message(*cer);
                 } break;
                 //case Packet::GAMEROOM_CREATE_REQUEST:    // prosba o stworzenie nowego pokoju
                 //case Packet::GAMEROOM_JOIN_REQUEST:      // prosba o dolaczenie do pokoju

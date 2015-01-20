@@ -1,13 +1,14 @@
+#include <boost/bind.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/asio.hpp>
 #include "server/Server.hpp"
 
 #include <iostream>
 #include <string>
 #include <thread>
 #include <chrono>
-#include <boost/bind.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/asio.hpp>
+BOOST_CLASS_EXPORT(ChatEntryRaw)
 
 //#include "Logger.hpp"
 using boost::asio::ip::tcp;
