@@ -13,11 +13,19 @@ ClientsRegister::ClientsRegister() { /*std::cout << "***ClientsRegister c-tor***
 ClientID ClientsRegister::register_client(const Address *address, TcpPointer pointer, std::string nickname) {
     boost::unique_lock< boost::shared_mutex > lock(access_);
     clients_.insert(std::pair<ClientID, ClientPtr>(address->owner, ClientPtr(new Client(address, pointer, nickname))));
+    //zawiadomienie obserwatorów o nowym kliencie w rejestrze
+    boost::scoped_ptr<Resource> notification( new ClientDataRaw(address->owner, nickname, ClientState(ClientState::LOBBY, 0)));
+    boost::scoped_ptr<Packet::Tag> tag(new Packet::Tag(Packet::UPDATED_RESOURCE));
+    notify(notification.get(), tag.get());
     return address->owner;
 }
 
 void ClientsRegister::remove_client(ClientID id) {
     boost::unique_lock< boost::shared_mutex > lock(access_);
+    //zawiadomienie obserwatorów o usunięciu klienta z rejestru
+    boost::scoped_ptr<Resource> notification( new ClientDataRaw(id, clients_.at(id)->get_nickname(), ClientState()));
+    boost::scoped_ptr<Packet::Tag> tag(new Packet::Tag(Packet::REMOVE_RESOURCE));
+    notify(notification.get(), tag.get());
     clients_.erase(id);
 }
 
