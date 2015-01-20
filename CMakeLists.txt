@@ -1,7 +1,7 @@
 project(rpz)
 cmake_minimum_required(VERSION 2.8)
 find_package(Boost COMPONENTS system thread filesystem unit_test_framework serialization REQUIRED)
-#find_package(Lua REQUIRED)
+find_package(Lua 5.2 REQUIRED) #wersja 5.2
 
 enable_testing()
 

@@ -1,10 +1,11 @@
 set(LIB_SOURCES
     client/client_main.cpp
+		luacore/LuaInterpreter.cpp
 		server/Address.cpp
-	server/PacketQueueAdapter.cpp
+	  server/PacketQueueAdapter.cpp
 		server/AddressRegister.cpp
     server/Client.cpp
-    #server/ClientDataRaw.cpp
+    server/ClientDataRaw.cpp
     server/ClientsRegister.cpp
     server/GameRoomsRegister.cpp
 		#server/Logger.cpp
@@ -22,7 +23,7 @@ set(LIB_SOURCES
 	)
 
 set(LIB_HEADERS
- #luacore/LuaInterpreter.hpp
+  luacore/LuaInterpreter.hpp
 	server/Address.hpp
 	server/AddressRegister.hpp
 	server/Client.hpp
@@ -38,7 +39,9 @@ set(LIB_HEADERS
 	shared/ChatRegister.hpp
         shared/GameRoom.hpp
         shared/GameRoomRaw.hpp
+				shared/GameSettings.hpp
         shared/HandshakeRaw.hpp
+				shared/Map.hpp
 	shared/Observer.hpp
 	shared/Packet.hpp
 	shared/Resource.hpp
@@ -49,9 +52,12 @@ set(LIB_HEADERS
 
 add_library( PROJECT_LIBRARY ${LIB_SOURCES} ${LIB_HEADERS} )
 
+#MESSAGE( STATUS	  ${LUA_LIBRARY}	 	${LUA_CORE_SRC} )
 set(LIBRARIES
-	  ${LUA_LIBRARY} ${LUA_CORE_SRC} 
+	#	  ${LUA_LIBRARY} # dla mnie to wskazuje na stara wersje lui 5.1
+	# 	${LUA_CORE_SRC} 
   	-pthread 
+		-llua
 		${Boost_LIBRARIES}
 		${Boost_FILESYSTEM_LIBRARY} 
 		${Boost_SYSTEM_LIBRARY} 
