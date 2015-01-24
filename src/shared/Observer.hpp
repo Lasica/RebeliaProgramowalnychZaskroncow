@@ -9,7 +9,7 @@ class Observer {
     Observer(unsigned id): observerID(id) {}
     unsigned observerID;
     static unsigned observerNextID;
-    virtual void update(const Resource *, const Packet::Tag) { };
+    virtual void update(Packet &) { std::cout << "Warning! This method (Observer.update()) shouldn't be called!\n"; };
     virtual ~Observer() {};
 };
 #endif // OBSERVER_H

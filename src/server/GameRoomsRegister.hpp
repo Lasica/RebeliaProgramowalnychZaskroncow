@@ -25,7 +25,7 @@ public:
 
     unsigned int get_size();
     
-    void notify(const Resource*,const Packet::Tag);
+    //void notify(const Resource*,const Packet::Tag);
 
     virtual void synchronise(Observer* obs);
 

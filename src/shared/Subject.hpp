@@ -14,17 +14,16 @@ public:
     }
     void eraseObserver(Observer *o) {
         std::vector<Observer*>::iterator it = obs_.begin();
-       for(; it < obs_.end(); ++it)
+        for(; it < obs_.end(); ++it)
           if((*it)->observerID == o->observerID)
           {
-
-                    obs_.erase(it);
-              break;
+            obs_.erase(it);
+            break;
           }
     }
-   virtual void notify(const Resource* r,const Packet::Tag t) {
+   virtual void notify(Packet &p) {
     for(Observer *o : obs_)
-        o->update(r, t);
+        o->update(p);
    }
 
     virtual void synchronise(Observer* obs) = 0;

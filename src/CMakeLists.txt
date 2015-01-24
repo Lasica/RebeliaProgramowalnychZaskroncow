@@ -65,7 +65,7 @@ set(LIBRARIES
 		${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 		${Boost_SERIALIZATION}
 		${Boost_THREAD}
-		-llua5.2
+		-llua
 
 )	
 

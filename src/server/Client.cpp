@@ -29,9 +29,8 @@ bool Client::operator<(const Client &comp) const {
     return clientID_ < comp.clientID_;
 }
 
-void Client::update(Resource *updateInfo, Packet::Tag tag) {
-    Packet updatePackage(tag, address_, updateInfo);
-    send(updatePackage);
+void Client::update(Packet &p) {
+    send(p);
 }
 
 inline void Client::send(Packet &packet) {

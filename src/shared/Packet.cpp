@@ -17,7 +17,7 @@ Packet::Packet(Tag tag__, const Address *ad__, ResourcePtr content__) :
     ;
 }
 
-Packet::StreamBuffer Packet::get_data_streambuf() { // TODO do poprawienia, kiedy będzie znany typ StreamBuffer
+Packet::StreamBuffer Packet::get_data_streambuf() {
     std::stringstream ofs;
     boost::archive::text_oarchive oa(ofs);
     oa << *this;
