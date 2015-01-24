@@ -30,6 +30,7 @@ public:
     int get_size() const {                                  //! mówi ile jest graczy na serwerze
         return clients_.size();
     }
+    virtual void synchronise(Observer* obs);
 
 private:
     ClientsRegister(ClientsRegister &copy) = delete;

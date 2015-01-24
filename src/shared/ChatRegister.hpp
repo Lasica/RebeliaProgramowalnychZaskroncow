@@ -9,6 +9,7 @@
 class ChatRegister : public Subject {
 public:
     void register_message(ChatEntryRaw &message);
+    virtual void synchronise(Observer* obs);
 private:
     std::vector<ChatEntryRaw> chatLog_;
     //void notify(const Resource*, const Packet::Tag);

@@ -18,19 +18,27 @@ void Packet_handler::operator()() {
                 case Packet::REGISTER_REQUEST: {            // Handshake
                     boost::scoped_ptr<HandshakeRaw> hr(dynamic_cast<HandshakeRaw*>((top->get_content()).get()));
                     TcpServer::getInstance().connectedClients.register_client(top->get_address(), top->get_address()->connection, hr->nick_);
-                        } break;
+                        } /*break;*/
+
+                case Packet::SYNCHRONISE_REQUEST: {        // prosba o wyslanie wszystkich zasobow...
+                    ClientID s = TcpServer::getInstance().registeredAddresses.get_address_owner(*(top->get_address())); //pobiera id klienta o adresie zapisanym w pakiecie
+                    boost::scoped_ptr<Observer> obs(dynamic_cast<Observer*>(TcpServer::getInstance().connectedClients.look_up_with_id(s).get())); //rzutowanie z ClientPtr na Observer*
+                    TcpServer::getInstance().connectedClients.synchronise(obs.get());   //kolejno wywoływane metody synchronise u każdego z obserwatorów
+                    TcpServer::getInstance().registeredChat.synchronise(obs.get());
+                    TcpServer::getInstance().registeredRooms.synchronise(obs.get());
+                    } break;
 
                 case Packet::CHAT_ENTRY_MESSAGE_REQUEST: {   // prosba o nadanie wiadomosci czatu
                     boost::scoped_ptr<ChatEntryRaw> cer(dynamic_cast<ChatEntryRaw*>((top->get_content()).get()));
                     TcpServer::getInstance().registeredChat.register_message(*cer);
                 } break;
+
                 //case Packet::GAMEROOM_CREATE_REQUEST:    // prosba o stworzenie nowego pokoju
                 //case Packet::GAMEROOM_JOIN_REQUEST:      // prosba o dolaczenie do pokoju
                 //case Packet::GAMEROOM_LEAVE_REQUEST:     // prosba o opuszczenie pokoju
                 //case Packet::GAMEROOM_UPDATE_REQUEST:    // prosba o zmiane ustawien pokoju
                 //case Packet::GAMEROOM_START_REQUEST:     // prosba o rozpoczecie rozgrywki
                 //case Packet::GAME_START_FAILURE_INFO:    // informacja dla klienta o niespelnionym rzadaniu
-                //case Packet::SYNCHRONISE_REQUEST:        // prosba o wyslanie wszystkich zasobow...
                 //case Packet::CLOCK_SYNCHRONISE:          // prosba o okreslenie czasu wzgledem serwera
                 //case Packet::GAME_STATE:                 // pakiet zawierajacy stan rozgrywki
                 //case Packet::GAME_ACTION:                // byc moze sie przyda?

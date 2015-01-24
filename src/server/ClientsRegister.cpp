@@ -55,3 +55,14 @@ void ClientsRegister::notify(const Resource* resource, const Packet::Tag tag){
        o->update(resource, tag); 
 }
 
+// wysyła pełną dane o wszystkich klientach
+void ClientsRegister::synchronise(Observer* obs) {
+    for(auto a: clients_) {
+        boost::scoped_ptr<Resource> notification( new ClientDataRaw(a.second->get_address()->owner, a.second->get_nickname(), a.second->get_state()));
+        Packet::Tag tag(Packet::UPDATED_RESOURCE);
+        // woła update() tylko dla tego pojedynczego klienta
+        obs->update(notification.get(), tag);
+    }
+}
+
+

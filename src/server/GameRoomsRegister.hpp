@@ -13,8 +13,8 @@
  *  Pozwala na dodawanie, usuwanie pokojów.
  */
 
-
-class GameRoomsRegister : public Observer, public Subject {
+// obserwator???
+class GameRoomsRegister : /*public Observer,*/ public Subject {
 public:
     GameRoomsRegister();
     virtual ~GameRoomsRegister();
@@ -26,6 +26,9 @@ public:
     unsigned int get_size();
     
     void notify(const Resource*,const Packet::Tag);
+
+    virtual void synchronise(Observer* obs);
+
 private:
     GameRoomsRegister(GameRoomsRegister& copy) = delete;
     GameRoomsRegister &operator=(GameRoomsRegister &grr) = delete;

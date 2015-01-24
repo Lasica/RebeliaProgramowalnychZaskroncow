@@ -58,13 +58,15 @@ set(LIBRARIES
 	#	  ${LUA_LIBRARY} # dla mnie to wskazuje na stara wersje lui 5.1
 	# 	${LUA_CORE_SRC} 
   	-pthread 
-		-llua
+		#-llua5.2
 		${Boost_LIBRARIES}
 		${Boost_FILESYSTEM_LIBRARY} 
 		${Boost_SYSTEM_LIBRARY} 
 		${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 		${Boost_SERIALIZATION}
 		${Boost_THREAD}
+		-llua5.2
+
 )	
 
 #find_package(Boost COMPONENTS unit_test_framework REQUIRED)

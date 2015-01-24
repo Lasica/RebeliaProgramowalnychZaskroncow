@@ -1,7 +1,7 @@
 #include "server/GameRoomsRegister.hpp"
 #include <utility>
 
-GameRoomsRegister::GameRoomsRegister(): Observer(Observer::observerNextID++) { }
+GameRoomsRegister::GameRoomsRegister()/*: Observer(Observer::observerNextID++)*/ { }
 
 GameRoomsRegister::~GameRoomsRegister() { }
 
@@ -35,3 +35,14 @@ void GameRoomsRegister::notify(const Resource* resources, const Packet::Tag tag)
     for(Observer *o : obs_)
         o->update(resources, tag); 
 }
+
+// wysyła pełną dane o wszystkich klientach
+void GameRoomsRegister::synchronise(Observer* obs) {
+    for(auto a: game_rooms_) {
+        boost::scoped_ptr<Resource> notification(new GameRoomRaw(*a.second));
+        Packet::Tag tag(Packet::UPDATED_RESOURCE);
+        // woła update() tylko dla tego pojedynczego obserwatora
+        obs->update(notification.get(), tag);
+    }
+}
+
