@@ -16,4 +16,5 @@ void ChatRegister::synchronise(Observer* obs) {
         // woła update() tylko dla tego pojedynczego klienta
         obs->update(notification.get(), tag);
     }
+
 }
