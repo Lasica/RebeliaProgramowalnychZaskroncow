@@ -2,10 +2,10 @@
 
 #define BOOST_TEST_MODULE ClientTestModule
 
-#include <boost/test/unit_test.hpp>
-#include <server/ClientDataRaw.h>
+#include "server/ClientDataRaw.hpp"
 #include "server/Client.hpp"
 #include "server/Address.hpp"
+#include <boost/test/unit_test.hpp>
 
 
 // TODO:
