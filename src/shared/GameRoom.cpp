@@ -30,6 +30,8 @@ void GameRoom::add_player(ClientID newPlayer) {
     players.push_back(newPlayer);
     register_.change_state(newPlayer, ClientState(ClientState::GAMEROOM, this->get_id())); // FIXME jeszcze nie sprawne
     ++numOfPlayers;
+
+    //  ***notify(); ***
 }
 
 void GameRoom::deregister_player(ClientID player){
@@ -49,6 +51,9 @@ void GameRoom::remove_player(ClientID player) {
         players.clear();
         host = std::numeric_limits<ClientID>::max();
     }
+
+    //  ***notify(); ***
+
 }
 
 GameRoomRaw GameRoom::get_raw_data(){
