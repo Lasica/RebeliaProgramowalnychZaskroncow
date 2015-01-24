@@ -24,6 +24,7 @@ class Packet {
         UPDATED_RESOURCE,           //!< dane aktualizacyjne dla klienta, mozna rozpoznac zawartosc po tagu Resource
         REMOVE_RESOURCE,            //!< dane aktualizacyjne dla klienta, mozna rozpoznac zawartosc po tagu Resource
         REGISTER_REQUEST,           //!< w srodku pakietu Handshake przedstawiajacy dane o kliencie.
+        LOG_OUT_REQUEST,            //!< prośba o wylogowanie gracza
         CHAT_ENTRY_MESSAGE_REQUEST, //!< prosba o nadanie wiadomosci czatu
         GAMEROOM_CREATE_REQUEST,    //!< prosba o stworzenie nowego pokoju
         GAMEROOM_JOIN_REQUEST,      //!< prosba o dolaczenie do pokoju

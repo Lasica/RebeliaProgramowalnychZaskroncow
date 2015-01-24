@@ -51,6 +51,12 @@ void Packet_handler::operator()() {
                     gpt->remove_player(TcpServer::getInstance().registeredAddresses.get_address_owner(*(top->get_address())));
 
                 } break;
+
+                case Packet::LOG_OUT_REQUEST: {
+                    boost::scoped_ptr<ClientDataRaw> cdr(dynamic_cast<ClientDataRaw*>((top->get_content()).get()));
+                    TcpServer::getInstance().connectedClients.remove_client(cdr->clientID_);
+                    // GameRoom, w którym był ten gracz, powinien być obserwatorem ClientsRegister, jeśli ma się dowiedzieć o jego wyjściu lub w ClientsRegister i metodzie remove_client powinno być zrobione zawiadomienie odpowiedniego gameroomu
+                }
                 //case Packet::GAMEROOM_UPDATE_REQUEST:    // prosba o zmiane ustawien pokoju
                 //case Packet::GAMEROOM_START_REQUEST:     // prosba o rozpoczecie rozgrywki
                 //case Packet::GAME_START_FAILURE_INFO:    // informacja dla klienta o niespelnionym rzadaniu
