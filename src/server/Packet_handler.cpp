@@ -16,13 +16,13 @@ void Packet_handler::operator()() {
 
                 switch(top->get_tag()) {
                 case Packet::REGISTER_REQUEST: {            // Handshake
-                    boost::scoped_ptr<HandshakeRaw> hr(static_cast<HandshakeRaw*>((top->get_content()).get()));
+                    HandshakeRaw* hr(static_cast<HandshakeRaw*>((top->get_content()).get()));
                     TcpServer::getInstance().connectedClients.register_client(top->get_address(), top->get_address()->connection, hr->nick_);
                         } /*break;*/
 
                 case Packet::SYNCHRONISE_REQUEST: {        // prosba o wyslanie wszystkich zasobow...
                     ClientID s = TcpServer::getInstance().registeredAddresses.get_address_owner(*(top->get_address())); //pobiera id klienta o adresie zapisanym w pakiecie
-                    auto obs((TcpServer::getInstance().connectedClients.look_up_with_id(s).get())); //rzutowanie z ClientPtr na Observer*
+                    Observer* obs((TcpServer::getInstance().connectedClients.look_up_with_id(s).get())); //rzutowanie z ClientPtr na Observer*
                     TcpServer::getInstance().connectedClients.synchronise(obs);   //kolejno wywoływane metody synchronise u każdego z obserwatorów
                     TcpServer::getInstance().registeredChat.synchronise(obs);
                     TcpServer::getInstance().registeredRooms.synchronise(obs);
@@ -46,10 +46,10 @@ void Packet_handler::operator()() {
                 } break;
 
                 case Packet::GAMEROOM_LEAVE_REQUEST: {     // prosba o opuszczenie pokoju
-                    GameRoomRaw* gr(static_cast<GameRoomRaw*>((top->get_content()).get()));
-                    GameRoomPtr gpt =  TcpServer::getInstance().registeredRooms.look_up_with_id(gr->id);
-                    gpt->remove_player(TcpServer::getInstance().registeredAddresses.get_address_owner(*(top->get_address())));
-
+                    ClientID l = TcpServer::getInstance().registeredAddresses.get_address_owner(*(top->get_address()));
+                    GameRoomID gr = TcpServer::getInstance().connectedClients.get_state(l).locationIdentifier;
+                    GameRoomPtr gpt = TcpServer::getInstance().registeredRooms.look_up_with_id(gr);
+                    gpt->remove_player(l);
                 } break;
 
                 case Packet::LOG_OUT_REQUEST: {
