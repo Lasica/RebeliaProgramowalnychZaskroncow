@@ -22,7 +22,10 @@ public:
 	          break; 
 		  }
     }
-   virtual void notify(Resource*,const Packet::Tag*) = 0;
+   virtual void notify(const Resource* r,const Packet::Tag t) {
+    for(Observer *o : obs_)
+        o->update(r, t);
+   }
 protected:
    mutable std::vector<Observer *> obs_;
 };

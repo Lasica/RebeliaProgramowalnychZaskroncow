@@ -15,6 +15,16 @@ Użycie:
 
 #include <iostream>
 #include <boost/asio.hpp>
+#include "shared/Packet.hpp"
+#include "shared/ChatEntryRaw.hpp"
+#include "shared/GameRoomRaw.hpp"
+#include "shared/HandshakeRaw.hpp"
+#include "shared/typedefinitions.hpp"
+#include "server/ClientDataRaw.hpp"
+#include "server/PacketQueueAdapter.hpp"
+
+BOOST_CLASS_EXPORT(ChatEntryRaw)
+PacketQueue  p;
 
 using namespace boost::asio;
 

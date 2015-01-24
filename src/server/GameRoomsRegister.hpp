@@ -25,7 +25,7 @@ public:
 
     unsigned int get_size();
     
-    void notify(Resource*,const Packet::Tag*);
+    void notify(const Resource*,const Packet::Tag);
 private:
     GameRoomsRegister(GameRoomsRegister& copy) = delete;
     GameRoomsRegister &operator=(GameRoomsRegister &grr) = delete;

@@ -38,7 +38,7 @@ private:
     std::map<ClientID, ClientPtr>          clients_;
     mutable boost::shared_mutex            access_;
 
-     void notify(Resource*,const Packet::Tag*);
+     void notify(const Resource*,const Packet::Tag);
     };
 
 #endif //CLIENTSREGISTER_HPP

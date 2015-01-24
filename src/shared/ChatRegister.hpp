@@ -11,7 +11,7 @@ public:
     void register_message(ChatEntryRaw &message);
 private:
     std::vector<ChatEntryRaw> chatLog_;
-    void notify(Resource*, const Packet::Tag*);
+    //void notify(const Resource*, const Packet::Tag);
 };
 
 #endif // CHATHISTORY_H

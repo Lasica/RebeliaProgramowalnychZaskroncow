@@ -12,20 +12,20 @@ ClientsRegister::ClientsRegister() { }
 
 ClientID ClientsRegister::register_client(const Address *address, TcpPointer pointer, std::string nickname) {
     boost::unique_lock< boost::shared_mutex > lock(access_);
-    clients_.insert(std::pair<ClientID, ClientPtr>(address->owner, ClientPtr(new Client(address, pointer, nickname))));
+    auto it = clients_.insert(std::pair<ClientID, ClientPtr>(address->owner, ClientPtr(new Client(address, pointer, nickname))));
     //zawiadomienie obserwatorów o nowym kliencie w rejestrze
-    boost::scoped_ptr<Resource> notification( new ClientDataRaw(address->owner, nickname, ClientState(ClientState::LOBBY, 0)));
-    boost::scoped_ptr<Packet::Tag> tag(new Packet::Tag(Packet::UPDATED_RESOURCE));
-    notify(notification.get(), tag.get());
+    //boost::scoped_ptr<Resource> notification( new ClientDataRaw(address->owner, nickname, ClientState(ClientState::LOBBY, 0)));
+    boost::shared_ptr<Resource> notification( new ClientDataRaw(*(it.first)->second));
+    notify(notification.get(), Packet::UPDATED_RESOURCE);
     return address->owner;
 }
 
 void ClientsRegister::remove_client(ClientID id) {
-    boost::unique_lock< boost::shared_mutex > lock(access_);
     //zawiadomienie obserwatorów o usunięciu klienta z rejestru
-    boost::scoped_ptr<Resource> notification( new ClientDataRaw(id, clients_.at(id)->get_nickname(), ClientState()));
-    boost::scoped_ptr<Packet::Tag> tag(new Packet::Tag(Packet::REMOVE_RESOURCE));
-    notify(notification.get(), tag.get());
+    //boost::shared_ptr<Resource> notification( new ClientDataRaw(id, clients_.at(id)->get_nickname(), ClientState()));
+    boost::shared_ptr<Resource> notification( new ClientDataRaw(*look_up_with_id(id)));
+    notify(notification.get(), Packet::REMOVE_RESOURCE);
+    boost::unique_lock< boost::shared_mutex > lock(access_);
     clients_.erase(id);
 }
 
@@ -46,9 +46,11 @@ ClientState ClientsRegister::get_state(ClientID id) const {
 void ClientsRegister::change_state(ClientID id, ClientState st) {
     boost::unique_lock< boost::shared_mutex > lock(access_);
     clients_.at(id)->set_state(st);
+    boost::shared_ptr<Resource> notification( new ClientDataRaw(*clients_.at(id)));
+    notify(notification.get(), Packet::UPDATED_RESOURCE);
 }
 
-void ClientsRegister::notify(Resource* resource, const Packet::Tag* tag){
+void ClientsRegister::notify(const Resource* resource, const Packet::Tag tag){
     for(Observer *o : obs_)
        o->update(resource, tag); 
 }

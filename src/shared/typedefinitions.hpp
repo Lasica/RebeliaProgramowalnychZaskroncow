@@ -16,8 +16,6 @@ class ClientDataRaw;
 class TcpConnection;
 class Resource;
 class PacketQueueAdapter;
-
-
 class GameRoom;
 
 

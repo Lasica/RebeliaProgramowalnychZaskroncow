@@ -46,12 +46,12 @@ public:
 		unsubscribe();
     }
     bool                            operator<(const Client &) const;
-    virtual void                    update(Resource *updateInfo, Packet::Tag* tag); //!< metoda wywoływana przez temat obserwacji, gdy nastąpi zmiana w środowisku gracza
+    virtual void                    update(Resource *updateInfo, Packet::Tag tag); //!< metoda wywoływana przez temat obserwacji, gdy nastąpi zmiana w środowisku gracza
 
 private:
     const Address*                  address_;
     
-    inline void                     send(Packet &packet); // const?
+    void                            send(Packet &packet); // const?
     static ClientID                 nextID_;
 
     void subscribe();

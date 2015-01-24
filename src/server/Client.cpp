@@ -8,7 +8,7 @@
 ClientID Client::nextID_ = 0;   //wartość 0 - gracz, który nie istnieje
 
 
-Client::Client( const Address *address, TcpPointer pointer, std::string nick) :
+Client::Client( const Address *address, TcpPointer /*pointer*/, std::string nick) :
      Observer(Observer::observerNextID++), ClientDataRaw(Client::nextID_++, nick, ClientState()), address_(address) {
 
     if(address_ != nullptr) { // zalozenie jest, ze w zadnym innym miejscu poza ClientsRegister address_ == nullptr.
@@ -29,9 +29,8 @@ bool Client::operator<(const Client &comp) const {
     return clientID_ < comp.clientID_;
 }
 
-// TODO
-void Client::update(Resource *updateInfo, Packet::Tag* tag) {
-    Packet updatePackage(*tag, address_, updateInfo);
+void Client::update(Resource *updateInfo, Packet::Tag tag) {
+    Packet updatePackage(tag, address_, updateInfo);
     send(updatePackage);
 }
 
