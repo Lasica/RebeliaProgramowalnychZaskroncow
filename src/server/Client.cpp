@@ -10,7 +10,7 @@ ClientID Client::nextID_ = 0;   //wartość 0 - gracz, który nie istnieje
 
 Client::Client( const Address *address, TcpPointer /*pointer*/, std::string nick) :
      Observer(Observer::observerNextID++), ClientDataRaw(Client::nextID_++, nick, ClientState()), address_(address) {
-
+    subscribe();
     if(address_ != nullptr) { // zalozenie jest, ze w zadnym innym miejscu poza ClientsRegister address_ == nullptr.
         address_->change_owner(clientID_);
 //        address_->update_connection(pointer);
@@ -43,6 +43,7 @@ void Client::subscribe(){
 	for(; it < TcpServer::pointer->SubscriptionList.end(); ++it)
 		(*it)->addObserver(this);
 }
+
 void Client::unsubscribe(){
 	std::vector<Subject*>::iterator it = TcpServer::pointer->SubscriptionList.begin();
 	for(; it < TcpServer::pointer->SubscriptionList.end(); ++it)
