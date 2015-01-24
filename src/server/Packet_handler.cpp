@@ -22,10 +22,10 @@ void Packet_handler::operator()() {
 
                 case Packet::SYNCHRONISE_REQUEST: {        // prosba o wyslanie wszystkich zasobow...
                     ClientID s = TcpServer::getInstance().registeredAddresses.get_address_owner(*(top->get_address())); //pobiera id klienta o adresie zapisanym w pakiecie
-                    boost::scoped_ptr<Observer> obs(dynamic_cast<Observer*>(TcpServer::getInstance().connectedClients.look_up_with_id(s).get())); //rzutowanie z ClientPtr na Observer*
-                    TcpServer::getInstance().connectedClients.synchronise(obs.get());   //kolejno wywoływane metody synchronise u każdego z obserwatorów
-                    TcpServer::getInstance().registeredChat.synchronise(obs.get());
-                    TcpServer::getInstance().registeredRooms.synchronise(obs.get());
+                    auto obs((TcpServer::getInstance().connectedClients.look_up_with_id(s).get())); //rzutowanie z ClientPtr na Observer*
+                    TcpServer::getInstance().connectedClients.synchronise(obs);   //kolejno wywoływane metody synchronise u każdego z obserwatorów
+                    TcpServer::getInstance().registeredChat.synchronise(obs);
+                    TcpServer::getInstance().registeredRooms.synchronise(obs);
                     } break;
 
                 case Packet::CHAT_ENTRY_MESSAGE_REQUEST: {   // prosba o nadanie wiadomosci czatu
@@ -33,9 +33,24 @@ void Packet_handler::operator()() {
                     TcpServer::getInstance().registeredChat.register_message(*cer);
                 } break;
 
-                //case Packet::GAMEROOM_CREATE_REQUEST:    // prosba o stworzenie nowego pokoju
-                //case Packet::GAMEROOM_JOIN_REQUEST:      // prosba o dolaczenie do pokoju
-                //case Packet::GAMEROOM_LEAVE_REQUEST:     // prosba o opuszczenie pokoju
+                case Packet::GAMEROOM_CREATE_REQUEST: {    // prosba o stworzenie nowego pokoju
+                    boost::scoped_ptr<GameRoomRaw> gr(dynamic_cast<GameRoomRaw*>((top->get_content()).get()));
+                    GameRoomPtr gpt =  TcpServer::getInstance().registeredRooms.add_game_room(gr->host, gr->gameRoomName);
+                    // w metodzie add_gameroom() host jest automatycznie dodany do listy graczy
+                } break;
+
+                case Packet::GAMEROOM_JOIN_REQUEST: {      // prosba o dolaczenie do pokoju
+                    boost::scoped_ptr<GameRoomRaw> gr(dynamic_cast<GameRoomRaw*>((top->get_content()).get()));
+                    GameRoomPtr gpt =  TcpServer::getInstance().registeredRooms.look_up_with_id(gr->id);
+                    gpt->add_player(TcpServer::getInstance().registeredAddresses.get_address_owner(*(top->get_address())));
+                } break;
+
+                case Packet::GAMEROOM_LEAVE_REQUEST: {     // prosba o opuszczenie pokoju
+                    boost::scoped_ptr<GameRoomRaw> gr(dynamic_cast<GameRoomRaw*>((top->get_content()).get()));
+                    GameRoomPtr gpt =  TcpServer::getInstance().registeredRooms.look_up_with_id(gr->id);
+                    gpt->remove_player(TcpServer::getInstance().registeredAddresses.get_address_owner(*(top->get_address())));
+
+                } break;
                 //case Packet::GAMEROOM_UPDATE_REQUEST:    // prosba o zmiane ustawien pokoju
                 //case Packet::GAMEROOM_START_REQUEST:     // prosba o rozpoczecie rozgrywki
                 //case Packet::GAME_START_FAILURE_INFO:    // informacja dla klienta o niespelnionym rzadaniu
