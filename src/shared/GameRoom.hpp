@@ -1,10 +1,5 @@
 #ifndef GAMEROOM_H
 #define GAMEROOM_H
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/serialization/serialization.hpp>
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/export.hpp>
 
 #include "GameRoomRaw.hpp"
 #include "server/ClientsRegister.hpp"

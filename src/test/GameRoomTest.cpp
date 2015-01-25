@@ -143,8 +143,8 @@ BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
     sampleGR->add_player(testPlayer1);
     sampleGR->add_player(testPlayer2);
     //GameRoomRaw* x = new GameRoomRaw(*sampleGR);
-    GameRoomRaw* x = new GameRoomRaw(sampleGR->get_raw_data());
-    GameRoomRaw identicalWithSerialized = sampleGR->get_raw_data();
+    GameRoomRaw* x = new GameRoomRaw(*sampleGR);
+    GameRoomRaw identicalWithSerialized = *sampleGR;
     Resource* pResource = x;
 
     std::ofstream ofs("GameRoomTest_deleting_pointer_to_resource");

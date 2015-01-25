@@ -17,6 +17,7 @@ set(LIB_SOURCES
     shared/constants.cpp
     shared/GameRoom.cpp
     shared/GameRoomRaw.cpp
+		shared/HandshakeRaw.cpp
     shared/Packet.cpp
     shared/TcpConnection.cpp
     shared/Observer.cpp
@@ -24,7 +25,6 @@ set(LIB_SOURCES
 
 set(LIB_HEADERS
   luacore/LuaInterpreter.hpp
-        #luacore/LuaInterpreter.hpp
 	server/Address.hpp
 	server/AddressRegister.hpp
 	server/Client.hpp

@@ -13,6 +13,7 @@
 #include "shared/HandshakeRaw.hpp"
 #include <fstream>
 BOOST_CLASS_EXPORT(ChatEntryRaw)
+BOOST_CLASS_EXPORT(HandshakeRaw)
 #include <boost/test/unit_test.hpp>
 
 

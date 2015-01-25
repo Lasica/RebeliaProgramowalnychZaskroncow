@@ -5,6 +5,10 @@
 #include <sstream>
 #include "server/Server.hpp"
 #include <assert.h>
+#include "shared/Packet.hpp"
+//BOOST_CLASS_EXPORT(ChatEntryRaw)
+//BOOST_CLASS_EXPORT(HandshakeRaw)
+
 TcpPointer TcpConnection::create(boost::asio::io_service &io_service) {
     return TcpPointer(new TcpConnection(io_service));
 }

@@ -63,13 +63,18 @@ void Packet_handler::operator()() {
                 //case Packet::CLOCK_SYNCHRONISE:          // prosba o okreslenie czasu wzgledem serwera
                 //case Packet::GAME_STATE:                 // pakiet zawierajacy stan rozgrywki
                 //case Packet::GAME_ACTION:                // byc moze sie przyda?
-                //case Packet::KEEP_ALIVE:                 // ping! do ustalenia czy ktos stracil polaczenie.
-                case Packet::UPDATED_RESOURCE:             // dane aktualizacyjne przeznaczone dla klienta
+                case Packet::KEEP_ALIVE: {                 // ping! do ustalenia czy ktos stracil polaczenie.
+                    std::cout << "Keeping alive client ";
+                    ClientID x=TcpServer::getInstance().registeredAddresses.get_address_owner(*(top->get_address()));
+                    std::cout << x << std::endl;
+                } break;
+                case Packet::UPDATED_RESOURCE: {           // dane aktualizacyjne przeznaczone dla klienta
 //                     pokazuje na cout zawartość odebranego pakietu (tylko dla testów)
                     std::cout << top->get_tag() << " " << top->show_resource_content() << std::endl;
-
+                } break;
                 default:
-                    std::cout << "Unexpected packet received.\n";
+                    std::cout << "Unexpected packet received. Tag: " << top->get_tag() << std::endl ;
+                    std::cout << top->get_data_streambuf() << std::endl;
                     break;
                 }
 

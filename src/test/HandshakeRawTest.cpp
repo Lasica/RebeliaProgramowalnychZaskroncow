@@ -14,36 +14,32 @@
 
 #include <boost/test/unit_test.hpp>
 
+BOOST_CLASS_EXPORT(HandshakeRaw)
 using namespace boost::unit_test;
-/*FIXME: Adres IP ma być string
 BOOST_AUTO_TEST_SUITE( HandshakeRaw_serialization )
 
 BOOST_AUTO_TEST_CASE( simple_case ) {
 
-    HandshakeRaw sampleHR = HandshakeRaw(Address());
+    HandshakeRaw sampleHR = HandshakeRaw("Jakuza");
 
     std::ofstream ofs("HandshakeRawTest_simple_case");
     boost::archive::text_oarchive oa(ofs);
     BOOST_CHECK_NO_THROW(  oa << sampleHR  );
     ofs.close();
 
-    HandshakeRaw restoredHR;
+    HandshakeRaw restoredHR("");
     std::ifstream ifs("HandshakeRawTest_simple_case");
     boost::archive::text_iarchive ia(ifs);
     BOOST_CHECK_NO_THROW(  ia >> restoredHR  );
     ifs.close();
 
     BOOST_CHECK_EQUAL(  sampleHR.show_content(),   restoredHR.show_content()  );
-    BOOST_CHECK_EQUAL(  sampleHR.address_.ip,      restoredHR.address_.ip  );
-    BOOST_CHECK_EQUAL(  sampleHR.address_.port,    restoredHR.address_.port );
     BOOST_CHECK_EQUAL(  sampleHR.get_tag(),        restoredHR.get_tag()  );
 }
 
 
 BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
-
-    Address sampleAd(1,2);
-    Resource* pResource = new HandshakeRaw(sampleAd);
+    Resource* pResource = new HandshakeRaw("Charlie");
     std::ofstream ofs("HandshakeRawTest_deleting_pointer_to_resource");
 
     boost::archive::text_oarchive oaTest(ofs);
@@ -61,10 +57,9 @@ BOOST_AUTO_TEST_CASE( deleting_pointer_to_resource ) {
     ia >> pDeserialized;
     ifs.close();
 
-    HandshakeRaw identicalWithSerialized(sampleAd);
+    HandshakeRaw identicalWithSerialized("Charlie");
 
     BOOST_CHECK_EQUAL(  pDeserialized->show_content(),   identicalWithSerialized.show_content());
 }
 
 BOOST_AUTO_TEST_SUITE_END()
-*/

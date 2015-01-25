@@ -14,12 +14,9 @@
 #include "shared/Resource.hpp"
 #include "server/Address.hpp"
 
-struct HandshakeRaw;
-BOOST_CLASS_EXPORT_KEY(HandshakeRaw)
-
 struct HandshakeRaw : public Resource {
 
-    HandshakeRaw(std::string nick) : nick_(nick) {
+    HandshakeRaw(std::string nick="NONICK") : nick_(nick) {
         ;
     }
     virtual ~HandshakeRaw() {

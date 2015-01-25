@@ -8,7 +8,6 @@
 #include <string>
 #include <thread>
 #include <chrono>
-BOOST_CLASS_EXPORT(ChatEntryRaw)
 
 //#include "Logger.hpp"
 using boost::asio::ip::tcp;

@@ -18,7 +18,6 @@
 
 #include <fstream>
 #include <boost/test/unit_test.hpp>
-BOOST_CLASS_EXPORT(ChatEntryRaw)
 
 using namespace boost::unit_test;
 // ------------- Tests Follow --------------
