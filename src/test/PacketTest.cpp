@@ -22,6 +22,25 @@
 using namespace boost::unit_test;
 // ------------- Tests Follow --------------
 BOOST_AUTO_TEST_SUITE( Serializing )
+BOOST_AUTO_TEST_CASE( simple_case_signal_packet ) {
+//    if( runtime_config::log_level() <= boost::unit_test::log_warnings )
+//        unit_test_log.set_threshold_level( boost::unit_test::log_messages );
+
+    Packet samplePacket(Packet::Tag::UPDATED_RESOURCE);
+
+    std::ofstream ofs("PacketTest_simple_signal_case");
+    boost::archive::text_oarchive oa(ofs);
+    BOOST_CHECK_NO_THROW(  oa << samplePacket  );
+    ofs.close();
+
+    Packet restoredPacket;
+    std::ifstream ifs("PacketTest_simple_signal_case");
+    boost::archive::text_iarchive ia(ifs);
+    BOOST_CHECK_NO_THROW(  ia >> restoredPacket  );
+    ifs.close();
+
+    BOOST_CHECK_EQUAL(  samplePacket.get_tag(),                 restoredPacket.get_tag()  );
+}
 
 BOOST_AUTO_TEST_CASE( simple_case ) {
 //    if( runtime_config::log_level() <= boost::unit_test::log_warnings )

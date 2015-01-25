@@ -40,7 +40,7 @@ std::size_t completion(const boost::system::error_code &error, std::size_t /*byt
     return ! error;
 }
 
-void writeHandler(const boost::system::error_code & error, std::size_t s) {
+void writeHandler(const boost::system::error_code & /*error*/, std::size_t /*s*/) {
     std::cout << "***Hello! Write handler here!***\n";
 }
 
@@ -67,8 +67,10 @@ int main(int argc, char *argv[]) {
     }*/
     Packet p1(Packet::REGISTER_REQUEST, nullptr, new  HandshakeRaw(argv[3]));
     Packet p2(Packet::KEEP_ALIVE);
+    Packet p3(Packet::LOG_OUT_REQUEST);
     to_send.push(p1);
     to_send.push(p2);
+    to_send.push(p3);
 //     std::cout << to_send.front().get_content()->show_content() << std::endl;
 //     std::cout << to_send.front().get_data_streambuf() << std::endl;
 //     std::cout << to_send.front().get_tag() << " TAG " << Packet::REGISTER_REQUEST << " " << Packet::KEEP_ALIVE << std::endl;
@@ -89,10 +91,10 @@ int main(int argc, char *argv[]) {
     boost::asio::streambuf wb;
     while(!to_send.empty()) {
         if(to_send.front().get_tag() == Packet::KEEP_ALIVE and ctr < 10) {
-            /*std::ostream sending(&wb);
+            std::ostream sending(&wb);
             std::cout << "sending" << to_send.front().get_data_streambuf() << std::endl;
-            sending << to_send.front().get_data_streambuf();
-            async_write(socket, wb, transfer_all(), writeHandler);*/
+            sending << to_send.front().get_data_streambuf() << "\n\r";
+            async_write(socket, wb, writeHandler);
             ++ctr;
             std::cout << "Waiting... " << ctr << std::endl;
             std::this_thread::sleep_for(sleeptime);
@@ -105,8 +107,6 @@ int main(int argc, char *argv[]) {
             sending << to_send.front().get_data_streambuf() << "\n\r";
             async_write(socket, wb, writeHandler);
             to_send.pop();
-	    io.reset();
-	    std::cin.get();
         }
 
         std::istream ib(&rb);

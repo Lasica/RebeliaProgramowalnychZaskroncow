@@ -63,7 +63,8 @@ void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
             TcpServer::getInstance().received.push(packet);
         }
         catch(std::exception ex) {
-            std::cerr << "Błąd serializacji pakietu";
+            std::cerr << "Błąd serializacji pakietu " << ex.what() << std::endl;
+            std::cerr << "Tresc: " << &response_ << std::endl;
         }
         wait_data();
     }
