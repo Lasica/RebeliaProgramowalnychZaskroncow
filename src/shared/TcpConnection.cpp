@@ -26,7 +26,7 @@ void TcpConnection::write(std::string message) {
                             boost::asio::placeholders::bytes_transferred));
 }
 void TcpConnection::wait_data() {
-    async_read(socket_, response_,
+    async_read_until(socket_, response_,"\n\r",
                boost::bind(&TcpConnection::handle_read, this,
                            placeholders::error, placeholders::bytes_transferred));
 }
