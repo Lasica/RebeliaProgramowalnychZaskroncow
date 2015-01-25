@@ -46,7 +46,7 @@ void writeHandler(const boost::system::error_code & /*error*/, std::size_t /*s*/
 
 void readHandler(const boost::system::error_code &/*error*/, std::size_t /*bytes_transferred*/) {
     std::cout << "***Hello! Read handler here!***\n";
-    assert(false);
+    //assert(false);
 }
 
 int main(int argc, char *argv[]) {
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
         if(to_send.front().get_tag() == Packet::KEEP_ALIVE and ctr < 3) {
             std::ostream sending(&wb);
             std::cout << "sending" << to_send.front().get_data_streambuf() << std::endl;
-            sending << to_send.front().get_data_streambuf() << "\n\r" << EOF;
+            sending << to_send.front().get_data_streambuf() << "\r";//<< EOF;
             async_write(socket, wb, writeHandler);
             ++ctr;
             std::cout << "Waiting... " << ctr << std::endl;
@@ -104,10 +104,13 @@ int main(int argc, char *argv[]) {
         } else {
             std::ostream sending(&wb);
             std::cout << "sending" << to_send.front().get_data_streambuf() << std::endl;
-            sending << to_send.front().get_data_streambuf() << "\n\r" << EOF;
+            sending << to_send.front().get_data_streambuf() << "\r";// << EOF;
             async_write(socket, wb, writeHandler);
             to_send.pop();
         }
+            std::istream is(&wb);
+            std::string str;
+            while (std::getline(is, str)) { /*std::cout << str << std::endl;*/ }
 
         std::istream ib(&rb);
         async_read(socket, rb,  readHandler);

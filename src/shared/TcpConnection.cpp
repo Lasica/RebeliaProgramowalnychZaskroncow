@@ -50,28 +50,37 @@ void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
                                 size_t size) {
     if(size > 1) {
         std::cout << "READ_HANDLER with size = " << size << " / " << response_.size() << std::endl;
+        std::iostream is(&response_);
         try {
-            response_.commit(response_.size()-2);
+            //is = is.get(is, '\r');
+            std::string str;
+            while (std::getline(is, str)) { std::cout << str << std::endl; }
             Packet packet(Packet::Packet::KEEP_ALIVE, TcpServer::getInstance().registeredAddresses.get_address_pointer(Address(ip_address(), port())), nullptr);
-            std::istream is(&response_);
-
             boost::archive::text_iarchive ia(is);
                 ia >> packet;
+
             std::cout << "Received packet with tag: " << packet.get_tag() << std::endl;
             if(packet.get_content() != nullptr) {
                 std::cout << "Content: " << packet.get_content()->show_content() << std::endl;
             }
-            //TcpServer::getInstance().received.push(packet);
+//             response_.consume(size);
+            TcpServer::getInstance().received.push(packet);
             //response_.consume(1000);
+            while (std::getline(is, str)) { std::cout << str << std::endl; }
         }
         catch(std::exception ex) {
             std::cerr << "Błąd serializacji pakietu " << ex.what() << std::endl;
             std::ostream o(&response_);
             std::cerr << "Tresc: " << o << std::endl;
-            response_.consume(1000);
+            std::string str;
+            while (std::getline(is, str)) { std::cout << str << std::endl; }
+            //response_.consume(1000);
         }
-        wait_data();
+    } else if(size > 0) {
+        std::cout << "READ_HANDLER with size = " << size << " / " << response_.size() << " Consuming them." << std::endl;
+        response_.consume(size);
     }
+    wait_data();
 }
 
 unsigned short TcpConnection::port() const {
