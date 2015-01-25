@@ -11,6 +11,13 @@ void PacketQueueAdapter::pop() {
     boost::mutex::scoped_lock scoped_lock(mtx_);
     queue_.pop();
 }
+
+int PacketQueueAdapter::size() {
+    boost::mutex::scoped_lock scoped_lock(mtx_);
+    return queue_.size();
+}
+
+
 Packet& PacketQueueAdapter::front() {
     boost::mutex::scoped_lock scoped_lock(mtx_);
     return queue_.front();

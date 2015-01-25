@@ -69,9 +69,9 @@ int main(int argc, char *argv[]) {
     Packet p2(Packet::KEEP_ALIVE);
     to_send.push(p1);
     to_send.push(p2);
-    std::cout << to_send.front().get_content()->show_content() << std::endl;
-    std::cout << to_send.front().get_data_streambuf() << std::endl;
-    std::cout << to_send.front().get_tag() << " TAG " << Packet::REGISTER_REQUEST << " " << Packet::KEEP_ALIVE << std::endl;
+//     std::cout << to_send.front().get_content()->show_content() << std::endl;
+//     std::cout << to_send.front().get_data_streambuf() << std::endl;
+//     std::cout << to_send.front().get_tag() << " TAG " << Packet::REGISTER_REQUEST << " " << Packet::KEEP_ALIVE << std::endl;
     io_service io;
 
     ip::address address = ip::address::from_string(addrStr);
@@ -108,7 +108,6 @@ int main(int argc, char *argv[]) {
 	    io.reset();
 	    std::cin.get();
         }
-
 
         std::istream ib(&rb);
         async_read(socket, rb,  readHandler);

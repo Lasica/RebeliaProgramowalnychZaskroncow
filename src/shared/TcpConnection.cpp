@@ -56,11 +56,11 @@ void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
 
             boost::archive::text_iarchive ia(is);
                 ia >> packet;
-            std::cout << "Received packed with tag: " << packet.get_tag() << std::endl;
-            TcpServer::pointer->received.push(packet);
+            std::cout << "Received packet with tag: " << packet.get_tag() << std::endl;
             if(packet.get_content() != nullptr) {
                 std::cout << "Content: " << packet.get_content()->show_content() << std::endl;
             }
+            TcpServer::getInstance().received.push(packet);
         }
         catch(std::exception ex) {
             std::cerr << "Błąd serializacji pakietu";
@@ -68,6 +68,7 @@ void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
         wait_data();
     }
 }
+
 unsigned short TcpConnection::port() const {
     return this->socket_.remote_endpoint().port();
 

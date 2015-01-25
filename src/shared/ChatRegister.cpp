@@ -3,6 +3,8 @@
 #include "shared/Packet.hpp"
 
 void ChatRegister::register_message(ChatEntryRaw &message) {
+
+    std::cout << "* Nowa wiadomość od "<< message.nick_ << ": " << message.message_ << std::endl;
     chatLog_.push_back(message);
     Packet p(Packet::UPDATED_RESOURCE, nullptr, new ChatEntryRaw(message));
     notify(p);

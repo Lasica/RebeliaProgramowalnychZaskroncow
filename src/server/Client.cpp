@@ -30,6 +30,7 @@ bool Client::operator<(const Client &comp) const {
 }
 
 void Client::update(Packet &p) {
+    std::cout << "* Aktualizacja stanu serwera u klienta o nicku: " << nickname_<< std::endl;
     send(p);
 }
 

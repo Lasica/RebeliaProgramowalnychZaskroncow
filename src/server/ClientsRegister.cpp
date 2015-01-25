@@ -7,11 +7,15 @@
 #include "Client.hpp"
 #include "Address.hpp"
 #include "shared/typedefinitions.hpp"
+#include "server/ClientDataRaw.hpp"
+#include "shared/Resource.hpp"
 
 ClientsRegister::ClientsRegister() { }
 
 ClientID ClientsRegister::register_client(const Address *address, TcpPointer pointer, std::string nickname) {
     boost::unique_lock< boost::shared_mutex > lock(access_);
+    std::cout << "* Rejestracja klienta: " << nickname << " łączącego się z ip: "<< address->ip << " i portu: " << address->port  << ".\n";
+
     auto it = clients_.insert(std::pair<ClientID, ClientPtr>(address->owner, ClientPtr(new Client(address, pointer, nickname))));
     //zawiadomienie obserwatorów o nowym kliencie w rejestrze
     Packet p(Packet::UPDATED_RESOURCE, nullptr, new ClientDataRaw(*(it.first)->second));
@@ -20,6 +24,7 @@ ClientID ClientsRegister::register_client(const Address *address, TcpPointer poi
 }
 
 void ClientsRegister::remove_client(ClientID id) {
+    std::cout << "* Gracz " << clients_.at(id)->get_nickname() << " odłączony od serwera. \n";
     //zawiadomienie obserwatorów o usunięciu klienta z rejestru
     Packet p(Packet::REMOVE_RESOURCE, nullptr, new ClientDataRaw(*look_up_with_id(id)));
     Subject::notify(p);
@@ -55,6 +60,9 @@ void ClientsRegister::change_state(ClientID id, ClientState st) {
 
 // wysyła pełną dane o wszystkich klientach
 void ClientsRegister::synchronise(Observer* obs) {
+
+    std::cout << "* Synchronizacja rejestru klientów u klienta o nicku: " << static_cast<Client*>(obs)->get_nickname() << std::endl;
+
     boost::shared_lock< boost::shared_mutex > lock(access_);
     for(auto a: clients_) {
         Packet p(Packet::UPDATED_RESOURCE, nullptr, new ClientDataRaw(*(a.second)));

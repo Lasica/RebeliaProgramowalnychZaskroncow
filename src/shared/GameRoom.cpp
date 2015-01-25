@@ -27,6 +27,7 @@ GameRoom::~GameRoom() {
 
 // najpierw trzeba sprawdzać, czy na tym serwerze są jeszcze wolne miejsca
 void GameRoom::add_player(ClientID newPlayer) {
+    std::cout << "* Gracz " << register_.look_up_with_id(newPlayer)->get_nickname() << " dołącza do pokoju " << gameRoomName << ".\n";
     players.push_back(newPlayer);
     register_.change_state(newPlayer, ClientState(ClientState::GAMEROOM, this->get_id())); // FIXME jeszcze nie sprawne
     ++numOfPlayers;
@@ -40,6 +41,8 @@ void GameRoom::deregister_player(ClientID player){
 }
 
 void GameRoom::remove_player(ClientID player) {
+    std::cout << "* Gracz " << register_.look_up_with_id(player)->get_nickname() << " wychodzi z pokoju " << gameRoomName << ".\n";
+
     if (player != host){
         deregister_player(player);
         players.remove(player);
