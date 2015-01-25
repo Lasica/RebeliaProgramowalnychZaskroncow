@@ -28,6 +28,7 @@ void TcpServer::handleAccept(TcpPointer new_connection_catched,
         add.update_connection(new_connection_catched);
         /*const Address *ptr = */registeredAddresses.register_address(add);
 //        connectedClients.register_client(ptr, new_connection_catched);
+        std::cout << "Registered connection at address: " << add.ip << ":" << add.port << std::endl;
         new_connection_catched->wait_data();
     }
 

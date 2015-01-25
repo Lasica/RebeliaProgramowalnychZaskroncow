@@ -49,18 +49,20 @@ void TcpConnection::handle_write(const boost::system::error_code & /*err*/,
 void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
                                 size_t size) {
     if(size > 1) {
-	    Packet packet;
      
         try {
-        std::istream is(&response_);
-        boost::archive::text_iarchive ia(is); //jak go zaadresować?
-            ia >> packet;
-   TcpServer::pointer->received.push(packet);
+            Packet packet(Packet::Packet::KEEP_ALIVE, TcpServer::getInstance().registeredAddresses.get_address_pointer(Address(ip_address(), port())), nullptr);
+            std::istream is(&response_);
 
+            boost::archive::text_iarchive ia(is);
+                ia >> packet;
+            std::cout << "Received packed with tag: " << packet.get_tag() << std::endl;
+            TcpServer::pointer->received.push(packet);
+            if(packet.get_content() != nullptr) {
+                std::cout << "Content: " << packet.get_content()->show_content() << std::endl;
+            }
         }
-        catch(std::exception ex)
-        {
-
+        catch(std::exception ex) {
             std::cerr << "Błąd serializacji pakietu";
         }
         wait_data();

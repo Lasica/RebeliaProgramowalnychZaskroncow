@@ -86,9 +86,10 @@ int main(int argc, char *argv[]) {
     boost::asio::streambuf wb;
     while(!to_send.empty()) {
         if(to_send.front().get_tag() == Packet::KEEP_ALIVE and ctr < 10) {
-            std::ostream sending(&wb);
+            /*std::ostream sending(&wb);
+            std::cout << "sending" << to_send.front().get_data_streambuf() << std::endl;
             sending << to_send.front().get_data_streambuf();
-            async_write(socket, wb, transfer_all(), writeHandler);
+            async_write(socket, wb, transfer_all(), writeHandler);*/
             ++ctr;
             std::cout << "Waiting... " << ctr << std::endl;
             std::this_thread::sleep_for(sleeptime);
@@ -97,6 +98,7 @@ int main(int argc, char *argv[]) {
             to_send.pop();
         } else {
             std::ostream sending(&wb);
+            std::cout << "sending" << to_send.front().get_data_streambuf() << std::endl;
             sending << to_send.front().get_data_streambuf();
             async_write(socket, wb, transfer_all(), writeHandler);
             to_send.pop();
