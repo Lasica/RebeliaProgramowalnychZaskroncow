@@ -18,7 +18,7 @@ tcp::socket &TcpConnection::socket() {
 }
 void TcpConnection::write(std::string message) {
 
-
+message += "\n\r";
     async_write(socket_, boost::asio::buffer(message),
                 boost::bind(&TcpConnection::handle_write,
                             shared_from_this(),
@@ -41,14 +41,15 @@ TcpConnection::TcpConnection(boost::asio::io_service &io_service)
     : socket_(io_service) {
 }
 
-void TcpConnection::handle_write(const boost::system::error_code & /*err*/,
+void TcpConnection::handle_write(const boost::system::error_code & err,
                                  size_t /*size*/) {
+	//assert(err);
 
 }
 
-void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
+void TcpConnection::handle_read(const boost::system::error_code &err,
                                 size_t size) {
-    if(size > 1) {
+    if(size > 2) {
      
         try {
             Packet packet(Packet::Packet::KEEP_ALIVE, TcpServer::getInstance().registeredAddresses.get_address_pointer(Address(ip_address(), port())), nullptr);

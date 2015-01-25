@@ -46,7 +46,6 @@ void writeHandler(const boost::system::error_code & error, std::size_t s) {
 
 void readHandler(const boost::system::error_code &/*error*/, std::size_t /*bytes_transferred*/) {
     std::cout << "***Hello! Read handler here!***\n";
-    assert(false);
 }
 
 int main(int argc, char *argv[]) {
@@ -69,9 +68,9 @@ int main(int argc, char *argv[]) {
     Packet p2(Packet::KEEP_ALIVE);
     to_send.push(p1);
     to_send.push(p2);
-//     std::cout << to_send.front().get_content()->show_content() << std::endl;
-//     std::cout << to_send.front().get_data_streambuf() << std::endl;
-//     std::cout << to_send.front().get_tag() << " TAG " << Packet::REGISTER_REQUEST << " " << Packet::KEEP_ALIVE << std::endl;
+    std::cout << to_send.front().get_content()->show_content() << std::endl;
+    std::cout << to_send.front().get_data_streambuf() << std::endl;
+    std::cout << to_send.front().get_tag() << " TAG " << Packet::REGISTER_REQUEST << " " << Packet::KEEP_ALIVE << std::endl;
     io_service io;
 
     ip::address address = ip::address::from_string(addrStr);
@@ -81,14 +80,17 @@ int main(int argc, char *argv[]) {
     auto thr = new std::thread(boost::bind(&boost::asio::io_service::run, &io));
 
 
+    boost::asio::streambuf rb;
+        std::istream ib(&rb);
+        async_read_until(socket, rb, "\n\r",  readHandler);
 
 
     std::chrono::milliseconds sleeptime(500);
     int ctr=0;
-    boost::asio::streambuf rb;
+
     boost::asio::streambuf wb;
     while(!to_send.empty()) {
-        if(to_send.front().get_tag() == Packet::KEEP_ALIVE and ctr < 10) {
+        if(to_send.front().get_tag() == Packet::KEEP_ALIVE and ctr < 15) {
             /*std::ostream sending(&wb);
             std::cout << "sending" << to_send.front().get_data_streambuf() << std::endl;
             sending << to_send.front().get_data_streambuf();
@@ -105,18 +107,21 @@ int main(int argc, char *argv[]) {
             sending << to_send.front().get_data_streambuf() << "\n\r";
             async_write(socket, wb, writeHandler);
             to_send.pop();
-	    io.reset();
-	    std::cin.get();
         }
 
-        std::istream ib(&rb);
-        async_read(socket, rb,  readHandler);
+//	    std::cin.get();
+
+
+        //async_read_until(socket, rb, "\n\r",  readHandler);
         if(!ib) {
             std::cout << ib << std::endl;
+	    std::cin.get();
         }
     }
     //async_write(socket, transmission, transfer_all(), writeHandler);        //asynchroniczne wysyłanie danych do serwera
     //boost::system::error_code ec;
+
+            std::cout << &rb << std::endl;
     std::cout << "Bye!\n";
     io.stop();
     thr->join();
