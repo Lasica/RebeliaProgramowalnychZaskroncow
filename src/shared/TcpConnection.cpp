@@ -19,7 +19,7 @@ tcp::socket &TcpConnection::socket() {
 void TcpConnection::write(std::string message) {
 
 
-    async_write(socket_, boost::asio::buffer(message),
+    async_write(socket_, boost::asio::buffer(message + "\n\r" + char(EOF)),
                 boost::bind(&TcpConnection::handle_write,
                             shared_from_this(),
                             boost::asio::placeholders::error,
@@ -49,8 +49,9 @@ void TcpConnection::handle_write(const boost::system::error_code & /*err*/,
 void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
                                 size_t size) {
     if(size > 1) {
-     
+        std::cout << "READ_HANDLER with size = " << size << " / " << response_.size() << std::endl;
         try {
+            response_.commit(response_.size()-2);
             Packet packet(Packet::Packet::KEEP_ALIVE, TcpServer::getInstance().registeredAddresses.get_address_pointer(Address(ip_address(), port())), nullptr);
             std::istream is(&response_);
 
@@ -60,7 +61,8 @@ void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
             if(packet.get_content() != nullptr) {
                 std::cout << "Content: " << packet.get_content()->show_content() << std::endl;
             }
-            TcpServer::getInstance().received.push(packet);
+            //TcpServer::getInstance().received.push(packet);
+            //response_.consume(1000);
         }
         catch(std::exception ex) {
             std::cerr << "Błąd serializacji pakietu " << ex.what() << std::endl;

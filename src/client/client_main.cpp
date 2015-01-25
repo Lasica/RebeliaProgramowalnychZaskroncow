@@ -90,11 +90,11 @@ int main(int argc, char *argv[]) {
     boost::asio::streambuf rb;
     boost::asio::streambuf wb;
     while(!to_send.empty()) {
-        if(to_send.front().get_tag() == Packet::KEEP_ALIVE and ctr < 10) {
+        if(to_send.front().get_tag() == Packet::KEEP_ALIVE and ctr < 3) {
             std::ostream sending(&wb);
             std::cout << "sending" << to_send.front().get_data_streambuf() << std::endl;
-            //sending << to_send.front().get_data_streambuf() << "\n\r";
-            //async_write(socket, wb, writeHandler);
+            sending << to_send.front().get_data_streambuf() << "\n\r" << EOF;
+            async_write(socket, wb, writeHandler);
             ++ctr;
             std::cout << "Waiting... " << ctr << std::endl;
             std::this_thread::sleep_for(sleeptime);
@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
         } else {
             std::ostream sending(&wb);
             std::cout << "sending" << to_send.front().get_data_streambuf() << std::endl;
-            sending << to_send.front().get_data_streambuf() << "\n\r";
+            sending << to_send.front().get_data_streambuf() << "\n\r" << EOF;
             async_write(socket, wb, writeHandler);
             to_send.pop();
         }
