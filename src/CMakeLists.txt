@@ -1,6 +1,6 @@
 set(LIB_SOURCES
     client/client_main.cpp
-		#		luacore/LuaInterpreter.cpp
+#	luacore/LuaInterpreter.cpp
 		server/Address.cpp
 	  server/PacketQueueAdapter.cpp
 		server/AddressRegister.cpp
@@ -24,7 +24,7 @@ set(LIB_SOURCES
 	)
 
 set(LIB_HEADERS
-	#luacore/LuaInterpreter.hpp
+# luacore/LuaInterpreter.hpp
 	server/Address.hpp
 	server/AddressRegister.hpp
 	server/Client.hpp
@@ -58,14 +58,14 @@ set(LIBRARIES
 	#	  ${LUA_LIBRARY} # dla mnie to wskazuje na stara wersje lui 5.1
 	# 	${LUA_CORE_SRC} 
   	-pthread 
-		#-llua5.2
+#	-llua5.2
 		${Boost_LIBRARIES}
 		${Boost_FILESYSTEM_LIBRARY} 
 		${Boost_SYSTEM_LIBRARY} 
 		${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 		${Boost_SERIALIZATION}
 		${Boost_THREAD}
-		#		-llua
+#	-llua
 
 )	
 
