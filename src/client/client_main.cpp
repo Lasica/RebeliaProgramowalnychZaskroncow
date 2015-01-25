@@ -35,6 +35,10 @@ std::queue<Packet> to_send;
 std::queue<Packet> received;
 
 using namespace boost::asio;
+io_service io;
+ip::tcp::socket sckt(io);
+
+boost::asio::streambuf rb;
 
 std::size_t completion(const boost::system::error_code &error, std::size_t /*bytes_transferred*/) {
     return ! error;
@@ -44,8 +48,8 @@ void writeHandler(const boost::system::error_code & /*error*/, std::size_t /*s*/
     std::cout << "***Hello! Write handler here!***\n";
 }
 
-void readHandler(const boost::system::error_code &/*error*/, std::size_t bytes_transferred) {
-    std::cout << "***Hello! Read handler here!***\n";
+//void readHandler(const boost::system::error_code &/*error*/, std::size_t bytes_transferred) {
+//    std::cout << "***Hello! Read handler here!***\n";
 //     if(size > 1) {
 //         std::cout << "READ_HANDLER with size = " << size << " / " << response_.size() << std::endl;
 //         std::iostream is(&response_);
@@ -80,6 +84,42 @@ void readHandler(const boost::system::error_code &/*error*/, std::size_t bytes_t
 //         response_.consume(size);
 //     }
 //     wait_data();
+//}
+
+void readHandler(const boost::system::error_code &/*error*/, std::size_t size) {
+    if(size > 1) {
+        std::cout << "READ_HANDLER with size = " << size << " / " << rb.size() << std::endl;
+        std::iostream is(&rb);
+        try {
+            char buffer[1000];
+            is.get(buffer, size, '\r');
+            std::string str(buffer);
+            std::stringstream IS(str);
+
+            Packet packet(Packet::Packet::KEEP_ALIVE, nullptr, nullptr);
+
+            boost::archive::text_iarchive ia(IS);
+                ia >> packet;
+
+            std::cout << "Received packet with tag: " << packet.get_tag() << std::endl;
+            if(packet.get_content() != nullptr) {
+                std::cout << "Content: " << packet.get_content()->show_content() << std::endl;
+            }
+
+//            TcpServer::getInstance().received.push(packet);
+            while (std::getline(is, str)) { /*std::cout << str << std::endl;*/ }
+        }
+        catch(std::exception ex) {
+            std::cerr << "Błąd serializacji pakietu " << ex.what() << std::endl;
+            std::string str;
+            while (std::getline(is, str)) { std::cout << str << std::endl; }
+        }
+    } /* else if(size > 0) {
+        std::cout << "READ_HANDLER with size = " << size << " / " << response_.size() << " Consuming them." << std::endl;
+        response_.consume(size);
+    }*/
+    //wait_data();
+
 }
 
 int main(int argc, char *argv[]) {
@@ -104,17 +144,17 @@ int main(int argc, char *argv[]) {
     to_send.push(p1);
     to_send.push(p2);
     to_send.push(p3);
-    io_service io;
+    //io_service io;
 
     ip::address address = ip::address::from_string(addrStr);
     ip::tcp::endpoint endpoint(address, port);
-    ip::tcp::socket socket(io);
-    socket.connect(endpoint);
+    ip::tcp::socket sckt(io);
+    sckt.connect(endpoint);
     auto thr = new std::thread(boost::bind(&boost::asio::io_service::run, &io));
 
 
-    boost::asio::streambuf rb;
-        async_read_until(socket, rb, "\r",  readHandler);
+    //boost::asio::streambuf rb;
+        async_read_until(sckt, rb, "\r",  readHandler);
 
 
     std::chrono::milliseconds sleeptime(2000);
@@ -126,7 +166,7 @@ int main(int argc, char *argv[]) {
             std::ostream sending(&wb);
             std::cout << "sending" << to_send.front().get_data_streambuf() << std::endl;
             sending << to_send.front().get_data_streambuf() << "\r";//<< EOF;
-            async_write(socket, wb, writeHandler);
+            async_write(sckt, wb, writeHandler);
             ++ctr;
             std::cout << "Waiting... " << ctr << std::endl;
             std::this_thread::sleep_for(sleeptime);
@@ -137,7 +177,7 @@ int main(int argc, char *argv[]) {
             std::ostream sending(&wb);
             std::cout << "sending" << to_send.front().get_data_streambuf() << std::endl;
             sending << to_send.front().get_data_streambuf() << "\r";// << EOF;
-            async_write(socket, wb, writeHandler);
+            async_write(sckt, wb, writeHandler);
             to_send.pop();
         }
             std::istream is(&wb);
