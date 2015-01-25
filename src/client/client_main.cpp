@@ -69,9 +69,9 @@ int main(int argc, char *argv[]) {
     Packet p2(Packet::KEEP_ALIVE);
     to_send.push(p1);
     to_send.push(p2);
-    std::cout << to_send.front().get_content()->show_content() << std::endl;
-    std::cout << to_send.front().get_data_streambuf() << std::endl;
-    std::cout << to_send.front().get_tag() << " TAG " << Packet::REGISTER_REQUEST << " " << Packet::KEEP_ALIVE << std::endl;
+//     std::cout << to_send.front().get_content()->show_content() << std::endl;
+//     std::cout << to_send.front().get_data_streambuf() << std::endl;
+//     std::cout << to_send.front().get_tag() << " TAG " << Packet::REGISTER_REQUEST << " " << Packet::KEEP_ALIVE << std::endl;
     io_service io;
     auto thr = new std::thread(boost::bind(&boost::asio::io_service::run, &io));
 
@@ -103,7 +103,6 @@ int main(int argc, char *argv[]) {
             async_write(socket, wb, transfer_all(), writeHandler);
             to_send.pop();
         }
-
 
         std::istream ib(&rb);
         async_read(socket, rb, transfer_all(), readHandler);

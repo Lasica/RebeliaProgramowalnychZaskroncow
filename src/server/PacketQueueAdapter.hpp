@@ -9,6 +9,7 @@ public:
     void pop();
     Packet& front();
 
+    int size();
     bool empty();
 
 private:

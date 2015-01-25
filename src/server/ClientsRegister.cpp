@@ -7,6 +7,8 @@
 #include "Client.hpp"
 #include "Address.hpp"
 #include "shared/typedefinitions.hpp"
+#include "server/ClientDataRaw.hpp"
+#include "shared/Resource.hpp"
 
 ClientsRegister::ClientsRegister() { }
 

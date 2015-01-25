@@ -8,6 +8,7 @@
 #include "server/ClientDataRaw.hpp"
 BOOST_CLASS_EXPORT(ChatEntryRaw)
 BOOST_CLASS_EXPORT(HandshakeRaw)
+BOOST_CLASS_EXPORT(ClientDataRaw)
 
 Packet::Packet(Tag tag__, const Address *ad__, Resource *content__) :
     content_(content__),
