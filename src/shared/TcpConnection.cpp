@@ -41,22 +41,23 @@ TcpConnection::TcpConnection(boost::asio::io_service &io_service)
     : socket_(io_service) {
 }
 
-void TcpConnection::handle_write(const boost::system::error_code & err,
+void TcpConnection::handle_write(const boost::system::error_code & /*err*/,
                                  size_t /*size*/) {
 }
 
-void TcpConnection::handle_read(const boost::system::error_code &err,
+void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
                                 size_t size) {
     if(size > 1) {
         std::cout << "READ_HANDLER with size = " << size << " / " << response_.size() << std::endl;
         std::iostream is(&response_);
         try {
-            char * rd;
-            is.get(rd, size, '\r');
-            std::string str(rd);
+            char buffer[1000];
+            is.get(buffer, size, '\r');
+            std::string str(buffer);
             std::stringstream IS(str);
-            //while (std::getline(is, str)) { std::cout << str << std::endl; }
+
             Packet packet(Packet::Packet::KEEP_ALIVE, TcpServer::getInstance().registeredAddresses.get_address_pointer(Address(ip_address(), port())), nullptr);
+
             boost::archive::text_iarchive ia(IS);
                 ia >> packet;
 
@@ -64,23 +65,19 @@ void TcpConnection::handle_read(const boost::system::error_code &err,
             if(packet.get_content() != nullptr) {
                 std::cout << "Content: " << packet.get_content()->show_content() << std::endl;
             }
-//             response_.consume(size);
+
             TcpServer::getInstance().received.push(packet);
-            //response_.consume(1000);
             while (std::getline(is, str)) { /*std::cout << str << std::endl;*/ }
         }
         catch(std::exception ex) {
             std::cerr << "Błąd serializacji pakietu " << ex.what() << std::endl;
-            std::istream i(&response_);
-            std::cerr << "Tresc: " << i << std::endl;
             std::string str;
             while (std::getline(is, str)) { std::cout << str << std::endl; }
-            //response_.consume(1000);
         }
-    } else if(size > 0) {
+    } /* else if(size > 0) {
         std::cout << "READ_HANDLER with size = " << size << " / " << response_.size() << " Consuming them." << std::endl;
         response_.consume(size);
-    }
+    }*/
     wait_data();
 }
 

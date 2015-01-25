@@ -44,8 +44,42 @@ void writeHandler(const boost::system::error_code & /*error*/, std::size_t /*s*/
     std::cout << "***Hello! Write handler here!***\n";
 }
 
-void readHandler(const boost::system::error_code &/*error*/, std::size_t /*bytes_transferred*/) {
+void readHandler(const boost::system::error_code &/*error*/, std::size_t bytes_transferred) {
     std::cout << "***Hello! Read handler here!***\n";
+//     if(size > 1) {
+//         std::cout << "READ_HANDLER with size = " << size << " / " << response_.size() << std::endl;
+//         std::iostream is(&response_);
+//         try {
+//             char * rd=nullptr;
+//             is.get(rd, size, '\r');
+//             std::string str(rd);
+//             std::stringstream IS(str);
+//             //while (std::getline(is, str)) { std::cout << str << std::endl; }
+//             Packet packet(Packet::Packet::KEEP_ALIVE, TcpServer::getInstance().registeredAddresses.get_address_pointer(Address(ip_address(), port())), nullptr);
+//             boost::archive::text_iarchive ia(IS);
+//                 ia >> packet;
+//
+//             std::cout << "Received packet with tag: " << packet.get_tag() << std::endl;
+//             if(packet.get_content() != nullptr) {
+//                 std::cout << "Content: " << packet.get_content()->show_content() << std::endl;
+//             }
+// //             response_.consume(size);
+//             TcpServer::getInstance().received.push(packet);
+//             //response_.consume(1000);
+//             while (std::getline(is, str)) { /*std::cout << str << std::endl;*/ }
+//         }
+//         catch(std::exception ex) {
+//             std::cerr << "Błąd serializacji pakietu " << ex.what() << std::endl;
+//             std::iostream is(&response_);
+//             std::string str;
+//             while (std::getline(is, str)) { std::cout << str << std::endl; }
+//             //response_.consume(1000);
+//         }
+//     } else if(size > 0) {
+//         std::cout << "READ_HANDLER with size = " << size << " / " << response_.size() << " Consuming them." << std::endl;
+//         response_.consume(size);
+//     }
+//     wait_data();
 }
 
 int main(int argc, char *argv[]) {
@@ -80,7 +114,6 @@ int main(int argc, char *argv[]) {
 
 
     boost::asio::streambuf rb;
-        std::istream ib(&rb);
         async_read_until(socket, rb, "\r",  readHandler);
 
 
@@ -110,17 +143,7 @@ int main(int argc, char *argv[]) {
             std::istream is(&wb);
             std::string str;
             while (std::getline(is, str)) { /*std::cout << str << std::endl;*/ }
-
-//	    std::cin.get();
-
-
-        //async_read_until(socket, rb, "\n\r",  readHandler);
-        if(!ib) {
-            std::cout << ib << std::endl;
-        }
     }
-    //async_write(socket, transmission, transfer_all(), writeHandler);        //asynchroniczne wysyłanie danych do serwera
-    //boost::system::error_code ec;
 
     std::cout << &rb << std::endl;
     std::cout << "Bye!\n";
