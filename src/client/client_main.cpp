@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
 
 
 
-    std::chrono::milliseconds sleeptime(500);
+    std::chrono::milliseconds sleeptime(2000);
     int ctr=0;
     boost::asio::streambuf rb;
     boost::asio::streambuf wb;
@@ -93,8 +93,8 @@ int main(int argc, char *argv[]) {
         if(to_send.front().get_tag() == Packet::KEEP_ALIVE and ctr < 10) {
             std::ostream sending(&wb);
             std::cout << "sending" << to_send.front().get_data_streambuf() << std::endl;
-            sending << to_send.front().get_data_streambuf() << "\n\r";
-            async_write(socket, wb, writeHandler);
+            //sending << to_send.front().get_data_streambuf() << "\n\r";
+            //async_write(socket, wb, writeHandler);
             ++ctr;
             std::cout << "Waiting... " << ctr << std::endl;
             std::this_thread::sleep_for(sleeptime);

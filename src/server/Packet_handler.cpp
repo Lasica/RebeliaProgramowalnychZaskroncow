@@ -11,6 +11,8 @@ void Packet_handler::operator()() {
     std::cout << "Packet handler has started\n";
     try {
         while(*running_) {
+            if(inQueue_->size() > 0)
+                std::cout << "Packets on the queue: " << inQueue_->size() << std::endl;
             while(!inQueue_->empty()) {
                 Packet *top = &inQueue_->front();
                 std::cout << "Handling packet with tag " << top->get_tag() << std::endl;

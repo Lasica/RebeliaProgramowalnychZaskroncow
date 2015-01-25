@@ -43,7 +43,7 @@ TcpConnection::TcpConnection(boost::asio::io_service &io_service)
 
 void TcpConnection::handle_write(const boost::system::error_code & /*err*/,
                                  size_t /*size*/) {
-
+//assert(false);
 }
 
 void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
@@ -64,7 +64,9 @@ void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
         }
         catch(std::exception ex) {
             std::cerr << "Błąd serializacji pakietu " << ex.what() << std::endl;
-            std::cerr << "Tresc: " << &response_ << std::endl;
+            std::ostream o(&response_);
+            std::cerr << "Tresc: " << o << std::endl;
+            response_.consume(1000);
         }
         wait_data();
     }
