@@ -6,6 +6,8 @@ GameRoomsRegister::GameRoomsRegister()/*: Observer(Observer::observerNextID++)*/
 GameRoomsRegister::~GameRoomsRegister() { }
 
 GameRoomPtr GameRoomsRegister::add_game_room(ClientID host, std::string name) {
+    std::cout << "* Tworzenie pokoju: " << name << "\n";
+
     boost::unique_lock< boost::shared_mutex > lock(access_);
     GameRoom *gr = new GameRoom(host, name);
     auto i = game_rooms_.insert(std::pair<GameRoomID, GameRoomPtr>(gr->get_id(), GameRoomPtr(gr)));
@@ -17,6 +19,8 @@ GameRoomPtr GameRoomsRegister::add_game_room(ClientID host, std::string name) {
 void GameRoomsRegister::remove_game_room(GameRoomID id) {
     boost::unique_lock< boost::shared_mutex > lock(access_);
     auto i = game_rooms_.find(id);
+    std::cout << "* Usuwanie pokoju: " << (*i).second->gameRoomName << "\n";
+
     Packet p(Packet::UPDATED_RESOURCE, nullptr, new GameRoomRaw(*(i->second)));
     notify(p);
     game_rooms_.erase(i);
@@ -38,7 +42,9 @@ unsigned int GameRoomsRegister::get_size() {
 
 // wysyła pełną dane o wszystkich klientach
 void GameRoomsRegister::synchronise(Observer* obs) {
-    boost::shared_lock< boost::shared_mutex > lock(access_);
+    std::cout << "* Synchronizacja rejestru pokojów gry u klienta o nicku: " << static_cast<Client*>(obs)->get_nickname() << "\n";
+
+    boost::shared_lock< boost::shared_mutex > lock(access_);   
     for(auto a: game_rooms_) {
         Packet p(Packet::UPDATED_RESOURCE, nullptr, new GameRoomRaw(*a.second));
         // woła update() tylko dla tego pojedynczego obserwatora

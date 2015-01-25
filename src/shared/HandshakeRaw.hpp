@@ -34,6 +34,7 @@ struct HandshakeRaw : public Resource {
         ar &boost::serialization::base_object<Resource>(*this);
 
         ar &nick_;
+        //std::cout << "* (De)serializacja obiektu HandshakeRaw ***\n";
     }
 
     std::string nick_;

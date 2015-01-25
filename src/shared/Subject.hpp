@@ -22,8 +22,10 @@ public:
           }
     }
    virtual void notify(Packet &p) {
+    std::cout << "* Powiadomienie klientów o zmianach na serwerze.\n";
     for(Observer *o : obs_)
         o->update(p);
+
    }
 
     virtual void synchronise(Observer* obs) = 0;

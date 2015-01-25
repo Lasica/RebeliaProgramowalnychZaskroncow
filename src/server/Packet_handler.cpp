@@ -22,11 +22,11 @@ void Packet_handler::operator()() {
                         } /*break;*/
 
                 case Packet::SYNCHRONISE_REQUEST: {        // prosba o wyslanie wszystkich zasobow...
-//                     ClientID s = TcpServer::getInstance().registeredAddresses.get_address_owner(*(top->get_address())); //pobiera id klienta o adresie zapisanym w pakiecie
-//                     Observer* obs((TcpServer::getInstance().connectedClients.look_up_with_id(s).get())); //rzutowanie z ClientPtr na Observer*
-//                     TcpServer::getInstance().connectedClients.synchronise(obs);   //kolejno wywoływane metody synchronise u każdego z obserwatorów
-//                     TcpServer::getInstance().registeredChat.synchronise(obs);
-//                     TcpServer::getInstance().registeredRooms.synchronise(obs);
+                     ClientID s = TcpServer::getInstance().registeredAddresses.get_address_owner(*(top->get_address())); //pobiera id klienta o adresie zapisanym w pakiecie
+                     Observer* obs((TcpServer::getInstance().connectedClients.look_up_with_id(s).get())); //rzutowanie z ClientPtr na Observer*
+                     TcpServer::getInstance().connectedClients.synchronise(obs);   //kolejno wywoływane metody synchronise u każdego z obserwatorów
+                     TcpServer::getInstance().registeredChat.synchronise(obs);
+                     TcpServer::getInstance().registeredRooms.synchronise(obs);
                     } break;
 
                 case Packet::CHAT_ENTRY_MESSAGE_REQUEST: {   // prosba o nadanie wiadomosci czatu

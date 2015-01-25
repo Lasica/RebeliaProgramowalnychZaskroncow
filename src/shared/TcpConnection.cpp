@@ -56,7 +56,7 @@ void TcpConnection::handle_read(const boost::system::error_code &/*err*/,
 
             boost::archive::text_iarchive ia(is);
                 ia >> packet;
-            std::cout << "Received packed with tag: " << packet.get_tag() << std::endl;
+            std::cout << "Received packet with tag: " << packet.get_tag() << std::endl;
             if(packet.get_content() != nullptr) {
                 std::cout << "Content: " << packet.get_content()->show_content() << std::endl;
             }

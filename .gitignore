@@ -4,6 +4,9 @@
 *.o
 *.obj
 
+#CMakeLists.txt in all directories
+**/CMakeLists.txt
+
 # Precompiled Headers
 *.gch
 *.pch
